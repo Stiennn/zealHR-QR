@@ -4,32 +4,67 @@
         <!-- Left Sidebar - Employee Selection -->
         <div class="col-span-1 space-y-4">
             <div class="bg-white rounded-lg shadow p-4">
-                <h3 class="text-sm font-bold text-gray-900 uppercase mb-4">Select Employee</h3>
+                <h3 class="text-sm font-bold text-[#003D7A] uppercase mb-4 tracking-wide">Select Employee</h3>
                 
-                <div class="space-y-2 max-h-96 overflow-y-auto">
-                    <button class="w-full text-left px-4 py-3 bg-blue-50 border-l-4 border-[#003D7A] text-[#003D7A] rounded-lg font-medium" onclick="loadEmployeePerformance('sarah-johnson')">
-                        <p class="font-semibold">Dr. Sarah Johnson</p>
-                        <p class="text-xs text-[#003D7A] opacity-80">Senior Surgeon</p>
+                <div class="space-y-1 max-h-96 overflow-y-auto" id="employeeList">
+                    <!-- Employee 1 - Active -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 bg-[#003D7A] text-white rounded-lg border-2 border-[#003D7A]" onclick="selectEmployee(this, 'sarah-johnson')">
+                        <p class="font-bold">Dr. Sarah Johnson</p>
+                        <p class="text-xs opacity-80">Senior Surgeon</p>
                     </button>
                     
-                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium" onclick="loadEmployeePerformance('robert-miller')">
-                        <p class="font-semibold">Dr. Robert Miller</p>
-                        <p class="text-xs text-gray-600">General Physician</p>
+                    <!-- Employee 2 -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent" onclick="selectEmployee(this, 'robert-miller')">
+                        <p class="font-bold">Dr. Robert Miller</p>
+                        <p class="text-xs text-gray-500">General Physician</p>
                     </button>
                     
-                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium" onclick="loadEmployeePerformance('amy-lee')">
-                        <p class="font-semibold">Amy Lee</p>
-                        <p class="text-xs text-gray-600">Nurse Manager</p>
+                    <!-- Employee 3 -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent" onclick="selectEmployee(this, 'amy-lee')">
+                        <p class="font-bold">Amy Lee</p>
+                        <p class="text-xs text-gray-500">Nurse Manager</p>
                     </button>
 
-                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium" onclick="loadEmployeePerformance('john-davis')">
-                        <p class="font-semibold">John Davis</p>
-                        <p class="text-xs text-gray-600">Medical Assistant</p>
+                    <!-- Employee 4 -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent" onclick="selectEmployee(this, 'john-davis')">
+                        <p class="font-bold">John Davis</p>
+                        <p class="text-xs text-gray-500">Medical Assistant</p>
                     </button>
 
-                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg font-medium" onclick="loadEmployeePerformance('linda-stewart')">
-                        <p class="font-semibold">Linda Stewart</p>
-                        <p class="text-xs text-gray-600">Administrator</p>
+                    <!-- Employee 5 -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent" onclick="selectEmployee(this, 'linda-stewart')">
+                        <p class="font-bold">Linda Stewart</p>
+                        <p class="text-xs text-gray-500">Administrator</p>
+                    </button>
+
+                    <!-- Employee 6 -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent" onclick="selectEmployee(this, 'mark-dacoco')">
+                        <p class="font-bold">Mark Dacoco</p>
+                        <p class="text-xs text-gray-500">Nurse Manager</p>
+                    </button>
+
+                    <!-- Employee 7 -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent" onclick="selectEmployee(this, 'princess-garbin')">
+                        <p class="font-bold">Princess Garbin</p>
+                        <p class="text-xs text-gray-500">Administrator</p>
+                    </button>
+
+                    <!-- Employee 8 -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent" onclick="selectEmployee(this, 'eduard-david')">
+                        <p class="font-bold">Dr. Eduard David</p>
+                        <p class="text-xs text-gray-500">Senior Surgeon</p>
+                    </button>
+
+                    <!-- Employee 9 -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent" onclick="selectEmployee(this, 'jimray-abulog')">
+                        <p class="font-bold">Dr. Jimray Abulog</p>
+                        <p class="text-xs text-gray-500">Medical Assistant</p>
+                    </button>
+
+                    <!-- Employee 10 -->
+                    <button class="employee-select-btn w-full text-left px-4 py-3 text-gray-900 rounded-lg border-2 border-transparent" onclick="selectEmployee(this, 'stien-baguhin')">
+                        <p class="font-bold">Stien Baguhin</p>
+                        <p class="text-xs text-gray-500">General Physician</p>
                     </button>
                 </div>
             </div>

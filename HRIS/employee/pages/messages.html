@@ -1,0 +1,220 @@
+<!-- Messages Page -->
+<div class="p-8">
+    <div class="grid grid-cols-3 gap-6">
+        <!-- Messages List -->
+        <div class="col-span-1">
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="p-4 border-b border-gray-200">
+                    <h3 class="font-bold text-gray-900">Messages</h3>
+                </div>
+                
+                <!-- Search -->
+                <div class="p-4 border-b border-gray-200">
+                    <div class="relative">
+                        <input type="text" placeholder="Search messages..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A] text-sm">
+                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- Messages List -->
+                <div class="max-h-[500px] overflow-y-auto">
+                    <!-- Message 1 - Active/Selected -->
+                    <div class="p-4 border-b border-gray-100 bg-blue-50 cursor-pointer border-l-4 border-l-[#003D7A]" onclick="selectMessage(1)">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-[#003D7A] rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                HR
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="font-semibold text-gray-900 text-sm">HR Department</p>
+                                    <span class="text-xs text-gray-500">2h ago</span>
+                                </div>
+                                <p class="text-sm font-medium text-gray-900 truncate">Leave Request Approved</p>
+                                <p class="text-xs text-gray-500 truncate">Your leave request for March 15-16 has been...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message 2 - Unread -->
+                    <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer" onclick="selectMessage(2)">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-[#003D7A] rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                HR
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="font-semibold text-gray-900 text-sm">HR Department</p>
+                                    <span class="text-xs text-gray-500">1d ago</span>
+                                </div>
+                                <p class="text-sm font-medium text-gray-900 truncate">Update Emergency Contact</p>
+                                <p class="text-xs text-gray-500 truncate">Please update your emergency contact information...</p>
+                                <span class="inline-block mt-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message 3 - Read -->
+                    <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer" onclick="selectMessage(3)">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                HR
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="font-medium text-gray-700 text-sm">HR Department</p>
+                                    <span class="text-xs text-gray-500">3d ago</span>
+                                </div>
+                                <p class="text-sm text-gray-700 truncate">Welcome to Employee Portal</p>
+                                <p class="text-xs text-gray-500 truncate">We're excited to introduce the new Employee Portal...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message 4 - Read -->
+                    <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer" onclick="selectMessage(4)">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                HR
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="font-medium text-gray-700 text-sm">HR Department</p>
+                                    <span class="text-xs text-gray-500">Feb 20</span>
+                                </div>
+                                <p class="text-sm text-gray-700 truncate">February Payslip Ready</p>
+                                <p class="text-xs text-gray-500 truncate">Your payslip for February 2026 is now available...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message 5 - Read -->
+                    <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer" onclick="selectMessage(5)">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                HR
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="font-medium text-gray-700 text-sm">HR Department</p>
+                                    <span class="text-xs text-gray-500">Feb 15</span>
+                                </div>
+                                <p class="text-sm text-gray-700 truncate">Performance Review Reminder</p>
+                                <p class="text-xs text-gray-500 truncate">Your Q4 2025 performance review has been completed...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Message Content -->
+        <div class="col-span-2">
+            <div class="bg-white rounded-lg shadow overflow-hidden h-full flex flex-col">
+                <!-- Message Header -->
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-[#003D7A] rounded-full flex items-center justify-center text-white font-bold">
+                                HR
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900">HR Department</h3>
+                                <p class="text-sm text-gray-500">hr@zealhr.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Body -->
+                <div class="flex-1 p-6 overflow-y-auto">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-2">Leave Request Approved</h2>
+                        <p class="text-sm text-gray-500">Received: March 1, 2026 at 10:30 AM</p>
+                    </div>
+
+                    <div class="prose prose-sm max-w-none text-gray-600">
+                        <p class="mb-4">Dear Dr. Sarah Johnson,</p>
+                        
+                        <p class="mb-4">We are pleased to inform you that your <strong>Vacation Leave</strong> request has been <span class="text-green-600 font-semibold">approved</span>.</p>
+                        
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
+                            <h4 class="font-semibold text-gray-900 mb-3">Leave Details:</h4>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-gray-500">Leave Type</p>
+                                    <p class="font-medium text-gray-900">Vacation Leave</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Duration</p>
+                                    <p class="font-medium text-gray-900">2 Days</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Start Date</p>
+                                    <p class="font-medium text-gray-900">March 15, 2026</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">End Date</p>
+                                    <p class="font-medium text-gray-900">March 16, 2026</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Approved By</p>
+                                    <p class="font-medium text-gray-900">Dr. Michael Chen</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">Remaining Balance</p>
+                                    <p class="font-medium text-gray-900">8 days</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="mb-4">Please ensure that all your pending tasks are delegated before your leave begins. If you have any questions or need to modify your leave request, please contact HR.</p>
+                        
+                        <p class="mb-4">Have a great time off!</p>
+                        
+                        <p>Best regards,<br>
+                        <strong>Human Resources Department</strong><br>
+                        ZealHR Healthcare Solutions</p>
+                    </div>
+                </div>
+
+                <!-- Reply Section -->
+                <div class="p-4 border-t border-gray-200 bg-gray-50">
+                    <div class="flex items-start gap-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                            SJ
+                        </div>
+                        <div class="flex-1">
+                            <textarea placeholder="Type your reply to HR..." rows="2" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A] resize-none text-sm"></textarea>
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex items-center gap-2">
+                                    <button class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-lg transition">
+                                        <i class="fas fa-paperclip"></i>
+                                    </button>
+                                </div>
+                                <button class="bg-[#003D7A] hover:bg-[#0052A3] text-white px-6 py-2 rounded-lg font-medium transition flex items-center gap-2">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Send Reply
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function selectMessage(id) {
+        // This would load the selected message content
+        console.log('Selected message:', id);
+    }
+</script>

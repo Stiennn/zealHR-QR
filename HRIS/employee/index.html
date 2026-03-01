@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal - ZealHR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <style>
+        .nav-link.active {
+            background-color: #EFF6FF;
+            color: #003D7A;
+            border-left: 4px solid #003D7A;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-lg fixed h-full z-10 flex flex-col">
+            <!-- Logo -->
+            <div class="p-6 border-b border-gray-200 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <img src="../images/logo.jpg" alt="Zeal Community Logo" class="h-14 w-16 object-contain">
+                    <div>
+                        <h1 class="text-[#003D7A] text-sm font-bold">Zeal Community</h1>
+                        <p class="text-gray-500 text-xs">Employee Portal</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation - Scrollable -->
+            <nav class="p-4 space-y-1 flex-1 overflow-y-auto">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Main Menu</p>
+                
+                <a href="javascript:void(0)" onclick="loadContent('profile')" class="nav-link active flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="profile">
+                    <i class="fas fa-user w-5"></i>
+                    <span>My Profile</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="loadContent('schedule')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="schedule">
+                    <i class="fas fa-calendar-alt w-5"></i>
+                    <span>My Schedule</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="loadContent('payroll')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="payroll">
+                    <i class="fas fa-file-invoice-dollar w-5"></i>
+                    <span>My Payslips</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="loadContent('performance')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="performance">
+                    <i class="fas fa-chart-line w-5"></i>
+                    <span>My Performance</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="loadContent('leave')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="leave">
+                    <i class="fas fa-paper-plane w-5"></i>
+                    <span>Leave Requests</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="loadContent('attendance')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="attendance">
+                    <i class="fas fa-clock w-5"></i>
+                    <span>Attendance</span>
+                </a>
+            </nav>
+
+            <!-- Logout - Fixed at bottom -->
+            <div class="p-4 border-t border-gray-200 flex-shrink-0 bg-white">
+                <a href="login.html" class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition">
+                    <i class="fas fa-sign-out-alt w-5"></i>
+                    <span>Sign Out</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 ml-64">
+            <!-- Top Header -->
+            <header class="bg-white shadow-sm px-8 py-4 flex items-center justify-between sticky top-0 z-10">
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900" id="pageTitle">My Profile</h1>
+                    <p class="text-sm text-gray-500">Welcome back, Dr. Sarah Johnson</p>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <!-- Quick Clock In/Out -->
+                    <button id="clockBtn" onclick="toggleClock()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition flex items-center gap-2">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span id="clockText">Clock In</span>
+                    </button>
+
+                    <!-- Messages from HR -->
+                    <div class="relative">
+                        <button onclick="toggleMessagesDropdown()" class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full transition">
+                            <i class="fas fa-envelope text-xl"></i>
+                            <span class="absolute top-0 right-0 w-5 h-5 bg-blue-500 text-white text-xs rounded-full flex items-center justify-center">2</span>
+                        </button>
+                        
+                        <!-- Messages Dropdown -->
+                        <div id="messagesDropdown" class="hidden absolute right-0 top-12 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                            <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                                <h3 class="font-bold text-gray-900">Messages from HR</h3>
+                                <span class="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">2 new</span>
+                            </div>
+                            <div class="max-h-80 overflow-y-auto">
+                                <!-- Message 1 -->
+                                <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 bg-[#003D7A] rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                            HR
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <p class="font-semibold text-gray-900 text-sm">HR Department</p>
+                                                <span class="text-xs text-gray-500">2h ago</span>
+                                            </div>
+                                            <p class="text-sm text-gray-600 truncate">Your leave request for March 15-16 has been approved. Please...</p>
+                                            <span class="inline-block mt-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Message 2 -->
+                                <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 bg-[#003D7A] rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                            HR
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <p class="font-semibold text-gray-900 text-sm">HR Department</p>
+                                                <span class="text-xs text-gray-500">1d ago</span>
+                                            </div>
+                                            <p class="text-sm text-gray-600 truncate">Reminder: Please update your emergency contact information...</p>
+                                            <span class="inline-block mt-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Message 3 - Read -->
+                                <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer bg-gray-50">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 bg-gray-400 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                                            HR
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <p class="font-medium text-gray-700 text-sm">HR Department</p>
+                                                <span class="text-xs text-gray-500">3d ago</span>
+                                            </div>
+                                            <p class="text-sm text-gray-500 truncate">Welcome to the new Employee Portal! We're excited to...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3 border-t border-gray-200">
+                                <button onclick="loadContent('messages')" class="w-full text-center text-[#003D7A] font-medium text-sm hover:underline">
+                                    View All Messages
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications from HR -->
+                    <div class="relative">
+                        <button onclick="toggleNotificationDropdown()" class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full transition">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">5</span>
+                        </button>
+                        
+                        <!-- Notifications Dropdown -->
+                        <div id="notificationDropdown" class="hidden absolute right-0 top-12 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                            <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                                <h3 class="font-bold text-gray-900">Notifications</h3>
+                                <button class="text-[#003D7A] text-xs font-medium hover:underline">Mark all read</button>
+                            </div>
+                            <div class="max-h-80 overflow-y-auto">
+                                <!-- Notification 1 -->
+                                <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                                    <div class="flex items-start gap-3">
+                                        <div class="bg-green-100 p-2 rounded-full flex-shrink-0">
+                                            <i class="fas fa-check-circle text-green-600"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-gray-900 font-medium">Leave Request Approved</p>
+                                            <p class="text-xs text-gray-500 mt-1">Your vacation leave for Mar 15-16 has been approved by Dr. Michael Chen</p>
+                                            <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Notification 2 -->
+                                <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                                    <div class="flex items-start gap-3">
+                                        <div class="bg-blue-100 p-2 rounded-full flex-shrink-0">
+                                            <i class="fas fa-calendar-alt text-blue-600"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-gray-900 font-medium">Schedule Updated</p>
+                                            <p class="text-xs text-gray-500 mt-1">Your shift on March 5 has been changed to 12PM-8PM</p>
+                                            <p class="text-xs text-gray-400 mt-1">5 hours ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Notification 3 -->
+                                <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                                    <div class="flex items-start gap-3">
+                                        <div class="bg-orange-100 p-2 rounded-full flex-shrink-0">
+                                            <i class="fas fa-file-invoice-dollar text-orange-600"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-gray-900 font-medium">Payslip Available</p>
+                                            <p class="text-xs text-gray-500 mt-1">Your February 2026 payslip is now available for download</p>
+                                            <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Notification 4 -->
+                                <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                                    <div class="flex items-start gap-3">
+                                        <div class="bg-purple-100 p-2 rounded-full flex-shrink-0">
+                                            <i class="fas fa-bullhorn text-purple-600"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-gray-900 font-medium">New Announcement</p>
+                                            <p class="text-xs text-gray-500 mt-1">HR has posted: "Emergency Meeting - All Staff"</p>
+                                            <p class="text-xs text-gray-400 mt-1">1 day ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Notification 5 -->
+                                <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                                    <div class="flex items-start gap-3">
+                                        <div class="bg-yellow-100 p-2 rounded-full flex-shrink-0">
+                                            <i class="fas fa-star text-yellow-600"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-gray-900 font-medium">Performance Review</p>
+                                            <p class="text-xs text-gray-500 mt-1">Q1 2026 performance review scheduled for April 10</p>
+                                            <p class="text-xs text-gray-400 mt-1">2 days ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3 border-t border-gray-200">
+                                <button onclick="loadContent('notifications'); document.getElementById('notificationDropdown').classList.add('hidden');" class="w-full text-center text-[#003D7A] font-medium text-sm hover:underline">
+                                    View All Notifications
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Menu -->
+                    <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                            SJ
+                        </div>
+                        <div class="hidden md:block">
+                            <p class="font-semibold text-gray-900 text-sm">Dr. Sarah Johnson</p>
+                            <p class="text-xs text-gray-500">EMP001 • Senior Surgeon</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div id="contentArea">
+                <!-- Dashboard Content will be loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let isClockedIn = false;
+
+        // Toggle dropdowns
+        function toggleMessagesDropdown() {
+            document.getElementById('messagesDropdown').classList.toggle('hidden');
+            document.getElementById('notificationDropdown').classList.add('hidden');
+        }
+
+        function toggleNotificationDropdown() {
+            document.getElementById('notificationDropdown').classList.toggle('hidden');
+            document.getElementById('messagesDropdown').classList.add('hidden');
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            const messagesBtn = e.target.closest('[onclick="toggleMessagesDropdown()"]');
+            const notifBtn = e.target.closest('[onclick="toggleNotificationDropdown()"]');
+            const messagesDropdown = document.getElementById('messagesDropdown');
+            const notifDropdown = document.getElementById('notificationDropdown');
+            
+            if (!messagesBtn && !messagesDropdown?.contains(e.target)) {
+                messagesDropdown?.classList.add('hidden');
+            }
+            if (!notifBtn && !notifDropdown?.contains(e.target)) {
+                notifDropdown?.classList.add('hidden');
+            }
+        });
+
+        // Load initial page (check URL hash for persisted state)
+        document.addEventListener('DOMContentLoaded', function() {
+            const hash = window.location.hash.substring(1);
+            const validPages = ['profile', 'schedule', 'payroll', 'messages', 'performance', 'leave', 'attendance', 'notifications'];
+            const initialPage = validPages.includes(hash) ? hash : 'profile';
+            loadContent(initialPage);
+        });
+
+        // Handle browser back/forward navigation
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash) loadContent(hash);
+        });
+
+        function loadContent(page) {
+            const contentArea = document.getElementById('contentArea');
+            const pageTitle = document.getElementById('pageTitle');
+            
+            // Close any open dropdowns
+            document.getElementById('messagesDropdown')?.classList.add('hidden');
+            document.getElementById('notificationDropdown')?.classList.add('hidden');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === page) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Update page title
+            const titles = {
+                'profile': 'My Profile',
+                'schedule': 'My Schedule',
+                'payroll': 'My Payslips',
+                'messages': 'Messages',
+                'performance': 'My Performance',
+                'leave': 'Leave Requests',
+                'attendance': 'Attendance',
+                'announcements': 'Announcements',
+                'documents': 'Documents',
+                'help': 'Help & Support',
+                'notifications': 'My Notifications'
+            };
+            pageTitle.textContent = titles[page] || 'My Profile';
+
+            // Save current page to URL hash for persistence
+            if (window.location.hash.substring(1) !== page) {
+                history.replaceState(null, '', '#' + page);
+            }
+
+            // Load page content
+            fetch(`pages/${page}.html`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Page not found');
+                    return response.text();
+                })
+                .then(html => {
+                    contentArea.innerHTML = html;
+                    initializePageScripts(page);
+                })
+                .catch(error => {
+                    contentArea.innerHTML = `<div class="p-8"><div class="bg-white rounded-lg shadow p-8 text-center">
+                        <i class="fas fa-exclamation-circle text-gray-300 text-6xl mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Page Coming Soon</h3>
+                        <p class="text-gray-600">This feature is under development.</p>
+                    </div></div>`;
+                });
+        }
+
+        function initializePageScripts(page) {
+            // Initialize page-specific scripts here
+        }
+
+        function toggleClock() {
+            const clockBtn = document.getElementById('clockBtn');
+            const clockText = document.getElementById('clockText');
+            
+            isClockedIn = !isClockedIn;
+            
+            if (isClockedIn) {
+                clockBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                clockBtn.classList.add('bg-red-500', 'hover:bg-red-600');
+                clockBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> <span>Clock Out</span>';
+            } else {
+                clockBtn.classList.remove('bg-red-500', 'hover:bg-red-600');
+                clockBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                clockBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> <span>Clock In</span>';
+            }
+        }
+    </script>
+</body>
+</html>

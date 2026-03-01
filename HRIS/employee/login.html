@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeal Community - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="h-screen bg-gradient-to-br from-slate-100 to-blue-50 flex items-center justify-center p-4 overflow-hidden">
+    <div class="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[95vh]">
+        <!-- Left Side - Branding -->
+        <div class="bg-gradient-to-br from-[#003D7A] to-[#0052A3] p-8 flex flex-col justify-center items-center hidden lg:flex relative">
+            <!-- Emphasized Logo -->
+            <div class="text-center">
+                <div class="bg-white p-4 rounded-2xl shadow-lg mb-4 inline-block">
+                    <img src="../images/logo.jpg" alt="Zeal Community Logo" class="h-24 w-28 object-contain">
+                </div>
+                <h1 class="text-white text-2xl font-bold mb-1">Zeal Community</h1>
+                <p class="text-blue-200 text-base">Human Resource Information System</p>
+            </div>
+            
+            <p class="text-blue-200 text-xs absolute bottom-4">© 2026 Zeal Community Healthcare Solutions</p>
+        </div>
+
+        <!-- Right Side - Login Form -->
+        <div class="p-6 lg:p-8 flex flex-col justify-center">
+            <!-- Mobile Logo -->
+            <div class="flex items-center justify-center gap-3 mb-4 lg:hidden">
+                <img src="../images/logo.jpg" alt="Zeal Community Logo" class="h-12 w-14 object-contain">
+                <div>
+                    <h1 class="text-[#003D7A] text-lg font-bold">Zeal Community</h1>
+                    <p class="text-gray-500 text-xs">HRIS</p>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h2 class="text-xl font-bold text-gray-900 mb-1">Sign In</h2>
+                <p class="text-gray-600 text-sm">Enter your credentials to access the system</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
+                <!-- Employee ID -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Employee ID</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-id-badge text-sm"></i>
+                        </span>
+                        <input type="text" id="employeeId" placeholder="Enter your Employee ID" 
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A] focus:border-transparent transition text-sm">
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-lock text-sm"></i>
+                        </span>
+                        <input type="password" id="password" placeholder="Enter your password" 
+                            class="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A] focus:border-transparent transition text-sm">
+                        <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-eye text-sm" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember & Forgot -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" class="w-4 h-4 text-[#003D7A] rounded focus:ring-[#003D7A]">
+                        <span class="text-xs text-gray-600">Remember me</span>
+                    </label>
+                    <a href="#" class="text-xs text-[#003D7A] hover:underline font-medium">Forgot Password?</a>
+                </div>
+
+                <!-- Role Selection -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Login As</label>
+                    <div class="flex gap-2">
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="role" value="employee" class="hidden peer" checked>
+                            <div class="border-2 border-gray-300 peer-checked:border-[#003D7A] peer-checked:bg-blue-50 rounded-lg p-2 text-center transition">
+                                <i class="fas fa-user text-base text-gray-600 peer-checked:text-[#003D7A]"></i>
+                                <p class="text-xs font-medium text-gray-700 mt-0.5">Employee</p>
+                            </div>
+                        </label>
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="role" value="hr" class="hidden peer">
+                            <div class="border-2 border-gray-300 peer-checked:border-[#003D7A] peer-checked:bg-blue-50 rounded-lg p-2 text-center transition">
+                                <i class="fas fa-user-shield text-base text-gray-600 peer-checked:text-[#003D7A]"></i>
+                                <p class="text-xs font-medium text-gray-700 mt-0.5">HR Admin</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" class="w-full bg-[#003D7A] hover:bg-[#0052A3] text-white py-2.5 rounded-lg font-semibold transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In
+                </button>
+
+                <!-- Divider -->
+                <div class="flex items-center gap-3">
+                    <div class="flex-1 h-px bg-gray-300"></div>
+                    <span class="text-gray-500 text-xs">or</span>
+                    <div class="flex-1 h-px bg-gray-300"></div>
+                </div>
+
+                <!-- QR Login -->
+                <button type="button" onclick="openQRScanner()" class="w-full border-2 border-gray-300 hover:border-[#003D7A] text-gray-700 py-2.5 rounded-lg font-semibold transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fas fa-qrcode"></i>
+                    Sign In with QR Code
+                </button>
+            </form>
+
+            <!-- Help -->
+            <div class="mt-4 text-center">
+                <p class="text-gray-600 text-xs">
+                    Need help? Contact 
+                    <a href="#" class="text-[#003D7A] font-medium hover:underline">HR Support</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Scanner Modal -->
+    <div id="qrScannerModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-[#003D7A] to-[#0052A3] p-4 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-qrcode text-white text-xl"></i>
+                    <h3 class="text-white font-bold text-lg">Scan QR Code</h3>
+                </div>
+                <button onclick="closeQRScanner()" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Scanner Area -->
+            <div class="p-6">
+                <div class="relative">
+                    <!-- Camera View -->
+                    <div id="scannerView" class="bg-gray-900 rounded-xl aspect-square flex items-center justify-center relative overflow-hidden">
+                        <!-- Video element for camera -->
+                        <video id="qrVideo" class="w-full h-full object-cover hidden"></video>
+                        
+                        <!-- Placeholder when camera not active -->
+                        <div id="scannerPlaceholder" class="text-center">
+                            <i class="fas fa-camera text-gray-600 text-5xl mb-3"></i>
+                            <p class="text-gray-400 text-sm">Camera will appear here</p>
+                        </div>
+
+                        <!-- Scanner Frame Overlay -->
+                        <div class="absolute inset-0 pointer-events-none" id="scannerOverlay" style="display: none;">
+                            <!-- Corner brackets -->
+                            <div class="absolute top-8 left-8 w-12 h-12 border-l-4 border-t-4 border-[#00D4FF]"></div>
+                            <div class="absolute top-8 right-8 w-12 h-12 border-r-4 border-t-4 border-[#00D4FF]"></div>
+                            <div class="absolute bottom-8 left-8 w-12 h-12 border-l-4 border-b-4 border-[#00D4FF]"></div>
+                            <div class="absolute bottom-8 right-8 w-12 h-12 border-r-4 border-b-4 border-[#00D4FF]"></div>
+                            
+                            <!-- Scanning line animation -->
+                            <div class="absolute left-8 right-8 h-0.5 bg-gradient-to-r from-transparent via-[#00D4FF] to-transparent animate-scan"></div>
+                        </div>
+                    </div>
+
+                    <!-- Status Message -->
+                    <div id="scannerStatus" class="mt-4 text-center">
+                        <p class="text-gray-600 text-sm">Click "Start Scanner" to begin</p>
+                    </div>
+                </div>
+
+                <!-- Scanner Controls -->
+                <div class="mt-4 space-y-3">
+                    <button id="startScanBtn" onclick="startScanner()" class="w-full bg-[#003D7A] hover:bg-[#0052A3] text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-play"></i>
+                        Start Scanner
+                    </button>
+                    <button id="stopScanBtn" onclick="stopScanner()" class="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2 hidden">
+                        <i class="fas fa-stop"></i>
+                        Stop Scanner
+                    </button>
+                </div>
+
+                <!-- Instructions -->
+                <div class="mt-4 bg-blue-50 rounded-lg p-3">
+                    <div class="flex gap-2">
+                        <i class="fas fa-info-circle text-[#003D7A] mt-0.5"></i>
+                        <div class="text-xs text-gray-600">
+                            <p class="font-medium text-gray-700 mb-1">How to scan:</p>
+                            <ol class="list-decimal list-inside space-y-0.5">
+                                <li>Click "Start Scanner" to activate camera</li>
+                                <li>Position your Employee QR Code in the frame</li>
+                                <li>Hold steady until the code is recognized</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes scan {
+            0%, 100% { top: 32px; }
+            50% { top: calc(100% - 32px); }
+        }
+        .animate-scan {
+            animation: scan 2s ease-in-out infinite;
+        }
+    </style>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const role = document.querySelector('input[name="role"]:checked').value;
+            if (role === 'hr') {
+                // Redirect to HR admin portal
+                window.location.href = '../admin/index.html';
+            } else {
+                // Redirect to employee portal
+                window.location.href = 'index.html';
+            }
+        });
+
+        // QR Scanner Functions
+        let videoStream = null;
+
+        function openQRScanner() {
+            document.getElementById('qrScannerModal').classList.remove('hidden');
+        }
+
+        function closeQRScanner() {
+            stopScanner();
+            document.getElementById('qrScannerModal').classList.add('hidden');
+        }
+
+        function startScanner() {
+            const video = document.getElementById('qrVideo');
+            const placeholder = document.getElementById('scannerPlaceholder');
+            const overlay = document.getElementById('scannerOverlay');
+            const status = document.getElementById('scannerStatus');
+            const startBtn = document.getElementById('startScanBtn');
+            const stopBtn = document.getElementById('stopScanBtn');
+
+            status.innerHTML = '<p class="text-blue-600 text-sm"><i class="fas fa-spinner fa-spin mr-2"></i>Accessing camera...</p>';
+
+            navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: 'environment' } 
+            })
+            .then(stream => {
+                videoStream = stream;
+                video.srcObject = stream;
+                video.play();
+                video.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                overlay.style.display = 'block';
+                startBtn.classList.add('hidden');
+                stopBtn.classList.remove('hidden');
+                status.innerHTML = '<p class="text-green-600 text-sm"><i class="fas fa-check-circle mr-2"></i>Scanner active - Position QR code in frame</p>';
+
+                // Simulate QR detection after 3 seconds (for demo)
+                setTimeout(() => {
+                    if (videoStream) {
+                        simulateQRDetection();
+                    }
+                }, 3000);
+            })
+            .catch(err => {
+                console.error('Camera error:', err);
+                status.innerHTML = '<p class="text-red-600 text-sm"><i class="fas fa-exclamation-circle mr-2"></i>Camera access denied. Please allow camera permissions.</p>';
+            });
+        }
+
+        function stopScanner() {
+            const video = document.getElementById('qrVideo');
+            const placeholder = document.getElementById('scannerPlaceholder');
+            const overlay = document.getElementById('scannerOverlay');
+            const status = document.getElementById('scannerStatus');
+            const startBtn = document.getElementById('startScanBtn');
+            const stopBtn = document.getElementById('stopScanBtn');
+
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+                videoStream = null;
+            }
+
+            video.classList.add('hidden');
+            placeholder.classList.remove('hidden');
+            overlay.style.display = 'none';
+            startBtn.classList.remove('hidden');
+            stopBtn.classList.add('hidden');
+            status.innerHTML = '<p class="text-gray-600 text-sm">Click "Start Scanner" to begin</p>';
+        }
+
+        function simulateQRDetection() {
+            const status = document.getElementById('scannerStatus');
+            status.innerHTML = '<p class="text-green-600 text-sm"><i class="fas fa-check-circle mr-2"></i>QR Code detected! Authenticating...</p>';
+            
+            setTimeout(() => {
+                stopScanner();
+                closeQRScanner();
+                // Redirect to employee portal
+                window.location.href = 'index.html';
+            }, 1500);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('qrScannerModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQRScanner();
+            }
+        });
+    </script>
+</body>
+</html>

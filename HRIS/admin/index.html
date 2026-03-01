@@ -61,6 +61,13 @@
                     <i class="fas fa-chart-bar text-lg text-gray-600"></i>
                     <span>Performance</span>
                 </a>
+
+                <!-- Messages -->
+                <a href="javascript:void(0)" onclick="loadContent('messages')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="messages">
+                    <i class="fas fa-envelope text-lg text-gray-600"></i>
+                    <span>Messages</span>
+                    <span class="ml-auto bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">4</span>
+                </a>
             </nav>
 
             <!-- User Profile Section -->
@@ -73,6 +80,11 @@
                     </div>
                     <i class="fas fa-cog text-gray-400"></i>
                 </div>
+                <!-- Sign Out Button -->
+                <a href="../employee/login.html" class="flex items-center gap-3 px-4 py-3 mt-2 text-red-600 hover:bg-red-50 rounded-lg cursor-pointer transition">
+                    <i class="fas fa-sign-out-alt text-lg"></i>
+                    <span class="font-medium">Sign Out</span>
+                </a>
             </div>
         </div>
 
@@ -84,6 +96,127 @@
                     <input type="text" placeholder="Search staff, shifts, or documents..." class="bg-gray-100 px-4 py-2 rounded-lg text-sm w-96 focus:outline-none">
                 </div>
                 <div class="flex items-center gap-4 relative">
+                    <!-- Messages Button -->
+                    <button id="messagesBtn" onclick="toggleMessagesDropdown()" class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                        <i class="fas fa-envelope text-lg"></i>
+                        <span id="messagesBadge" class="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+                    </button>
+
+                    <!-- Messages Dropdown -->
+                    <div id="messagesDropdown" class="hidden absolute top-12 right-24 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                        <!-- Header -->
+                        <div class="bg-gradient-to-r from-[#003D7A] to-[#0052A3] text-white p-4 rounded-t-lg">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-envelope text-lg"></i>
+                                    <h3 class="font-bold text-lg">Messages</h3>
+                                </div>
+                                <span class="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">4 new</span>
+                            </div>
+                        </div>
+
+                        <!-- Messages List -->
+                        <div class="max-h-96 overflow-y-auto">
+                            <!-- Message 1 -->
+                            <div class="border-b border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition">
+                                <div class="flex gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold flex-shrink-0">
+                                        EG
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between">
+                                            <p class="font-semibold text-gray-800 text-sm">Elena Garcia</p>
+                                            <span class="text-xs text-gray-400">2 min ago</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500">Nurse - ICU</p>
+                                        <p class="text-sm text-gray-600 mt-1 truncate">Hi, I would like to request a schedule change for next week...</p>
+                                    </div>
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-1 flex-shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Message 2 -->
+                            <div class="border-b border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition">
+                                <div class="flex gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold flex-shrink-0">
+                                        MJ
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between">
+                                            <p class="font-semibold text-gray-800 text-sm">Michael Johnson</p>
+                                            <span class="text-xs text-gray-400">15 min ago</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500">Doctor - Emergency</p>
+                                        <p class="text-sm text-gray-600 mt-1 truncate">Thank you for approving my leave request. I appreciate it.</p>
+                                    </div>
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-1 flex-shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Message 3 -->
+                            <div class="border-b border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition">
+                                <div class="flex gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold flex-shrink-0">
+                                        AP
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between">
+                                            <p class="font-semibold text-gray-800 text-sm">Anna Perez</p>
+                                            <span class="text-xs text-gray-400">1 hr ago</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500">Nurse - OPD</p>
+                                        <p class="text-sm text-gray-600 mt-1 truncate">Could you please clarify the new overtime policy?</p>
+                                    </div>
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-1 flex-shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Message 4 -->
+                            <div class="border-b border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition">
+                                <div class="flex gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold flex-shrink-0">
+                                        RF
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between">
+                                            <p class="font-semibold text-gray-800 text-sm">Ryan Freeman</p>
+                                            <span class="text-xs text-gray-400">3 hrs ago</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500">Technician - Lab</p>
+                                        <p class="text-sm text-gray-600 mt-1 truncate">I apologize for arriving late today. There was an emergency...</p>
+                                    </div>
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-1 flex-shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Message 5 - Read -->
+                            <div class="border-b border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition bg-gray-50">
+                                <div class="flex gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center text-white font-bold flex-shrink-0">
+                                        SJ
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between">
+                                            <p class="font-semibold text-gray-800 text-sm">Sarah Johnson</p>
+                                            <span class="text-xs text-gray-400">Yesterday</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500">Doctor - Cardiology</p>
+                                        <p class="text-sm text-gray-600 mt-1 truncate">The training session was very informative. Thank you!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="border-t border-gray-200 p-3 flex justify-between items-center">
+                            <button onclick="loadContent('messages')" class="text-[#003D7A] hover:text-[#0052A3] text-sm font-medium">VIEW ALL MESSAGES</button>
+                            <button onclick="openComposeModal()" class="bg-[#003D7A] hover:bg-[#0052A3] text-white px-3 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1">
+                                <i class="fas fa-plus text-xs"></i>
+                                Compose
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- Notification Bell -->
                     <button id="notificationBtn" class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
                         <i class="fas fa-bell text-lg"></i>
@@ -187,7 +320,7 @@
 
                         <!-- Footer -->
                         <div class="border-t border-gray-200 p-3 text-center">
-                            <button id="viewAllBtn" class="text-[#003D7A] hover:text-[#0052A3] text-sm font-medium">VIEW ALL HISTORY</button>
+                            <button onclick="loadContent('notifications'); document.getElementById('notificationDropdown').classList.add('hidden');" class="text-[#003D7A] hover:text-[#0052A3] text-sm font-medium">VIEW ALL NOTIFICATIONS</button>
                         </div>
                     </div>
 
@@ -221,8 +354,12 @@
                 link.classList.add('text-gray-700', 'hover:bg-gray-100');
             });
             
-            document.querySelector(`[data-page="${page}"]`).classList.add('bg-blue-50', 'border-l-4', 'border-[#003D7A]', 'text-[#003D7A]');
-            document.querySelector(`[data-page="${page}"]`).classList.remove('text-gray-700', 'hover:bg-gray-100');
+            // Only update nav link if it exists (some pages like notifications don't have nav links)
+            const navLink = document.querySelector(`[data-page="${page}"]`);
+            if (navLink) {
+                navLink.classList.add('bg-blue-50', 'border-l-4', 'border-[#003D7A]', 'text-[#003D7A]');
+                navLink.classList.remove('text-gray-700', 'hover:bg-gray-100');
+            }
 
             // Load external page file
             const pageFile = `./pages/${page}.html`;
@@ -248,6 +385,360 @@
                 // Add dashboard-specific scripts if needed
             } else if (page === 'employees') {
                 // Add employees-specific scripts if needed
+            } else if (page === 'scheduling') {
+                // Initialize scheduling tab functionality
+                window.switchTab = function(tabName, clickedBtn) {
+                    // Hide all tabs
+                    const tabs = document.querySelectorAll('.tab-content');
+                    tabs.forEach(tab => tab.classList.add('hidden'));
+
+                    // Show selected tab
+                    const selectedTab = document.getElementById(tabName + '-tab');
+                    if (selectedTab) {
+                        selectedTab.classList.remove('hidden');
+                    }
+
+                    // Update active button styling - remove active from all
+                    const buttons = document.querySelectorAll('.tab-btn');
+                    buttons.forEach(btn => {
+                        btn.classList.remove('border-blue-600', 'text-blue-600', 'active-tab');
+                        btn.classList.add('border-transparent', 'text-gray-700');
+                    });
+
+                    // Add active styling to clicked button
+                    if (clickedBtn) {
+                        clickedBtn.classList.remove('border-transparent', 'text-gray-700');
+                        clickedBtn.classList.add('border-blue-600', 'text-blue-600', 'active-tab');
+                    }
+                };
+
+                window.openModal = function(modalId) {
+                    console.log('Modal:', modalId);
+                };
+
+                // Initialize charts if they exist
+                const deptCtx = document.getElementById('deptChart');
+                if (deptCtx && typeof Chart !== 'undefined') {
+                    new Chart(deptCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['OPD', 'ICU', 'Emergency', 'Ward'],
+                            datasets: [{
+                                label: 'Overtime Hours',
+                                data: [45, 62, 28, 21],
+                                backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: { legend: { display: false } }
+                        }
+                    });
+                }
+
+                const doctorCtx = document.getElementById('doctorChart');
+                if (doctorCtx && typeof Chart !== 'undefined') {
+                    new Chart(doctorCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Dr. Sarah', 'Dr. Kevin', 'Dr. Maria', 'Others'],
+                            datasets: [{
+                                data: [45, 30, 25, 56],
+                                backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#d1d5db']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true
+                        }
+                    });
+                }
+            } else if (page === 'payroll') {
+                // Initialize payroll tab functionality
+                window.switchPayrollTab = function(tabName, clickedBtn) {
+                    // Hide all tab content
+                    const tabContents = document.querySelectorAll('.payroll-tab-content');
+                    tabContents.forEach(content => content.classList.add('hidden'));
+
+                    // Show selected tab content
+                    const selectedTab = document.getElementById(tabName + '-tab');
+                    if (selectedTab) {
+                        selectedTab.classList.remove('hidden');
+                    }
+
+                    // Update active button styling - remove active from all
+                    const buttons = document.querySelectorAll('.payroll-tab');
+                    buttons.forEach(btn => {
+                        btn.classList.remove('border-[#003D7A]', 'text-[#003D7A]');
+                        btn.classList.add('border-transparent', 'text-gray-600');
+                    });
+
+                    // Add active styling to clicked button
+                    if (clickedBtn) {
+                        clickedBtn.classList.remove('border-transparent', 'text-gray-600');
+                        clickedBtn.classList.add('border-[#003D7A]', 'text-[#003D7A]');
+                    }
+                };
+
+                window.openSalaryStructureModal = function() {
+                    document.getElementById('salaryStructureModal')?.classList.remove('hidden');
+                };
+
+                window.closeSalaryStructureModal = function() {
+                    document.getElementById('salaryStructureModal')?.classList.add('hidden');
+                };
+
+                window.openPayslipModal = function() {
+                    document.getElementById('payslipModal')?.classList.remove('hidden');
+                };
+
+                window.closePayslipModal = function() {
+                    document.getElementById('payslipModal')?.classList.add('hidden');
+                };
+
+                window.viewPayslip = function(employeeName) {
+                    document.getElementById('payslipEmployee').textContent = employeeName;
+                    document.getElementById('payslipName').textContent = employeeName;
+                    document.getElementById('payslipViewModal')?.classList.remove('hidden');
+                };
+
+                window.closePayslipViewModal = function() {
+                    document.getElementById('payslipViewModal')?.classList.add('hidden');
+                };
+
+                window.editPayroll = function(employeeName) {
+                    alert('Edit payroll for: ' + employeeName);
+                };
+
+                window.generatePayslips = function() {
+                    alert('Generating payslips...');
+                    window.closePayslipModal();
+                };
+
+                window.downloadPayslip = function() {
+                    alert('Downloading payslip as PDF...');
+                };
+            } else if (page === 'performance') {
+                // Initialize performance page functionality
+                window.selectEmployee = function(clickedBtn, employeeId) {
+                    // Remove active state from all employee buttons
+                    const buttons = document.querySelectorAll('.employee-select-btn');
+                    buttons.forEach(btn => {
+                        btn.classList.remove('bg-[#003D7A]', 'text-white', 'border-[#003D7A]');
+                        btn.classList.add('text-gray-900', 'border-transparent');
+                        // Reset the position text color
+                        const positionText = btn.querySelector('p:last-child');
+                        if (positionText) {
+                            positionText.classList.remove('opacity-80');
+                            positionText.classList.add('text-gray-500');
+                        }
+                    });
+
+                    // Add active state to clicked button
+                    if (clickedBtn) {
+                        clickedBtn.classList.remove('text-gray-900', 'border-transparent');
+                        clickedBtn.classList.add('bg-[#003D7A]', 'text-white', 'border-[#003D7A]');
+                        // Update position text color for active state
+                        const positionText = clickedBtn.querySelector('p:last-child');
+                        if (positionText) {
+                            positionText.classList.remove('text-gray-500');
+                            positionText.classList.add('opacity-80');
+                        }
+                    }
+
+                    // Load employee performance data (placeholder)
+                    loadEmployeePerformance(employeeId);
+                };
+
+                window.loadEmployeePerformance = function(employeeId) {
+                    // Placeholder - would load employee-specific data
+                    console.log('Loading performance for:', employeeId);
+                };
+
+                window.showPerformanceSection = function(sectionName) {
+                    // Hide all sections
+                    const sections = document.querySelectorAll('.performance-section');
+                    sections.forEach(section => section.classList.add('hidden'));
+
+                    // Show selected section
+                    const selectedSection = document.getElementById(sectionName + '-section');
+                    if (selectedSection) {
+                        selectedSection.classList.remove('hidden');
+                    }
+                };
+            } else if (page === 'notifications') {
+                // Initialize notifications page functionality
+                window.filterNotifications = function(type, clickedBtn) {
+                    document.querySelectorAll('.notification-filter').forEach(btn => {
+                        btn.classList.remove('bg-[#003D7A]', 'text-white');
+                        btn.classList.add('text-gray-600', 'hover:bg-gray-100');
+                    });
+                    clickedBtn.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                    clickedBtn.classList.add('bg-[#003D7A]', 'text-white');
+
+                    document.querySelectorAll('.notification-item').forEach(item => {
+                        if (type === 'all') {
+                            item.style.display = 'block';
+                        } else if (type === 'unread') {
+                            item.style.display = item.dataset.unread === 'true' ? 'block' : 'none';
+                        } else {
+                            item.style.display = item.dataset.type === type ? 'block' : 'none';
+                        }
+                    });
+                };
+
+                window.markAllAsRead = function() {
+                    document.querySelectorAll('.notification-item[data-unread="true"]').forEach(item => {
+                        item.dataset.unread = 'false';
+                        item.classList.add('bg-gray-50/50');
+                        const dot = item.querySelector('.w-2.h-2.bg-blue-500');
+                        if (dot) dot.remove();
+                    });
+                    alert('All notifications marked as read');
+                };
+
+                window.openCreateNotificationModal = function() {
+                    document.getElementById('createNotificationModal').classList.remove('hidden');
+                };
+
+                window.closeCreateNotificationModal = function() {
+                    document.getElementById('createNotificationModal').classList.add('hidden');
+                    // Reset form
+                    document.getElementById('scheduleNotif').checked = false;
+                    document.getElementById('scheduleDateTimeContainer').classList.add('hidden');
+                    document.getElementById('sendNotifBtnText').textContent = 'Send Notification';
+                };
+
+                window.toggleScheduleDateTime = function() {
+                    const checkbox = document.getElementById('scheduleNotif');
+                    const container = document.getElementById('scheduleDateTimeContainer');
+                    const btnText = document.getElementById('sendNotifBtnText');
+                    
+                    if (checkbox.checked) {
+                        container.classList.remove('hidden');
+                        btnText.textContent = 'Schedule Notification';
+                        // Set default date/time to tomorrow
+                        const tomorrow = new Date();
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        tomorrow.setHours(9, 0, 0, 0);
+                        document.getElementById('scheduleDate').value = tomorrow.toISOString().split('T')[0];
+                        document.getElementById('scheduleTime').value = '09:00';
+                    } else {
+                        container.classList.add('hidden');
+                        btnText.textContent = 'Send Notification';
+                    }
+                };
+
+                window.sendNotification = function() {
+                    const recipient = document.getElementById('notifRecipient').value;
+                    const title = document.getElementById('notifTitle').value;
+                    const message = document.getElementById('notifMessage').value;
+                    const isScheduled = document.getElementById('scheduleNotif').checked;
+
+                    if (!recipient || !title || !message) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+
+                    if (isScheduled) {
+                        const date = document.getElementById('scheduleDate').value;
+                        const time = document.getElementById('scheduleTime').value;
+                        if (!date || !time) {
+                            alert('Please set the date and time for scheduled notification');
+                            return;
+                        }
+                        alert('Notification scheduled for ' + date + ' at ' + time);
+                    } else {
+                        alert('Notification sent successfully to ' + (recipient === 'all' ? 'all employees' : 'selected employee(s)'));
+                    }
+                    
+                    closeCreateNotificationModal();
+                    document.getElementById('notifTitle').value = '';
+                    document.getElementById('notifMessage').value = '';
+                };
+            } else if (page === 'attendance') {
+                // Initialize attendance page functionality
+                let currentStaffData = {};
+
+                window.openEditModal = function(staffName, initials, checkInTime, checkOutTime) {
+                    currentStaffData = {
+                        name: staffName,
+                        initials: initials,
+                        originalCheckIn: checkInTime,
+                        originalCheckOut: checkOutTime
+                    };
+
+                    document.getElementById('modalStaffName').textContent = staffName;
+                    
+                    // Parse and set times
+                    const today = new Date().toISOString().split('T')[0];
+                    
+                    if (checkInTime !== '--:-- --') {
+                        const [time, period] = checkInTime.split(' ');
+                        const [hours, minutes] = time.split(':');
+                        let h = parseInt(hours);
+                        if (period === 'PM' && h !== 12) h += 12;
+                        if (period === 'AM' && h === 12) h = 0;
+                        document.getElementById('checkInTime').value = String(h).padStart(2, '0') + ':' + minutes;
+                        document.getElementById('checkInDate').value = today;
+                    } else {
+                        document.getElementById('checkInTime').value = '';
+                        document.getElementById('checkInDate').value = today;
+                    }
+
+                    if (checkOutTime !== '--:-- --') {
+                        const [time, period] = checkOutTime.split(' ');
+                        const [hours, minutes] = time.split(':');
+                        let h = parseInt(hours);
+                        if (period === 'PM' && h !== 12) h += 12;
+                        if (period === 'AM' && h === 12) h = 0;
+                        document.getElementById('checkOutTime').value = String(h).padStart(2, '0') + ':' + minutes;
+                        document.getElementById('checkOutDate').value = today;
+                    } else {
+                        document.getElementById('checkOutTime').value = '';
+                        document.getElementById('checkOutDate').value = today;
+                    }
+
+                    document.getElementById('reasonSelect').value = 'Select a reason';
+                    document.getElementById('notesTextarea').value = '';
+                    document.getElementById('editTimeModal').classList.remove('hidden');
+                };
+
+                window.closeEditModal = function() {
+                    document.getElementById('editTimeModal').classList.add('hidden');
+                    currentStaffData = {};
+                };
+
+                window.saveTimeChanges = function() {
+                    const checkInTime = document.getElementById('checkInTime').value;
+                    const checkOutTime = document.getElementById('checkOutTime').value;
+                    const reason = document.getElementById('reasonSelect').value;
+                    const notes = document.getElementById('notesTextarea').value;
+
+                    if (!checkInTime || !checkOutTime) {
+                        alert('Please fill in both check-in and check-out times');
+                        return;
+                    }
+
+                    if (reason === 'Select a reason') {
+                        alert('Please select a reason for the time adjustment');
+                        return;
+                    }
+
+                    alert('Time adjustment saved successfully for ' + currentStaffData.name + '\n\nCheck-in: ' + checkInTime + '\nCheck-out: ' + checkOutTime + '\nReason: ' + reason);
+                    closeEditModal();
+                };
+
+                // Close modal when clicking outside
+                const editModal = document.getElementById('editTimeModal');
+                if (editModal) {
+                    editModal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            closeEditModal();
+                        }
+                    });
+                }
             }
             // Add more pages as needed
         }
@@ -255,15 +746,27 @@
         // Notification functionality
         const notificationBtn = document.getElementById('notificationBtn');
         const notificationDropdown = document.getElementById('notificationDropdown');
+        const messagesDropdown = document.getElementById('messagesDropdown');
+
+        // Messages dropdown toggle
+        function toggleMessagesDropdown() {
+            messagesDropdown.classList.toggle('hidden');
+            notificationDropdown.classList.add('hidden');
+        }
 
         notificationBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             notificationDropdown.classList.toggle('hidden');
+            messagesDropdown.classList.add('hidden');
         });
 
         document.addEventListener('click', function(e) {
+            const messagesBtn = document.getElementById('messagesBtn');
             if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
                 notificationDropdown.classList.add('hidden');
+            }
+            if (!messagesBtn.contains(e.target) && !messagesDropdown.contains(e.target)) {
+                messagesDropdown.classList.add('hidden');
             }
         });
 
@@ -330,6 +833,97 @@
 
     <!-- Modal Container -->
     <div id="modalContainer"></div>
+
+    <!-- Compose Message Modal -->
+    <div id="composeModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl w-full max-w-lg mx-4 shadow-2xl">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-[#003D7A] to-[#0052A3] text-white p-4 rounded-t-xl flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-paper-plane"></i>
+                    <h3 class="font-bold text-lg">New Message</h3>
+                </div>
+                <button onclick="closeComposeModal()" class="text-white/80 hover:text-white">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-6">
+                <!-- Recipient -->
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">To:</label>
+                    <select class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#003D7A] focus:border-transparent">
+                        <option value="">Select Employee</option>
+                        <option value="1">Elena Garcia - Nurse (ICU)</option>
+                        <option value="2">Michael Johnson - Doctor (Emergency)</option>
+                        <option value="3">Anna Perez - Nurse (OPD)</option>
+                        <option value="4">Ryan Freeman - Technician (Lab)</option>
+                        <option value="5">Sarah Johnson - Doctor (Cardiology)</option>
+                        <option value="6">David Kim - Nurse (Ward)</option>
+                        <option value="7">Maria Santos - Admin (Front Desk)</option>
+                        <option value="all">All Employees</option>
+                    </select>
+                </div>
+
+                <!-- Subject -->
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Subject:</label>
+                    <input type="text" placeholder="Enter message subject" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#003D7A] focus:border-transparent">
+                </div>
+
+                <!-- Message -->
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Message:</label>
+                    <textarea rows="5" placeholder="Type your message here..." class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#003D7A] focus:border-transparent resize-none"></textarea>
+                </div>
+
+                <!-- Priority -->
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Priority:</label>
+                    <div class="flex gap-3">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="priority" value="normal" checked class="text-[#003D7A]">
+                            <span class="text-sm text-gray-700">Normal</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="priority" value="important" class="text-[#003D7A]">
+                            <span class="text-sm text-gray-700">Important</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="priority" value="urgent" class="text-[#003D7A]">
+                            <span class="text-sm text-gray-700">Urgent</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="border-t border-gray-200 p-4 flex justify-end gap-3">
+                <button onclick="closeComposeModal()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">Cancel</button>
+                <button onclick="sendMessage()" class="px-4 py-2 bg-[#003D7A] text-white rounded-lg hover:bg-[#0052A3] transition flex items-center gap-2">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Message
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openComposeModal() {
+            document.getElementById('composeModal').classList.remove('hidden');
+            document.getElementById('messagesDropdown').classList.add('hidden');
+        }
+
+        function closeComposeModal() {
+            document.getElementById('composeModal').classList.add('hidden');
+        }
+
+        function sendMessage() {
+            alert('Message sent successfully!');
+            closeComposeModal();
+        }
+    </script>
 
     <!-- Load employees.js -->
     <script src="./js/employees.js"></script>

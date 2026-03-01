@@ -51,6 +51,95 @@
         </div>
     </div>
 
+    <!-- Employee of the Month Section -->
+    <div class="bg-gradient-to-r from-[#003D7A] to-[#0052A3] rounded-lg shadow-lg p-6 mb-8 relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute top-0 right-0 w-64 h-64 opacity-10">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#FFFFFF" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.5,90,-16.3,88.5,-0.9C87,14.6,81.4,29.2,73.1,42.2C64.8,55.2,53.8,66.6,40.5,74.3C27.2,82,11.6,86,-3.1,90.4C-17.8,94.8,-35.6,99.6,-50.1,93.3C-64.6,87,-75.9,69.6,-82.9,51.3C-89.9,33,-92.6,13.8,-89.4,1.8C-86.2,-10.2,-77.1,-17.2,-69.2,-28.2C-61.3,-39.2,-54.6,-54.2,-43.5,-63.1C-32.5,-72,-16.2,-74.8,-0.3,-74.3C15.7,-73.8,31.4,-70,44.7,-76.4Z" transform="translate(100 100)" />
+            </svg>
+        </div>
+
+        <div class="flex items-center gap-8 relative z-10">
+            <!-- Trophy Icon -->
+            <div class="hidden md:flex flex-col items-center">
+                <div class="bg-yellow-400 p-4 rounded-full shadow-lg mb-2">
+                    <i class="fas fa-trophy text-yellow-800 text-3xl"></i>
+                </div>
+                <div class="flex gap-1">
+                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                    <i class="fas fa-star text-yellow-400 text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Employee Photo & Info -->
+            <div class="flex items-center gap-6 flex-1">
+                <div class="relative">
+                    <div class="w-24 h-24 rounded-full bg-white p-1 shadow-lg">
+                        <div class="w-full h-full rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-2xl font-bold">
+                            SJ
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 bg-yellow-400 rounded-full p-1.5 shadow">
+                        <i class="fas fa-crown text-yellow-800 text-xs"></i>
+                    </div>
+                </div>
+
+                <div class="text-white">
+                    <p class="text-yellow-300 text-xs font-semibold uppercase tracking-wider mb-1">
+                        <i class="fas fa-award mr-1"></i> Employee of the Month
+                    </p>
+                    <h3 class="text-2xl font-bold mb-1">Dr. Sarah Johnson</h3>
+                    <p class="text-blue-200 text-sm mb-3">Senior Surgeon • Surgery Department</p>
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <span class="text-sm">98% Patient Satisfaction</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-green-400"></i>
+                            <span class="text-sm">45 Successful Procedures</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievement Stats -->
+            <div class="hidden lg:grid grid-cols-2 gap-4">
+                <div class="bg-white/10 backdrop-blur rounded-lg p-4 text-center min-w-[120px]">
+                    <p class="text-3xl font-bold text-white">98%</p>
+                    <p class="text-blue-200 text-xs">Performance</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-lg p-4 text-center min-w-[120px]">
+                    <p class="text-3xl font-bold text-white">4.9</p>
+                    <p class="text-blue-200 text-xs">Rating</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-lg p-4 text-center min-w-[120px]">
+                    <p class="text-3xl font-bold text-white">12</p>
+                    <p class="text-blue-200 text-xs">Awards</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-lg p-4 text-center min-w-[120px]">
+                    <p class="text-3xl font-bold text-white">5yr</p>
+                    <p class="text-blue-200 text-xs">Tenure</p>
+                </div>
+            </div>
+
+            <!-- View Profile Button -->
+            <div class="hidden md:block">
+                <button class="bg-white text-[#003D7A] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg flex items-center gap-2">
+                    <i class="fas fa-user"></i>
+                    View Profile
+                </button>
+            </div>
+        </div>
+
+        <!-- Month Indicator -->
+        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur px-3 py-1 rounded-full">
+            <p class="text-white text-xs font-medium"><i class="fas fa-calendar-alt mr-1"></i> March 2026</p>
+        </div>
+    </div>
+
     <!-- KPI Performance Overview -->
     <div class="bg-white rounded-lg shadow p-6 mb-8">
         <div class="flex items-center justify-between mb-6">

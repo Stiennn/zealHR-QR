@@ -1,0 +1,235 @@
+<!-- Attendance Page -->
+<div class="p-8">
+    <div class="grid grid-cols-3 gap-6">
+        <!-- Main Content -->
+        <div class="col-span-2 space-y-6">
+            <!-- Today's Attendance -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-6">Today's Attendance</h3>
+                
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Clock In -->
+                    <div class="text-center p-6 bg-green-50 rounded-lg border border-green-200">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-sign-in-alt text-green-600 text-2xl"></i>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-1">Clock In</p>
+                        <p class="text-2xl font-bold text-gray-900">08:02 AM</p>
+                        <span class="text-xs text-green-600 font-medium">On Time</span>
+                    </div>
+
+                    <!-- Clock Out -->
+                    <div class="text-center p-6 bg-gray-50 rounded-lg border border-gray-200">
+                        <div class="bg-gray-200 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-sign-out-alt text-gray-400 text-2xl"></i>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-1">Clock Out</p>
+                        <p class="text-2xl font-bold text-gray-400">--:-- --</p>
+                        <span class="text-xs text-gray-500 font-medium">Pending</span>
+                    </div>
+
+                    <!-- Total Hours -->
+                    <div class="text-center p-6 bg-blue-50 rounded-lg border border-blue-200">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-clock text-[#003D7A] text-2xl"></i>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-1">Hours Today</p>
+                        <p class="text-2xl font-bold text-gray-900">6h 32m</p>
+                        <span class="text-xs text-blue-600 font-medium">In Progress</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance History -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gray-900">Attendance History</h3>
+                        <div class="flex items-center gap-3">
+                            <select class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm focus:outline-none">
+                                <option>March 2026</option>
+                                <option>February 2026</option>
+                                <option>January 2026</option>
+                            </select>
+                            <button class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
+                                <i class="fas fa-download mr-1"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Clock In</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Clock Out</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Hours</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <p class="font-medium text-gray-900">Mon, Mar 1</p>
+                                    <p class="text-xs text-gray-500">Today</p>
+                                </td>
+                                <td class="px-6 py-4 text-gray-900">08:02 AM</td>
+                                <td class="px-6 py-4 text-gray-400">--:-- --</td>
+                                <td class="px-6 py-4 text-gray-900">6h 32m</td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">Active</span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <p class="font-medium text-gray-900">Fri, Feb 28</p>
+                                </td>
+                                <td class="px-6 py-4 text-gray-900">07:55 AM</td>
+                                <td class="px-6 py-4 text-gray-900">04:02 PM</td>
+                                <td class="px-6 py-4 text-gray-900">8h 07m</td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Complete</span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <p class="font-medium text-gray-900">Thu, Feb 27</p>
+                                </td>
+                                <td class="px-6 py-4 text-gray-900">11:58 AM</td>
+                                <td class="px-6 py-4 text-gray-900">08:05 PM</td>
+                                <td class="px-6 py-4 text-gray-900">8h 07m</td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Complete</span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <p class="font-medium text-gray-900">Wed, Feb 26</p>
+                                </td>
+                                <td class="px-6 py-4 text-gray-900">08:15 AM</td>
+                                <td class="px-6 py-4 text-gray-900">04:10 PM</td>
+                                <td class="px-6 py-4 text-gray-900">7h 55m</td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">Late</span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <p class="font-medium text-gray-900">Tue, Feb 25</p>
+                                </td>
+                                <td class="px-6 py-4 text-gray-900">07:50 AM</td>
+                                <td class="px-6 py-4 text-gray-900">04:00 PM</td>
+                                <td class="px-6 py-4 text-gray-900">8h 10m</td>
+                                <td class="px-6 py-4">
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Complete</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 border-t border-gray-200 flex items-center justify-between">
+                    <p class="text-sm text-gray-600">Showing 5 of 22 records</p>
+                    <div class="flex items-center gap-2">
+                        <button class="px-3 py-1 border border-gray-300 rounded text-gray-600 hover:bg-gray-100">Previous</button>
+                        <button class="px-3 py-1 bg-[#003D7A] text-white rounded">1</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-gray-600 hover:bg-gray-100">2</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-gray-600 hover:bg-gray-100">3</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-gray-600 hover:bg-gray-100">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-span-1 space-y-6">
+            <!-- Monthly Summary -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="font-bold text-gray-900 mb-4">March 2026 Summary</h3>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Days Present</span>
+                        <span class="font-bold text-green-600">1</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Days Absent</span>
+                        <span class="font-bold text-red-600">0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Late Arrivals</span>
+                        <span class="font-bold text-yellow-600">0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Early Departures</span>
+                        <span class="font-bold text-orange-600">0</span>
+                    </div>
+                    <hr>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Total Hours</span>
+                        <span class="font-bold text-gray-900">6h 32m</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Overtime Hours</span>
+                        <span class="font-bold text-[#003D7A]">0h</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Rate -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="font-bold text-gray-900 mb-4">Attendance Rate</h3>
+                
+                <div class="flex items-center justify-center mb-4">
+                    <div class="relative">
+                        <svg class="w-32 h-32 transform -rotate-90">
+                            <circle cx="64" cy="64" r="56" stroke="#E5E7EB" stroke-width="12" fill="none"></circle>
+                            <circle cx="64" cy="64" r="56" stroke="#003D7A" stroke-width="12" fill="none" 
+                                stroke-dasharray="352" stroke-dashoffset="18" stroke-linecap="round"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-gray-900">95%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-center text-sm text-gray-600">Year-to-date attendance rate</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="font-bold text-gray-900 mb-4">Quick Actions</h3>
+                
+                <div class="space-y-3">
+                    <button class="w-full flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition text-left">
+                        <i class="fas fa-edit text-[#003D7A]"></i>
+                        <span class="text-sm font-medium text-gray-900">Request Time Correction</span>
+                    </button>
+                    <button class="w-full flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition text-left">
+                        <i class="fas fa-clock text-[#003D7A]"></i>
+                        <span class="text-sm font-medium text-gray-900">Request Overtime</span>
+                    </button>
+                    <button class="w-full flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition text-left">
+                        <i class="fas fa-download text-[#003D7A]"></i>
+                        <span class="text-sm font-medium text-gray-900">Download DTR</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reminder -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div class="flex items-start gap-3">
+                    <i class="fas fa-exclamation-triangle text-yellow-600 mt-0.5"></i>
+                    <div>
+                        <p class="text-sm font-semibold text-yellow-900">Reminder</p>
+                        <p class="text-xs text-yellow-700 mt-1">Don't forget to clock out at the end of your shift. Failure to clock out may result in incomplete attendance records.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,62 +7,70 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-</head>
+    <style>
+        .nav-tab-active {
+            border-bottom: 2px solid #2563eb;
+            color: #2563eb;
+        }
+    </style>
+</head> 
 <body class="bg-gray-50">
-    <div class="flex h-screen bg-gray-100">
-        <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center gap-2 mb-4">
+    <div class="flex flex-col h-screen bg-gray-100">
+        <!-- Top Navigation Bar -->
+        <div class="bg-white shadow-sm border-b border-gray-200">
+            <!-- Combined Header and Navigation -->
+            <div class="px-8 py-3 flex items-center justify-between">
+                <!-- Left: Title -->
+                <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
                         <i class="fas fa-calendar"></i>
                     </div>
                     <div>
-                        <h2 class="font-bold text-gray-900">Scheduling</h2>
-                        <p class="text-xs text-gray-600">HR Management</p>
+                        <h1 class="text-xl font-bold text-gray-900">Scheduling</h1>
+                        <p class="text-xs text-gray-500">HR Shift Management</p>
                     </div>
                 </div>
+
+                <!-- Right: Tab Navigation -->
+                <nav class="flex items-center border-b border-gray-200">
+                    <button onclick="switchTab('templates', this)" class="tab-btn flex items-center gap-2 px-4 py-3 text-blue-600 hover:text-blue-600 transition border-b-2 border-blue-600 font-medium active-tab -mb-px">
+                        <i class="fas fa-layer-group text-sm"></i>
+                        <span>Shift Templates</span>
+                    </button>
+
+                    <button onclick="switchTab('assignments', this)" class="tab-btn flex items-center gap-2 px-4 py-3 text-gray-700 hover:text-blue-600 transition border-b-2 border-transparent font-medium -mb-px">
+                        <i class="fas fa-users text-sm"></i>
+                        <span>Assign Shifts</span>
+                    </button>
+
+                    <button onclick="switchTab('rotations', this)" class="tab-btn flex items-center gap-2 px-4 py-3 text-gray-700 hover:text-blue-600 transition border-b-2 border-transparent font-medium -mb-px">
+                        <i class="fas fa-sync-alt text-sm"></i>
+                        <span>Rotations</span>
+                    </button>
+
+                    <button onclick="switchTab('availability', this)" class="tab-btn flex items-center gap-2 px-4 py-3 text-gray-700 hover:text-blue-600 transition border-b-2 border-transparent font-medium -mb-px">
+                        <i class="fas fa-check-circle text-sm"></i>
+                        <span>Availability</span>
+                    </button>
+
+                    <button onclick="switchTab('overtime', this)" class="tab-btn flex items-center gap-2 px-4 py-3 text-gray-700 hover:text-blue-600 transition border-b-2 border-transparent font-medium -mb-px">
+                        <i class="fas fa-clock text-sm"></i>
+                        <span>Overtime</span>
+                    </button>
+
+                    <button onclick="switchTab('swaps', this)" class="tab-btn flex items-center gap-2 px-4 py-3 text-gray-700 hover:text-blue-600 transition border-b-2 border-transparent font-medium relative -mb-px">
+                        <i class="fas fa-exchange-alt text-sm"></i>
+                        <span>Swaps</span>
+                        <span class="absolute -top-1 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold">4</span>
+                    </button>
+
+                    <button onclick="switchTab('conflicts', this)" class="tab-btn flex items-center gap-2 px-4 py-3 text-gray-700 hover:text-blue-600 transition border-b-2 border-transparent font-medium relative -mb-px">
+                        <i class="fas fa-exclamation-triangle text-sm"></i>
+                        <span>Conflicts</span>
+                        <span class="absolute -top-1 -right-2 bg-yellow-500 text-white text-xs px-1.5 py-0.5 rounded-full font-semibold">2</span>
+                    </button>
+                </nav>
             </div>
-
-            <!-- Navigation Menu -->
-            <nav class="p-4 space-y-2">
-                <button onclick="switchTab('templates')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition active-tab bg-blue-50 text-blue-600">
-                    <i class="fas fa-layer-group"></i>
-                    <span>Shift Templates</span>
-                </button>
-
-                <button onclick="switchTab('assignments')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
-                    <i class="fas fa-users"></i>
-                    <span>Assign Shifts</span>
-                </button>
-
-                <button onclick="switchTab('rotations')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
-                    <i class="fas fa-sync-alt"></i>
-                    <span>Rotational Schedules</span>
-                </button>
-
-                <button onclick="switchTab('availability')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Doctor Availability</span>
-                </button>
-
-                <button onclick="switchTab('overtime')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
-                    <i class="fas fa-clock"></i>
-                    <span>Overtime Tracking</span>
-                </button>
-
-                <button onclick="switchTab('swaps')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
-                    <i class="fas fa-exchange-alt"></i>
-                    <span>Shift Swaps</span>
-                    <span class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">4</span>
-                </button>
-
-                <button onclick="switchTab('conflicts')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <span>Conflict Detection</span>
-                    <span class="ml-auto bg-yellow-500 text-white text-xs px-2 py-0.5 rounded-full">2</span>
-                </button>
-            </nav>
         </div>
 
         <!-- Main Content -->
@@ -780,79 +788,311 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+
                 <!-- ============ CONFLICT DETECTION ============ -->
-            <div id="conflicts-content" class="hidden">
+                <div id="conflicts-tab" class="tab-content hidden">
                 <div class="space-y-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-900">Conflict Detection</h2>
-                            <p class="text-gray-600 text-sm mt-1">Prevent scheduling errors and double bookings</p>
+                    <!-- Header -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <button onclick="switchTab('templates')" class="p-2 hover:bg-gray-200 rounded-lg transition">
+                                <i class="fas fa-arrow-left text-gray-600"></i>
+                            </button>
+                            <h1 class="text-2xl font-bold text-gray-900">Resolve Scheduling Conflict</h1>
                         </div>
-                        <button class="bg-[#003D7A] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#0052A3] transition flex items-center gap-2">
-                            <i class="fas fa-cog"></i>
-                            Settings
-                        </button>
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm font-medium text-gray-700">Priority Resolution Required</span>
+                            </div>
+                            <button class="p-2 hover:bg-gray-100 rounded-full transition">
+                                <i class="fas fa-question-circle text-gray-400"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Active Conflicts -->
-                    <div class="space-y-4">
-                        <!-- Conflict 1: Double Booking -->
-                        <div class="bg-white rounded-lg shadow border-l-4 border-red-500 p-6">
-                            <div class="flex items-start justify-between mb-4">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <i class="fas fa-exclamation-circle text-red-600 text-lg"></i>
-                                        <p class="font-bold text-gray-900">Double Booking Detected</p>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Severity: <span class="font-semibold text-red-600">CRITICAL</span></p>
+                    <!-- Conflict Alert Banner -->
+                    <div class="bg-red-50 border border-red-200 rounded-xl p-5">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-exclamation-triangle text-red-500 text-lg"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-bold text-red-600 mb-1">Conflict Detected: Double Booking</h2>
+                                <p class="text-gray-700 text-sm">
+                                    <span class="font-semibold">Dr. Jimray Abulog</span> is assigned to two overlapping shifts on 
+                                    <span class="font-semibold">Sunday, October 15, 2023</span>. Please select an action below to resolve the overlap.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Content Grid -->
+                    <div class="grid grid-cols-5 gap-6">
+                        <!-- Left Side - Timeline and Shifts -->
+                        <div class="col-span-3 space-y-6">
+                            <!-- Conflict Overlap Timeline -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h3 class="text-lg font-bold text-gray-900">Conflict Overlap Timeline</h3>
+                                    <span class="text-sm text-gray-500">OCTOBER 15, 2023</span>
                                 </div>
-                                <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-medium">Active</span>
-                            </div>
 
-                            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-                                <p class="text-sm font-semibold text-gray-900 mb-2">Affected Shifts:</p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center justify-between text-sm">
-                                        <span class="text-gray-700"><strong>Dr. Sarah Johnson</strong></span>
-                                        <span class="text-gray-600">Feb 15, 08:00 - 14:00</span>
+                                <!-- Timeline Visualization -->
+                                <div class="relative">
+                                    <!-- Time Labels -->
+                                    <div class="flex justify-between text-xs text-gray-500 mb-4 px-2">
+                                        <span>2:00 PM</span>
+                                        <span>4:00 PM</span>
+                                        <span>6:00 PM</span>
+                                        <span>8:00 PM</span>
+                                        <span>10:00 PM</span>
                                     </div>
-                                    <div class="flex items-center justify-between text-sm">
-                                        <span class="text-gray-700"><strong>Dr. Sarah Johnson</strong></span>
-                                        <span class="text-gray-600">Feb 15, 14:00 - 22:00</span>
+
+                                    <!-- Timeline Track -->
+                                    <div class="relative h-32 bg-gray-50 rounded-lg overflow-visible">
+                                        <!-- Time grid lines -->
+                                        <div class="absolute inset-0 flex justify-between">
+                                            <div class="w-px h-full bg-gray-200"></div>
+                                            <div class="w-px h-full bg-gray-200"></div>
+                                            <div class="w-px h-full bg-gray-200"></div>
+                                            <div class="w-px h-full bg-gray-200"></div>
+                                            <div class="w-px h-full bg-gray-200"></div>
+                                        </div>
+
+                                        <!-- Shift A - Emergency Room -->
+                                        <div class="absolute top-4 left-[5%] w-[45%] h-10 bg-blue-100 border-2 border-blue-400 rounded-lg flex items-center px-3 z-10">
+                                            <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                                            <span class="text-xs font-medium text-blue-700">Emergency Room (A)</span>
+                                            <span class="ml-auto text-xs text-blue-600">3:00 PM - 8:30 PM</span>
+                                        </div>
+
+                                        <!-- Overlap Indicator -->
+                                        <div class="absolute top-0 left-[40%] w-[15%] h-full bg-red-100 border-l-2 border-r-2 border-dashed border-red-400 z-5 flex items-center justify-center">
+                                            <span class="bg-red-500 text-white text-xs px-2 py-1 rounded font-medium">Overlap (2h)</span>
+                                        </div>
+
+                                        <!-- Shift B - Cardiology Dept -->
+                                        <div class="absolute top-16 left-[40%] w-[50%] h-10 bg-red-100 border-2 border-red-400 rounded-lg flex items-center px-3 z-10">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                                            <span class="text-xs font-medium text-red-700">Cardiology Dept (B)</span>
+                                            <span class="ml-auto text-xs text-red-600">6:30 PM - 11:00 PM</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                                <p class="text-sm font-semibold text-gray-900 mb-2">Suggested Resolutions:</p>
-                                <ul class="space-y-2 text-sm text-gray-700">
-                                    <li class="flex items-center gap-2">
-                                        <i class="fas fa-arrow-right text-blue-600"></i>
-                                        Reassign one shift to another doctor
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <i class="fas fa-arrow-right text-blue-600"></i>
-                                        Convert to on-call duty
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <i class="fas fa-arrow-right text-blue-600"></i>
-                                        Remove duplicate shift entry
-                                    </li>
-                                </ul>
-                            </div>
+                            <!-- Shift Cards -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <!-- Shift A Card -->
+                                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded">Shift A</span>
+                                        <button class="p-1 hover:bg-gray-100 rounded-full transition">
+                                            <i class="fas fa-info-circle text-gray-400"></i>
+                                        </button>
+                                    </div>
+                                    <h4 class="text-lg font-bold text-gray-900 mb-1">ER - General Duty</h4>
+                                    <p class="text-sm text-gray-500 mb-4">Oct 15 • 15:00 - 20:30</p>
+                                    
+                                    <div class="space-y-3 pt-4 border-t border-gray-100">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-500">Required Staffing:</span>
+                                            <span class="text-sm font-semibold text-gray-900">4/5 Doctors</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-500">Criticality:</span>
+                                            <span class="text-sm font-semibold text-red-600">High</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <div class="flex gap-2">
-                                <button class="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition">
-                                    Resolve Now
-                                </button>
-                                <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition">
-                                    View Details
-                                </button>
+                                <!-- Shift B Card -->
+                                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded">Shift B</span>
+                                        <button class="p-1 hover:bg-gray-100 rounded-full transition">
+                                            <i class="fas fa-info-circle text-gray-400"></i>
+                                        </button>
+                                    </div>
+                                    <h4 class="text-lg font-bold text-gray-900 mb-1">Cardiology Consult</h4>
+                                    <p class="text-sm text-gray-500 mb-4">Oct 15 • 18:30 - 23:00</p>
+                                    
+                                    <div class="space-y-3 pt-4 border-t border-gray-100">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-500">Required Staffing:</span>
+                                            <span class="text-sm font-semibold text-gray-900">1/2 Doctors</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-500">Criticality:</span>
+                                            <span class="text-sm font-semibold text-blue-600">Moderate</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-           
-                    
+                        <!-- Right Side - Resolution Options -->
+                        <div class="col-span-2 space-y-6">
+                            <!-- Option 1: Reassign Shift B -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                <div class="flex items-start gap-3 mb-5">
+                                    <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-user-plus text-blue-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-bold text-gray-900">Option 1: Reassign Shift B</h3>
+                                        <p class="text-sm text-gray-500">Transfer Cardiology shift to an available provider</p>
+                                    </div>
+                                </div>
 
+                                <div class="mb-4">
+                                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Available Doctors</label>
+                                </div>
 
-            
+                                <!-- Doctor Options -->
+                                <div class="space-y-3 mb-5">
+                                    <!-- Doctor 1 -->
+                                    <label class="flex items-center justify-between p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-blue-300 hover:bg-blue-50 transition">
+                                        <div class="flex items-center gap-3">
+                                            <input type="radio" name="reassign_doctor" class="w-4 h-4 text-blue-600">
+                                            <div>
+                                                <p class="font-medium text-gray-900">Dr. Dhanvie Jazareno</p>
+                                                <p class="text-xs text-gray-500">Load: 32h / 40h</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded">Available</span>
+                                    </label>
+
+                                    <!-- Doctor 2 -->
+                                    <label class="flex items-center justify-between p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-blue-300 hover:bg-blue-50 transition">
+                                        <div class="flex items-center gap-3">
+                                            <input type="radio" name="reassign_doctor" class="w-4 h-4 text-blue-600">
+                                            <div>
+                                                <p class="font-medium text-gray-900">Dr. Eduard David</p>
+                                                <p class="text-xs text-gray-500">Load: 38h / 40h</p>
+                                            </div>
+                                        </div>
+                                        <span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-1 rounded">Near Limit</span>
+                                    </label>
+                                </div>
+
+                                <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                                    Confirm Reassignment
+                                </button>
+                            </div>
+
+                            <!-- Option 2: Reschedule Shift B -->
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                                <div class="flex items-start gap-3 mb-5">
+                                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-clock text-gray-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-bold text-gray-900">Option 2: Reschedule Shift B</h3>
+                                        <p class="text-sm text-gray-500">Move Dr. Smith's shift to a later time slot</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4 mb-5">
+                                    <div>
+                                        <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">New Start Time</label>
+                                        <input type="text" value="09:00 PM" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">New End Time</label>
+                                        <input type="text" value="01:30 AM" class="w-full px-4 py-3 border border-gray-200 rounded-lg text-sm font-medium text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none">
+                                    </div>
+                                </div>
+
+                                <button class="w-full bg-gray-100 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-200 transition flex items-center justify-center gap-2">
+                                    Propose New Time
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName, clickedBtn) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            // Show selected tab
+            const selectedTab = document.getElementById(tabName + '-tab');
+            if (selectedTab) {
+                selectedTab.classList.remove('hidden');
+            }
+
+            // Update active button styling - remove active from all
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('border-blue-600', 'text-blue-600', 'active-tab');
+                btn.classList.add('border-transparent', 'text-gray-700');
+            });
+
+            // Add active styling to clicked button
+            if (clickedBtn) {
+                clickedBtn.classList.remove('border-transparent', 'text-gray-700');
+                clickedBtn.classList.add('border-blue-600', 'text-blue-600', 'active-tab');
+            }
+        }
+
+        function openModal(modalId) {
+            console.log('Modal:', modalId);
+            // Add modal logic here
+        }
+
+        // Initialize charts when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart initialization
+            const deptCtx = document.getElementById('deptChart');
+            if (deptCtx) {
+                new Chart(deptCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['OPD', 'ICU', 'Emergency', 'Ward'],
+                        datasets: [{
+                            label: 'Overtime Hours',
+                            data: [45, 62, 28, 21],
+                            backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+
+            const doctorCtx = document.getElementById('doctorChart');
+            if (doctorCtx) {
+                new Chart(doctorCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Dr. Sarah', 'Dr. Kevin', 'Dr. Maria', 'Others'],
+                        datasets: [{
+                            data: [45, 30, 25, 56],
+                            backgroundColor: ['#3b82f6', '#8b5cf6', '#ec4899', '#d1d5db']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

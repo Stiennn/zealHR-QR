@@ -113,22 +113,24 @@
                 </div>
 
                 <!-- Tabs -->
-                <div class="flex gap-4 border-b border-gray-200 mb-6">
-                    <button class="px-4 py-3 border-b-2 border-[#003D7A] text-[#003D7A] font-medium active-tab">
+                <div class="flex gap-4 border-b border-gray-200">
+                    <button onclick="switchPayrollTab('employee', this)" class="payroll-tab px-4 py-3 border-b-2 border-[#003D7A] text-[#003D7A] font-medium -mb-px">
                         <i class="fas fa-users"></i> Employee Payroll
                     </button>
-                    <button class="px-4 py-3 border-b-2 border-transparent text-gray-600 font-medium hover:text-gray-900">
-                        <i class="fas fa-file-contract"></i> Allowances
+                    <button onclick="switchPayrollTab('allowances', this)" class="payroll-tab px-4 py-3 border-b-2 border-transparent text-gray-600 font-medium hover:text-gray-900 -mb-px">
+                        <i class="fas fa-coins"></i> Allowances
                     </button>
-                    <button class="px-4 py-3 border-b-2 border-transparent text-gray-600 font-medium hover:text-gray-900">
+                    <button onclick="switchPayrollTab('deductions', this)" class="payroll-tab px-4 py-3 border-b-2 border-transparent text-gray-600 font-medium hover:text-gray-900 -mb-px">
                         <i class="fas fa-receipt"></i> Deductions
                     </button>
-                    <button class="px-4 py-3 border-b-2 border-transparent text-gray-600 font-medium hover:text-gray-900">
+                    <button onclick="switchPayrollTab('approval', this)" class="payroll-tab px-4 py-3 border-b-2 border-transparent text-gray-600 font-medium hover:text-gray-900 -mb-px">
                         <i class="fas fa-check-circle"></i> Approval
                     </button>
                 </div>
             </div>
 
+            <!-- TAB CONTENT: Employee Payroll -->
+            <div id="employee-tab" class="payroll-tab-content">
             <!-- Employee Payroll Table -->
             <div class="bg-white rounded-lg shadow overflow-hidden">
                 <div class="overflow-x-auto">
@@ -342,6 +344,439 @@
                         <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
                             <i class="fas fa-chevron-right"></i>
                         </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- TAB CONTENT: Allowances -->
+            <div id="allowances-tab" class="payroll-tab-content hidden">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-200">
+                                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">Employee</th>
+                                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">Position</th>
+                                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">Housing</th>
+                                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">Travel</th>
+                                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">Meal</th>
+                                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">Hazard Pay</th>
+                                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Employee 1 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">ED</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Dr. Eduard David</p>
+                                                <p class="text-xs text-gray-500">EMP001</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-gray-700">Senior Surgeon</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱4,500</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱2,000</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,500</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱500</td>
+                                    <td class="px-4 py-4">
+                                        <button class="text-[#003D7A] hover:text-[#0052A3] font-medium text-xs"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Employee 2 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-sm">SB</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Stien Baguhin</p>
+                                                <p class="text-xs text-gray-500">EMP002</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-gray-700">General Physician</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,500</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,000</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱500</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱0</td>
+                                    <td class="px-4 py-4">
+                                        <button class="text-[#003D7A] hover:text-[#0052A3] font-medium text-xs"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Employee 3 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm">MD</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Mark Dacoco</p>
+                                                <p class="text-xs text-gray-500">EMP003</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-gray-700">Nurse Manager</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱3,000</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,500</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,200</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱500</td>
+                                    <td class="px-4 py-4">
+                                        <button class="text-[#003D7A] hover:text-[#0052A3] font-medium text-xs"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Employee 4 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">DJA</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Dr. Jimray Abulog</p>
+                                                <p class="text-xs text-gray-500">EMP004</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-gray-700">Medical Assistant</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,500</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,000</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,000</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱0</td>
+                                    <td class="px-4 py-4">
+                                        <button class="text-[#003D7A] hover:text-[#0052A3] font-medium text-xs"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Employee 5 -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold text-sm">PG</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Princess Garbin</p>
+                                                <p class="text-xs text-gray-500">EMP005</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm text-gray-700">Administrator</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱2,000</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,000</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,200</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱0</td>
+                                    <td class="px-4 py-4">
+                                        <button class="text-[#003D7A] hover:text-[#0052A3] font-medium text-xs"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
+                        <p class="text-sm text-gray-600">Showing 1 to 5 of 10 employees</p>
+                        <div class="flex items-center gap-2">
+                            <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition disabled:opacity-50" disabled>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="w-8 h-8 rounded bg-[#003D7A] text-white font-medium">1</button>
+                            <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition">2</button>
+                            <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: Deductions -->
+            <div id="deductions-tab" class="payroll-tab-content hidden">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <!-- Deductions Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Employee</th>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Tax (WHT)</th>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">PhilHealth</th>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">SSS</th>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Loan Repay.</th>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Deductions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <!-- Employee 1 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-[#003D7A] text-white rounded-full flex items-center justify-center font-bold text-sm">DED</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Dr. Eduard David</p>
+                                                <p class="text-xs text-gray-500">EMP001</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱4,250.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱450.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱500.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱0.00</td>
+                                    <td class="px-4 py-4 text-sm font-bold text-[#003D7A]">₱5,200.00</td>
+                                </tr>
+
+                                <!-- Employee 2 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-sm">SB</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Stien Baguhin</p>
+                                                <p class="text-xs text-gray-500">EMP002</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱850.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱350.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱400.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱500.00</td>
+                                    <td class="px-4 py-4 text-sm font-bold text-gray-900"></td>
+                                </tr>
+
+                                <!-- Employee 3 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm">MD</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Mark Dacoco</p>
+                                                <p class="text-xs text-gray-500">EMP003</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱2,450.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱450.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱500.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱400.00</td>
+                                    <td class="px-4 py-4 text-sm font-bold text-red-500">₱3,800.00</td>
+                                </tr>
+
+                                <!-- Employee 4 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">DJA</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">John Davis</p>
+                                                <p class="text-xs text-gray-500">EMP004</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,400.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱350.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱350.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱0.00</td>
+                                    <td class="px-4 py-4 text-sm font-bold text-gray-900"></td>
+                                </tr>
+
+                                <!-- Employee 5 -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold text-sm">PG</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Princess Garbin</p>
+                                                <p class="text-xs text-gray-500">EMP005</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱1,850.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱350.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱400.00</td>
+                                    <td class="px-4 py-4 text-sm font-medium text-gray-900">₱0.00</td>
+                                    <td class="px-4 py-4 text-sm font-bold text-red-500">₱2,600.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
+                        <p class="text-sm text-gray-600">Showing 1 to 5 of 10 employees</p>
+                        <div class="flex items-center gap-2">
+                            <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition disabled:opacity-50" disabled>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="w-8 h-8 rounded bg-[#003D7A] text-white font-medium">1</button>
+                            <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition">2</button>
+                            <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB CONTENT: Approval -->
+            <div id="approval-tab" class="payroll-tab-content hidden">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <!-- Header with Approve All -->
+                    <div class="px-6 py-4 flex items-center justify-between border-b border-gray-200">
+                        <p class="text-sm text-gray-600">Showing 10 employees awaiting final approval</p>
+                        <button class="bg-[#003D7A] hover:bg-[#0052A3] text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+                            APPROVE ALL
+                        </button>
+                    </div>
+
+                    <!-- Approval Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Employee</th>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Net Pay</th>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Processing Status</th>
+                                    <th class="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <!-- Employee 1 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-[#003D7A] text-white rounded-full flex items-center justify-center font-bold text-sm">ED</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Dr. Eduard David</p>
+                                                <p class="text-xs text-gray-500">EMP001 • Senior Surgeon</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-bold text-gray-900">₱45,000</td>
+                                    <td class="px-4 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                                            READY FOR APPROVAL
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-4">
+                                        <button class="border border-[#003D7A] text-[#003D7A] hover:bg-[#003D7A] hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition">
+                                            Approve
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Employee 2 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-sm">SB</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Stien Baguhin</p>
+                                                <p class="text-xs text-gray-500">EMP002 • General Physician</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-bold text-gray-900">₱28,500</td>
+                                    <td class="px-4 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                                            READY FOR APPROVAL
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-4">
+                                        <button class="border border-[#003D7A] text-[#003D7A] hover:bg-[#003D7A] hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition">
+                                            Approve
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Employee 3 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm">MD</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Mark Dacoco</p>
+                                                <p class="text-xs text-gray-500">EMP003 • Nurse Manager</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-bold text-gray-900">₱32,400</td>
+                                    <td class="px-4 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                                            READY FOR APPROVAL
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-4">
+                                        <button class="border border-[#003D7A] text-[#003D7A] hover:bg-[#003D7A] hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition">
+                                            Approve
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Employee 4 -->
+                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">DJA</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Dr. Jimray Abulog</p>
+                                                <p class="text-xs text-gray-500">EMP004 • Medical Assistant</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-bold text-gray-900">₱18,000</td>
+                                    <td class="px-4 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                                            READY FOR APPROVAL
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-4">
+                                        <button class="border border-[#003D7A] text-[#003D7A] hover:bg-[#003D7A] hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition">
+                                            Approve
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Employee 5 -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold text-sm">PG</div>
+                                            <div>
+                                                <p class="font-semibold text-gray-900">Princess Garbin</p>
+                                                <p class="text-xs text-gray-500">EMP005 • Administrator</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-bold text-gray-900">₱22,000</td>
+                                    <td class="px-4 py-4">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">
+                                            READY FOR APPROVAL
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-4">
+                                        <button class="border border-[#003D7A] text-[#003D7A] hover:bg-[#003D7A] hover:text-white px-4 py-1.5 rounded-lg text-sm font-semibold transition">
+                                            Approve
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
+                        <p class="text-sm text-gray-600">Showing 1 to 5 of 10 employees</p>
+                        <div class="flex items-center gap-2">
+                            <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition disabled:opacity-50" disabled>
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="w-8 h-8 rounded bg-[#003D7A] text-white font-medium">1</button>
+                            <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition">2</button>
+                            <button class="w-8 h-8 rounded border border-gray-300 text-gray-600 hover:bg-gray-100 transition">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -619,6 +1054,32 @@
 </div>
 
 <script>
+    // Payroll Tab Switching
+    function switchPayrollTab(tabName, clickedBtn) {
+        // Hide all tab content
+        const tabContents = document.querySelectorAll('.payroll-tab-content');
+        tabContents.forEach(content => content.classList.add('hidden'));
+
+        // Show selected tab content
+        const selectedTab = document.getElementById(tabName + '-tab');
+        if (selectedTab) {
+            selectedTab.classList.remove('hidden');
+        }
+
+        // Update active button styling - remove active from all
+        const buttons = document.querySelectorAll('.payroll-tab');
+        buttons.forEach(btn => {
+            btn.classList.remove('border-[#003D7A]', 'text-[#003D7A]');
+            btn.classList.add('border-transparent', 'text-gray-600');
+        });
+
+        // Add active styling to clicked button
+        if (clickedBtn) {
+            clickedBtn.classList.remove('border-transparent', 'text-gray-600');
+            clickedBtn.classList.add('border-[#003D7A]', 'text-[#003D7A]');
+        }
+    }
+
     // Salary Structure Modal
     function openSalaryStructureModal() {
         document.getElementById('salaryStructureModal').classList.remove('hidden');
