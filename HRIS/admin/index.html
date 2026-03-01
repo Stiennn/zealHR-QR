@@ -70,18 +70,9 @@
                 </a>
             </nav>
 
-            <!-- User Profile Section -->
+            <!-- Sign Out Button -->
             <div class="p-4 border-t border-gray-200">
-                <div class="flex items-center gap-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer transition">
-                    <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full">
-                    <div class="flex-1">
-                        <p class="font-medium text-gray-800 text-sm">Dr. Sarah Miller</p>
-                        <p class="text-xs text-gray-500">HR Administrator</p>
-                    </div>
-                    <i class="fas fa-cog text-gray-400"></i>
-                </div>
-                <!-- Sign Out Button -->
-                <a href="../employee/login.html" class="flex items-center gap-3 px-4 py-3 mt-2 text-red-600 hover:bg-red-50 rounded-lg cursor-pointer transition">
+                <a href="../employee/login.html" class="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg cursor-pointer transition">
                     <i class="fas fa-sign-out-alt text-lg"></i>
                     <span class="font-medium">Sign Out</span>
                 </a>
@@ -97,7 +88,7 @@
                 </div>
                 <div class="flex items-center gap-4 relative">
                     <!-- Messages Button -->
-                    <button id="messagesBtn" onclick="toggleMessagesDropdown()" class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                    <button id="messagesBtn" onclick="toggleMessagesDropdown()" class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full transition">
                         <i class="fas fa-envelope text-lg"></i>
                         <span id="messagesBadge" class="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
                     </button>
@@ -325,9 +316,23 @@
                     </div>
 
                     <!-- Help Button -->
-                    <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                    <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition">
                         <i class="fas fa-question-circle text-lg"></i>
                     </button>
+
+                    <!-- User Profile -->
+                    <div class="flex items-center gap-3 pl-4 border-l border-gray-200">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+                            SM
+                        </div>
+                        <div class="hidden md:block">
+                            <p class="font-semibold text-gray-900 text-sm">Dr. Sarah Miller</p>
+                            <p class="text-xs text-gray-500">HR Administrator</p>
+                        </div>
+                        <button onclick="toggleSettingsDropdown()" class="p-1 text-gray-400 hover:text-gray-600 transition">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -382,9 +387,129 @@
         // Initialize scripts for each page
         function initializePageScripts(page) {
             if (page === 'dashboard') {
-                // Add dashboard-specific scripts if needed
+                // Employee Profile Modal functions
+                window.viewEmployeeProfile = function(name, initials, position, department, performance, rating, awards, tenure) {
+                    document.getElementById('modalEmployeeName').textContent = name;
+                    document.getElementById('modalEmployeeInitials').textContent = initials;
+                    document.getElementById('modalEmployeeRole').textContent = position + ' • ' + department;
+                    document.getElementById('modalPerformance').textContent = performance;
+                    document.getElementById('modalRating').textContent = rating;
+                    document.getElementById('modalAwards').textContent = awards;
+                    document.getElementById('modalTenure').textContent = tenure;
+                    document.getElementById('employeeProfileModal').classList.remove('hidden');
+                };
+
+                window.closeEmployeeProfileModal = function() {
+                    document.getElementById('employeeProfileModal').classList.add('hidden');
+                };
+
+                window.goToFullProfile = function() {
+                    closeEmployeeProfileModal();
+                    loadContent('employees');
+                };
+
+                // Close modal when clicking outside
+                const profileModal = document.getElementById('employeeProfileModal');
+                if (profileModal) {
+                    profileModal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            closeEmployeeProfileModal();
+                        }
+                    });
+                }
             } else if (page === 'employees') {
-                // Add employees-specific scripts if needed
+                // Export dropdown toggle
+                window.toggleExportDropdown = function() {
+                    const dropdown = document.getElementById('exportDropdown');
+                    dropdown.classList.toggle('hidden');
+                };
+
+                // Export to Excel
+                window.exportToExcel = function() {
+                    document.getElementById('exportDropdown').classList.add('hidden');
+                    showExportModal('excel');
+                };
+
+                // Export to PDF
+                window.exportToPDF = function() {
+                    document.getElementById('exportDropdown').classList.add('hidden');
+                    showExportModal('pdf');
+                };
+
+                // Show Export Modal
+                window.showExportModal = function(type) {
+                    const modal = document.getElementById('exportModal');
+                    const icon = document.getElementById('exportIcon');
+                    const title = document.getElementById('exportTitle');
+                    const message = document.getElementById('exportMessage');
+                    const progressBar = document.getElementById('exportProgressBar');
+                    const closeBtn = document.getElementById('exportCloseBtn');
+                    const progress = document.getElementById('exportProgress');
+
+                    closeBtn.classList.add('hidden');
+                    progress.classList.remove('hidden');
+                    progressBar.style.width = '0%';
+                    
+                    if (type === 'excel') {
+                        icon.innerHTML = '<i class="fas fa-spinner fa-spin text-green-600 text-2xl"></i>';
+                        icon.className = 'w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4';
+                        title.textContent = 'Exporting to Excel...';
+                    } else {
+                        icon.innerHTML = '<i class="fas fa-spinner fa-spin text-red-600 text-2xl"></i>';
+                        icon.className = 'w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4';
+                        title.textContent = 'Exporting to PDF...';
+                    }
+                    message.textContent = 'Please wait while we prepare your file.';
+                    modal.classList.remove('hidden');
+
+                    let progressValue = 0;
+                    const interval = setInterval(() => {
+                        progressValue += Math.random() * 15;
+                        if (progressValue >= 100) {
+                            progressValue = 100;
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                if (type === 'excel') {
+                                    icon.innerHTML = '<i class="fas fa-check text-green-600 text-2xl"></i>';
+                                    title.textContent = 'Excel File Ready!';
+                                    closeBtn.innerHTML = '<i class="fas fa-download mr-2"></i> Download employees.xlsx';
+                                } else {
+                                    icon.innerHTML = '<i class="fas fa-check text-red-600 text-2xl"></i>';
+                                    title.textContent = 'PDF File Ready!';
+                                    closeBtn.innerHTML = '<i class="fas fa-download mr-2"></i> Download employees.pdf';
+                                }
+                                message.textContent = 'Your file has been generated successfully.';
+                                progress.classList.add('hidden');
+                                closeBtn.classList.remove('hidden');
+                            }, 300);
+                        }
+                        progressBar.style.width = progressValue + '%';
+                    }, 200);
+                };
+
+                // Close Export Modal
+                window.closeExportModal = function() {
+                    document.getElementById('exportModal').classList.add('hidden');
+                    alert('File downloaded successfully!');
+                };
+
+                // Close dropdown on outside click
+                document.addEventListener('click', function(e) {
+                    const dropdown = document.getElementById('exportDropdown');
+                    if (!e.target.closest('.relative') || !e.target.closest('button')) {
+                        dropdown?.classList.add('hidden');
+                    }
+                });
+
+                // Close modal when clicking outside
+                const exportModal = document.getElementById('exportModal');
+                if (exportModal) {
+                    exportModal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            this.classList.add('hidden');
+                        }
+                    });
+                }
             } else if (page === 'scheduling') {
                 // Initialize scheduling tab functionality
                 window.switchTab = function(tabName, clickedBtn) {
@@ -413,8 +538,507 @@
                 };
 
                 window.openModal = function(modalId) {
-                    console.log('Modal:', modalId);
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                    }
                 };
+
+                window.selectedColor = 'blue';
+
+                window.closeCreateTemplateModal = function() {
+                    document.getElementById('createTemplateModal').classList.add('hidden');
+                    // Reset form
+                    document.getElementById('templateName').value = '';
+                    document.getElementById('templateType').value = '';
+                    document.getElementById('templateStartTime').value = '';
+                    document.getElementById('templateEndTime').value = '';
+                    document.getElementById('templateDepartment').value = '';
+                    document.getElementById('reqPhysicians').value = '0';
+                    document.getElementById('reqNurses').value = '0';
+                    document.getElementById('reqTechnicians').value = '0';
+                    document.getElementById('reqSupport').value = '0';
+                    document.getElementById('breakDuration').value = '30';
+                    document.getElementById('templateStatus').value = 'active';
+                    document.getElementById('templateNotes').value = '';
+                    window.selectedColor = 'blue';
+                    document.querySelectorAll('.color-btn').forEach(btn => {
+                        btn.classList.remove('ring-2', 'ring-offset-2', 'ring-gray-400');
+                    });
+                };
+
+                window.selectColor = function(color) {
+                    window.selectedColor = color;
+                    document.querySelectorAll('.color-btn').forEach(btn => {
+                        btn.classList.remove('ring-2', 'ring-offset-2', 'ring-gray-400');
+                        if (btn.dataset.color === color) {
+                            btn.classList.add('ring-2', 'ring-offset-2', 'ring-gray-400');
+                        }
+                    });
+                };
+
+                window.saveTemplate = function() {
+                    const name = document.getElementById('templateName').value;
+                    const type = document.getElementById('templateType').value;
+                    const startTime = document.getElementById('templateStartTime').value;
+                    const endTime = document.getElementById('templateEndTime').value;
+                    const department = document.getElementById('templateDepartment').value;
+
+                    if (!name || !type || !startTime || !endTime || !department) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+
+                    const physicians = document.getElementById('reqPhysicians').value;
+                    const nurses = document.getElementById('reqNurses').value;
+                    const breakDur = document.getElementById('breakDuration').value;
+                    const status = document.getElementById('templateStatus').value;
+
+                    // Calculate duration
+                    const start = new Date('2000-01-01 ' + startTime);
+                    const end = new Date('2000-01-01 ' + endTime);
+                    let duration = (end - start) / (1000 * 60 * 60);
+                    if (duration < 0) duration += 24;
+
+                    alert('Template "' + name + '" created successfully!\n\n' +
+                        'Type: ' + type + '\n' +
+                        'Time: ' + startTime + ' - ' + endTime + '\n' +
+                        'Duration: ' + duration + ' hours\n' +
+                        'Department: ' + department.toUpperCase() + '\n' +
+                        'Break: ' + breakDur + ' minutes\n' +
+                        'Status: ' + status);
+
+                    closeCreateTemplateModal();
+                };
+
+                // Close modal when clicking outside
+                const createTemplateModal = document.getElementById('createTemplateModal');
+                if (createTemplateModal) {
+                    createTemplateModal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            closeCreateTemplateModal();
+                        }
+                    });
+                }
+
+                // ====== TEMPLATE ACTION FUNCTIONS ======
+                window.closeModal = function(modalId) {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.classList.add('hidden');
+                    }
+                };
+
+                window.currentEditTemplate = null;
+
+                window.editTemplate = function(name, type, startTime, endTime, department, staff, status) {
+                    window.currentEditTemplate = { name, type, startTime, endTime, department, staff, status };
+                    
+                    // Populate the edit modal
+                    document.getElementById('editTemplateName').value = name;
+                    document.getElementById('editTemplateType').value = type;
+                    document.getElementById('editTemplateStartTime').value = startTime;
+                    document.getElementById('editTemplateEndTime').value = endTime;
+                    document.getElementById('editTemplateDepartment').value = department.toLowerCase();
+                    document.getElementById('editTemplateStatus').value = status;
+                    
+                    openModal('editTemplateModal');
+                };
+
+                window.saveEditTemplate = function() {
+                    const name = document.getElementById('editTemplateName').value;
+                    const type = document.getElementById('editTemplateType').value;
+                    const startTime = document.getElementById('editTemplateStartTime').value;
+                    const endTime = document.getElementById('editTemplateEndTime').value;
+                    const department = document.getElementById('editTemplateDepartment').value;
+                    const status = document.getElementById('editTemplateStatus').value;
+
+                    if (!name || !type || !startTime || !endTime || !department) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+
+                    closeModal('editTemplateModal');
+                    showTemplateActionSuccess('Template Updated!', 'The template "' + name + '" has been updated successfully.');
+                };
+
+                window.duplicateTemplate = function(name) {
+                    document.getElementById('duplicateTemplateName').textContent = name;
+                    document.getElementById('newTemplateName').value = name + ' (Copy)';
+                    openModal('duplicateTemplateModal');
+                };
+
+                window.confirmDuplicateTemplate = function() {
+                    const newName = document.getElementById('newTemplateName').value;
+                    if (!newName) {
+                        alert('Please enter a name for the duplicated template');
+                        return;
+                    }
+                    closeModal('duplicateTemplateModal');
+                    showTemplateActionSuccess('Template Duplicated!', 'A copy of the template has been created as "' + newName + '".');
+                };
+
+                window.deleteTemplate = function(name) {
+                    document.getElementById('deleteTemplateName').textContent = name;
+                    openModal('deleteTemplateModal');
+                };
+
+                window.confirmDeleteTemplate = function() {
+                    closeModal('deleteTemplateModal');
+                    showTemplateActionSuccess('Template Deleted!', 'The template has been permanently removed.');
+                };
+
+                window.showTemplateActionSuccess = function(title, message) {
+                    document.getElementById('templateActionTitle').textContent = title;
+                    document.getElementById('templateActionMessage').textContent = message;
+                    openModal('templateActionSuccessModal');
+                };
+
+                window.closeTemplateActionSuccess = function() {
+                    closeModal('templateActionSuccessModal');
+                };
+
+                // Close action modals when clicking outside
+                ['editTemplateModal', 'duplicateTemplateModal', 'deleteTemplateModal', 'templateActionSuccessModal'].forEach(modalId => {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.addEventListener('click', function(e) {
+                            if (e.target === this) {
+                                closeModal(modalId);
+                            }
+                        });
+                    }
+                });
+
+                // ====== ROTATION FUNCTIONS ======
+                window.closeCreateRotationModal = function() {
+                    document.getElementById('createRotationModal').classList.add('hidden');
+                    document.getElementById('rotationName').value = '';
+                    document.getElementById('rotationDepartment').value = '';
+                    document.getElementById('cycleDuration').value = '2';
+                    document.getElementById('rotationStartDate').value = '';
+                    document.getElementById('patternMon').value = 'M';
+                    document.getElementById('patternTue').value = 'M';
+                    document.getElementById('patternWed').value = 'M';
+                    document.getElementById('patternThu').value = 'M';
+                    document.getElementById('patternFri').value = 'M';
+                    document.getElementById('patternSat').value = 'Off';
+                    document.getElementById('patternSun').value = 'Off';
+                    document.getElementById('rotationNotes').value = '';
+                    document.querySelectorAll('#createRotationModal input[type="checkbox"]').forEach(cb => cb.checked = false);
+                    const activeRadio = document.querySelector('input[name="rotationStatus"][value="active"]');
+                    if (activeRadio) activeRadio.checked = true;
+                    updatePatternPreview();
+                };
+
+                window.updatePatternPreview = function() {
+                    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                    const preview = document.getElementById('patternPreview');
+                    if (!preview) return;
+                    
+                    preview.innerHTML = '';
+                    days.forEach(day => {
+                        const select = document.getElementById('pattern' + day);
+                        if (select) {
+                            const value = select.value;
+                            let bgClass, textClass;
+                            switch(value) {
+                                case 'M': bgClass = 'bg-blue-100'; textClass = 'text-blue-700'; break;
+                                case 'E': bgClass = 'bg-purple-100'; textClass = 'text-purple-700'; break;
+                                case 'N': bgClass = 'bg-indigo-100'; textClass = 'text-indigo-700'; break;
+                                default: bgClass = 'bg-gray-100'; textClass = 'text-gray-700';
+                            }
+                            const span = document.createElement('span');
+                            span.className = `${bgClass} ${textClass} text-xs font-medium px-2 py-1 rounded`;
+                            span.textContent = value;
+                            preview.appendChild(span);
+                        }
+                    });
+                };
+
+                window.saveRotation = function() {
+                    const name = document.getElementById('rotationName').value;
+                    const department = document.getElementById('rotationDepartment').value;
+                    const cycle = document.getElementById('cycleDuration').value;
+                    const startDate = document.getElementById('rotationStartDate').value;
+
+                    if (!name || !department || !startDate) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+
+                    const selectedStaff = [];
+                    document.querySelectorAll('#createRotationModal input[type="checkbox"]:checked').forEach(cb => {
+                        const label = cb.closest('label').querySelector('span').textContent;
+                        selectedStaff.push(label);
+                    });
+
+                    if (selectedStaff.length === 0) {
+                        alert('Please assign at least one staff member');
+                        return;
+                    }
+
+                    const pattern = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => {
+                        return document.getElementById('pattern' + day).value;
+                    }).join('-');
+
+                    const status = document.querySelector('input[name="rotationStatus"]:checked').value;
+
+                    alert('Rotation "' + name + '" created successfully!\n\n' +
+                        'Department: ' + department.toUpperCase() + '\n' +
+                        'Cycle: ' + cycle + '-week cycle\n' +
+                        'Start Date: ' + startDate + '\n' +
+                        'Pattern: ' + pattern + '\n' +
+                        'Assigned Staff: ' + selectedStaff.length + ' member(s)\n' +
+                        'Status: ' + status);
+
+                    closeCreateRotationModal();
+                };
+
+                // Pattern preview listeners
+                ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach(day => {
+                    const select = document.getElementById('pattern' + day);
+                    if (select) {
+                        select.addEventListener('change', updatePatternPreview);
+                    }
+                });
+
+                // Close rotation modal when clicking outside
+                const createRotationModal = document.getElementById('createRotationModal');
+                if (createRotationModal) {
+                    createRotationModal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            closeCreateRotationModal();
+                        }
+                    });
+                }
+
+                // ====== QUICK ASSIGN FUNCTIONS ======
+                window.closeQuickAssignModal = function() {
+                    document.getElementById('quickAssignModal').classList.add('hidden');
+                    document.getElementById('quickAssignEmployee').value = '';
+                    document.getElementById('quickAssignShift').value = '';
+                    document.getElementById('quickAssignDate').value = '';
+                    document.getElementById('quickAssignDept').value = 'opd';
+                    document.getElementById('quickAssignNotes').value = '';
+                };
+
+                window.saveQuickAssign = function() {
+                    const employee = document.getElementById('quickAssignEmployee').value;
+                    const shift = document.getElementById('quickAssignShift').value;
+                    const date = document.getElementById('quickAssignDate').value;
+                    const dept = document.getElementById('quickAssignDept').value;
+
+                    if (!employee || !shift || !date) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+
+                    const employeeName = document.getElementById('quickAssignEmployee').options[document.getElementById('quickAssignEmployee').selectedIndex].text;
+                    const shiftName = document.getElementById('quickAssignShift').options[document.getElementById('quickAssignShift').selectedIndex].text;
+
+                    alert('Shift assigned successfully!\n\n' +
+                        'Employee: ' + employeeName + '\n' +
+                        'Shift: ' + shiftName + '\n' +
+                        'Date: ' + date + '\n' +
+                        'Department: ' + dept.toUpperCase());
+
+                    closeQuickAssignModal();
+                };
+
+                const quickAssignModal = document.getElementById('quickAssignModal');
+                if (quickAssignModal) {
+                    quickAssignModal.addEventListener('click', function(e) {
+                        if (e.target === this) closeQuickAssignModal();
+                    });
+                }
+
+                // ====== BULK ASSIGN FUNCTIONS ======
+                window.bulkAssignStep = 1;
+
+                window.closeBulkAssignModal = function() {
+                    document.getElementById('bulkAssignModal').classList.add('hidden');
+                    resetBulkAssign();
+                };
+
+                window.resetBulkAssign = function() {
+                    window.bulkAssignStep = 1;
+                    updateBulkAssignStep();
+                    document.querySelectorAll('.bulk-staff-cb').forEach(cb => cb.checked = false);
+                    document.getElementById('selectAllStaff').checked = false;
+                    document.getElementById('bulkStartDate').value = '';
+                    document.getElementById('bulkEndDate').value = '';
+                    document.getElementById('bulkShiftPattern').value = '';
+                    updateSelectedStaffCount();
+                };
+
+                window.toggleSelectAllStaff = function() {
+                    const selectAll = document.getElementById('selectAllStaff').checked;
+                    document.querySelectorAll('.bulk-staff-cb').forEach(cb => cb.checked = selectAll);
+                    updateSelectedStaffCount();
+                };
+
+                window.updateSelectedStaffCount = function() {
+                    const count = document.querySelectorAll('.bulk-staff-cb:checked').length;
+                    document.getElementById('selectedStaffCount').textContent = count + ' employees selected';
+                };
+
+                document.querySelectorAll('.bulk-staff-cb').forEach(cb => {
+                    cb.addEventListener('change', updateSelectedStaffCount);
+                });
+
+                window.updateBulkAssignStep = function() {
+                    for (let i = 1; i <= 3; i++) {
+                        const stepEl = document.getElementById('bulkStep' + i);
+                        const contentEl = document.getElementById('bulkStepContent' + i);
+                        
+                        if (i <= window.bulkAssignStep) {
+                            stepEl.className = 'w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-sm';
+                        } else {
+                            stepEl.className = 'w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center font-bold text-sm';
+                        }
+
+                        contentEl.classList.toggle('hidden', i !== window.bulkAssignStep);
+                    }
+
+                    document.getElementById('bulkBackBtn').classList.toggle('hidden', window.bulkAssignStep === 1);
+                    document.getElementById('bulkNextBtn').classList.toggle('hidden', window.bulkAssignStep === 3);
+                    document.getElementById('bulkConfirmBtn').classList.toggle('hidden', window.bulkAssignStep !== 3);
+                };
+
+                window.bulkAssignNext = function() {
+                    if (window.bulkAssignStep === 1) {
+                        if (document.querySelectorAll('.bulk-staff-cb:checked').length === 0) {
+                            alert('Please select at least one employee');
+                            return;
+                        }
+                    } else if (window.bulkAssignStep === 2) {
+                        const startDate = document.getElementById('bulkStartDate').value;
+                        const endDate = document.getElementById('bulkEndDate').value;
+                        const pattern = document.getElementById('bulkShiftPattern').value;
+                        if (!startDate || !endDate || !pattern) {
+                            alert('Please fill in all required fields');
+                            return;
+                        }
+                        const selectedCount = document.querySelectorAll('.bulk-staff-cb:checked').length;
+                        document.getElementById('previewStaffCount').textContent = selectedCount + ' employees';
+                        document.getElementById('previewDateRange').textContent = startDate + ' - ' + endDate;
+                        const shiftType = document.getElementById('bulkShiftType').value;
+                        document.getElementById('previewPattern').textContent = shiftType.charAt(0).toUpperCase() + shiftType.slice(1) + ' Shift';
+                        const days = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
+                        document.getElementById('previewTotalShifts').textContent = (days * selectedCount) + ' shifts';
+                    }
+                    window.bulkAssignStep++;
+                    updateBulkAssignStep();
+                };
+
+                window.bulkAssignBack = function() {
+                    window.bulkAssignStep--;
+                    updateBulkAssignStep();
+                };
+
+                window.confirmBulkAssign = function() {
+                    const selectedCount = document.querySelectorAll('.bulk-staff-cb:checked').length;
+                    alert('Successfully assigned shifts to ' + selectedCount + ' employees!\n\nThe schedule has been updated.');
+                    closeBulkAssignModal();
+                };
+
+                const bulkAssignModal = document.getElementById('bulkAssignModal');
+                if (bulkAssignModal) {
+                    bulkAssignModal.addEventListener('click', function(e) {
+                        if (e.target === this) closeBulkAssignModal();
+                    });
+                }
+
+                // ====== EDIT ROTATION FUNCTIONS ======
+                window.currentWeek = 1;
+
+                window.openEditRotationModal = function(rotationName) {
+                    if (rotationName) {
+                        document.getElementById('editRotationName').value = rotationName;
+                    }
+                    document.getElementById('editRotationModal').classList.remove('hidden');
+                };
+
+                window.closeEditRotationModal = function() {
+                    document.getElementById('editRotationModal').classList.add('hidden');
+                };
+
+                window.saveEditRotation = function() {
+                    const rotationName = document.getElementById('editRotationName').value;
+                    if (!rotationName) {
+                        alert('Please enter a rotation name');
+                        return;
+                    }
+                    alert('Rotation "' + rotationName + '" has been updated successfully!');
+                    closeEditRotationModal();
+                };
+
+                window.deleteRotation = function() {
+                    const rotationName = document.getElementById('editRotationName').value;
+                    if (confirm('Are you sure you want to delete "' + rotationName + '"? This action cannot be undone.')) {
+                        alert('Rotation has been deleted.');
+                        closeEditRotationModal();
+                    }
+                };
+
+                const editRotationModal = document.getElementById('editRotationModal');
+                if (editRotationModal) {
+                    editRotationModal.addEventListener('click', function(e) {
+                        if (e.target === this) closeEditRotationModal();
+                    });
+                }
+
+                // ====== VIEW SCHEDULE FUNCTIONS ======
+                window.openViewScheduleModal = function(rotationName) {
+                    if (rotationName) {
+                        document.getElementById('viewScheduleTitle').textContent = rotationName;
+                    }
+                    window.currentWeek = 1;
+                    updateWeekLabel();
+                    document.getElementById('viewScheduleModal').classList.remove('hidden');
+                };
+
+                window.closeViewScheduleModal = function() {
+                    document.getElementById('viewScheduleModal').classList.add('hidden');
+                };
+
+                window.prevWeek = function() {
+                    if (window.currentWeek > 1) {
+                        window.currentWeek--;
+                        updateWeekLabel();
+                    }
+                };
+
+                window.nextWeek = function() {
+                    window.currentWeek++;
+                    updateWeekLabel();
+                };
+
+                window.updateWeekLabel = function() {
+                    const weekLabels = [
+                        'Week 1: March 1 - 7, 2026',
+                        'Week 2: March 8 - 14, 2026',
+                        'Week 3: March 15 - 21, 2026',
+                        'Week 4: March 22 - 28, 2026'
+                    ];
+                    document.getElementById('currentWeekLabel').textContent = weekLabels[window.currentWeek - 1] || 'Week ' + window.currentWeek;
+                };
+
+                window.exportSchedule = function() {
+                    alert('Schedule exported successfully!\n\nThe schedule has been saved as PDF.');
+                };
+
+                window.printSchedule = function() {
+                    window.print();
+                };
+
+                const viewScheduleModal = document.getElementById('viewScheduleModal');
+                if (viewScheduleModal) {
+                    viewScheduleModal.addEventListener('click', function(e) {
+                        if (e.target === this) closeViewScheduleModal();
+                    });
+                }
 
                 // Initialize charts if they exist
                 const deptCtx = document.getElementById('deptChart');
@@ -519,6 +1143,185 @@
                 window.downloadPayslip = function() {
                     alert('Downloading payslip as PDF...');
                 };
+
+                // Employee Salary Modal (Per Employee)
+                window.openEmployeeSalaryModal = function(name, id, position, compType, baseSalary) {
+                    document.getElementById('empSalaryName').textContent = name;
+                    document.getElementById('empSalaryId').textContent = id;
+                    document.getElementById('empSalaryPosition').textContent = position;
+                    document.getElementById('empBaseSalary').value = baseSalary;
+                    
+                    const initials = name.split(' ').map(n => n[0]).join('');
+                    document.getElementById('empSalaryAvatar').textContent = initials;
+                    
+                    const compTypeMap = {
+                        'Fixed Salary': 'fixed',
+                        'Hourly Rate': 'hourly',
+                        'Per Visit': 'pervisit',
+                        'Hybrid': 'hybrid'
+                    };
+                    const radioValue = compTypeMap[compType] || 'fixed';
+                    const radio = document.querySelector(`input[name="empCompType"][value="${radioValue}"]`);
+                    if (radio) radio.checked = true;
+                    
+                    document.getElementById('employeeSalaryModal')?.classList.remove('hidden');
+                };
+
+                window.closeEmployeeSalaryModal = function() {
+                    document.getElementById('employeeSalaryModal')?.classList.add('hidden');
+                };
+
+                window.addEmployeeAllowance = function() {
+                    const container = document.getElementById('empAllowancesList');
+                    const newRow = document.createElement('div');
+                    newRow.className = 'flex gap-3 items-center allowance-row';
+                    newRow.innerHTML = `
+                        <select class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            <option value="medical">Medical Allowance</option>
+                            <option value="housing">Housing Allowance</option>
+                            <option value="transport">Transport Allowance</option>
+                            <option value="meal">Meal Allowance</option>
+                            <option value="hazard">Hazard Pay</option>
+                            <option value="night">Night Differential</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="relative flex-1">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">₱</span>
+                            <input type="number" value="0" class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg text-sm">
+                        </div>
+                        <button onclick="removeAllowanceRow(this)" class="text-red-400 hover:text-red-600 p-2"><i class="fas fa-trash"></i></button>
+                    `;
+                    container.appendChild(newRow);
+                };
+
+                window.removeAllowanceRow = function(btn) {
+                    btn.closest('.allowance-row').remove();
+                    calculateTotals();
+                };
+
+                window.addEmployeeDeduction = function() {
+                    const container = document.getElementById('empDeductionsList');
+                    const newRow = document.createElement('div');
+                    newRow.className = 'flex gap-3 items-center deduction-row';
+                    newRow.innerHTML = `
+                        <select class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            <option value="sss">SSS</option>
+                            <option value="philhealth">PhilHealth</option>
+                            <option value="pagibig">Pag-IBIG</option>
+                            <option value="tax">Withholding Tax</option>
+                            <option value="loan">Loan Deduction</option>
+                            <option value="insurance">Insurance</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="relative flex-1">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">₱</span>
+                            <input type="number" value="0" class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg text-sm">
+                        </div>
+                        <button onclick="removeDeductionRow(this)" class="text-red-400 hover:text-red-600 p-2"><i class="fas fa-trash"></i></button>
+                    `;
+                    container.appendChild(newRow);
+                };
+
+                window.removeDeductionRow = function(btn) {
+                    btn.closest('.deduction-row').remove();
+                    calculateTotals();
+                };
+
+                window.calculateTotals = function() {
+                    let totalAllowances = 0;
+                    document.querySelectorAll('.allowance-row input[type="number"]').forEach(input => {
+                        totalAllowances += parseFloat(input.value) || 0;
+                    });
+                    document.getElementById('totalAllowances').textContent = '₱' + totalAllowances.toLocaleString();
+                    
+                    let totalDeductions = 0;
+                    document.querySelectorAll('.deduction-row input[type="number"]').forEach(input => {
+                        totalDeductions += parseFloat(input.value) || 0;
+                    });
+                    document.getElementById('totalDeductions').textContent = '₱' + totalDeductions.toLocaleString();
+                };
+
+                window.saveEmployeeSalary = function() {
+                    const name = document.getElementById('empSalaryName').textContent;
+                    alert('Salary structure for ' + name + ' has been saved successfully!');
+                    closeEmployeeSalaryModal();
+                };
+
+                window.viewSalaryHistory = function() {
+                    const name = document.getElementById('empSalaryName').textContent;
+                    alert('Viewing salary history for ' + name);
+                };
+
+                // ====== EDIT ALLOWANCES FUNCTIONS ======
+                window.editAllowances = function(name, id, position, housing, travel, meal, hazard) {
+                    document.getElementById('allowancesEmpName').textContent = name;
+                    document.getElementById('allowancesEmpId').textContent = id;
+                    document.getElementById('allowancesEmpPosition').textContent = position;
+                    
+                    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
+                    document.getElementById('allowancesEmpAvatar').textContent = initials;
+                    
+                    document.getElementById('housingAllowance').value = housing;
+                    document.getElementById('travelAllowance').value = travel;
+                    document.getElementById('mealAllowance').value = meal;
+                    document.getElementById('hazardPay').value = hazard;
+                    
+                    calculateAllowancesTotal();
+                    
+                    document.getElementById('editAllowancesModal')?.classList.remove('hidden');
+                };
+
+                window.closeEditAllowancesModal = function() {
+                    document.getElementById('editAllowancesModal')?.classList.add('hidden');
+                };
+
+                window.calculateAllowancesTotal = function() {
+                    const housing = parseFloat(document.getElementById('housingAllowance')?.value) || 0;
+                    const travel = parseFloat(document.getElementById('travelAllowance')?.value) || 0;
+                    const meal = parseFloat(document.getElementById('mealAllowance')?.value) || 0;
+                    const hazard = parseFloat(document.getElementById('hazardPay')?.value) || 0;
+                    
+                    const total = housing + travel + meal + hazard;
+                    const totalElement = document.getElementById('allowancesTotal');
+                    if (totalElement) {
+                        totalElement.textContent = '₱' + total.toLocaleString();
+                    }
+                };
+
+                window.saveAllowances = function() {
+                    const name = document.getElementById('allowancesEmpName').textContent;
+                    closeEditAllowancesModal();
+                    
+                    document.getElementById('allowanceSuccessName').textContent = name;
+                    document.getElementById('allowanceSuccessModal')?.classList.remove('hidden');
+                };
+
+                window.closeAllowanceSuccessModal = function() {
+                    document.getElementById('allowanceSuccessModal')?.classList.add('hidden');
+                };
+
+                // Add click outside listeners for allowance modals
+                const editAllowancesModal = document.getElementById('editAllowancesModal');
+                if (editAllowancesModal) {
+                    editAllowancesModal.addEventListener('click', function(e) {
+                        if (e.target === this) closeEditAllowancesModal();
+                    });
+                }
+
+                const allowanceSuccessModal = document.getElementById('allowanceSuccessModal');
+                if (allowanceSuccessModal) {
+                    allowanceSuccessModal.addEventListener('click', function(e) {
+                        if (e.target === this) closeAllowanceSuccessModal();
+                    });
+                }
+
+                // Add click outside listener for employee salary modal
+                const employeeSalaryModal = document.getElementById('employeeSalaryModal');
+                if (employeeSalaryModal) {
+                    employeeSalaryModal.addEventListener('click', function(e) {
+                        if (e.target === this) closeEmployeeSalaryModal();
+                    });
+                }
             } else if (page === 'performance') {
                 // Initialize performance page functionality
                 window.selectEmployee = function(clickedBtn, employeeId) {

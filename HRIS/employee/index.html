@@ -369,6 +369,410 @@
 
         function initializePageScripts(page) {
             // Initialize page-specific scripts here
+            if (page === 'profile') {
+                // Edit Profile Modal
+                window.openEditProfileModal = function() {
+                    document.getElementById('editProfileModal').classList.remove('hidden');
+                };
+                window.closeEditProfileModal = function() {
+                    document.getElementById('editProfileModal').classList.add('hidden');
+                };
+                window.submitProfileEdit = function() {
+                    closeEditProfileModal();
+                    showSubmitSuccess();
+                };
+
+                // Edit Personal Info Modal
+                window.openEditPersonalModal = function() {
+                    document.getElementById('editPersonalModal').classList.remove('hidden');
+                };
+                window.closeEditPersonalModal = function() {
+                    document.getElementById('editPersonalModal').classList.add('hidden');
+                };
+                window.submitPersonalEdit = function() {
+                    closeEditPersonalModal();
+                    showSubmitSuccess();
+                };
+
+                // Edit Emergency Contact Modal
+                window.openEditEmergencyModal = function() {
+                    document.getElementById('editEmergencyModal').classList.remove('hidden');
+                };
+                window.closeEditEmergencyModal = function() {
+                    document.getElementById('editEmergencyModal').classList.add('hidden');
+                };
+                window.submitEmergencyEdit = function() {
+                    closeEditEmergencyModal();
+                    showSubmitSuccess();
+                };
+
+                // Edit Government IDs Modal
+                window.openEditGovernmentModal = function() {
+                    document.getElementById('editGovernmentModal').classList.remove('hidden');
+                };
+                window.closeEditGovernmentModal = function() {
+                    document.getElementById('editGovernmentModal').classList.add('hidden');
+                };
+                window.submitGovernmentEdit = function() {
+                    closeEditGovernmentModal();
+                    showSubmitSuccess();
+                };
+
+                // Edit Bank Information Modal
+                window.openEditBankModal = function() {
+                    document.getElementById('editBankModal').classList.remove('hidden');
+                };
+                window.closeEditBankModal = function() {
+                    document.getElementById('editBankModal').classList.add('hidden');
+                };
+                window.submitBankEdit = function() {
+                    closeEditBankModal();
+                    showSubmitSuccess();
+                };
+
+                // Success Modal
+                window.showSubmitSuccess = function() {
+                    document.getElementById('submitSuccessModal').classList.remove('hidden');
+                    document.getElementById('pendingChangesAlert')?.classList.remove('hidden');
+                };
+                window.closeSubmitSuccessModal = function() {
+                    document.getElementById('submitSuccessModal').classList.add('hidden');
+                };
+
+                // Pending Changes Modal
+                window.viewPendingChanges = function() {
+                    document.getElementById('pendingChangesModal').classList.remove('hidden');
+                };
+                window.closePendingChangesModal = function() {
+                    document.getElementById('pendingChangesModal').classList.add('hidden');
+                };
+
+                // Close modals on outside click
+                document.getElementById('editProfileModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeEditProfileModal();
+                });
+                document.getElementById('editPersonalModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeEditPersonalModal();
+                });
+                document.getElementById('editEmergencyModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeEditEmergencyModal();
+                });
+                document.getElementById('editGovernmentModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeEditGovernmentModal();
+                });
+                document.getElementById('editBankModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeEditBankModal();
+                });
+                document.getElementById('submitSuccessModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeSubmitSuccessModal();
+                });
+                document.getElementById('pendingChangesModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closePendingChangesModal();
+                });
+            } else if (page === 'schedule') {
+                // Swap Request Modal
+                window.openSwapRequestModal = function() {
+                    document.getElementById('swapRequestModal').classList.remove('hidden');
+                };
+                window.closeSwapRequestModal = function() {
+                    document.getElementById('swapRequestModal').classList.add('hidden');
+                };
+                window.submitSwapRequest = function() {
+                    const myShift = document.getElementById('myShiftSelect').value;
+                    const colleague = document.getElementById('colleagueSelect').value;
+                    const theirShift = document.getElementById('theirShiftSelect').value;
+
+                    if (!myShift || !colleague || !theirShift) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+
+                    closeSwapRequestModal();
+                    document.getElementById('swapSuccessModal').classList.remove('hidden');
+                };
+                window.closeSwapSuccessModal = function() {
+                    document.getElementById('swapSuccessModal').classList.add('hidden');
+                    document.getElementById('myShiftSelect').value = '';
+                    document.getElementById('colleagueSelect').value = '';
+                    document.getElementById('theirShiftSelect').value = '';
+                    document.getElementById('swapReason').value = '';
+                };
+
+                // Close modals on outside click
+                document.getElementById('swapRequestModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeSwapRequestModal();
+                });
+                document.getElementById('swapSuccessModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeSwapSuccessModal();
+                });
+            } else if (page === 'payroll') {
+                // Payroll page - View and Download Payslips
+                let currentPayslipMonth = '';
+
+                window.viewPayslip = function(month) {
+                    currentPayslipMonth = month;
+                    document.getElementById('payslipMonth').textContent = month;
+                    document.getElementById('payslipModal').classList.remove('hidden');
+                };
+                window.closePayslipModal = function() {
+                    document.getElementById('payslipModal').classList.add('hidden');
+                };
+                window.downloadPayslip = function(month) {
+                    // Simulate PDF download
+                    document.getElementById('downloadMonth').textContent = month;
+                    document.getElementById('downloadSuccessModal').classList.remove('hidden');
+                    
+                    // In a real app, this would trigger actual file download
+                    console.log('Downloading payslip for:', month);
+                    
+                    // Simulate download by creating a temporary link
+                    const filename = 'Payslip_' + month.replace(' ', '_') + '.pdf';
+                    console.log('File:', filename);
+                };
+                window.downloadCurrentPayslip = function() {
+                    if (currentPayslipMonth) {
+                        closePayslipModal();
+                        downloadPayslip(currentPayslipMonth);
+                    }
+                };
+                window.printPayslip = function() {
+                    // Open print dialog
+                    window.print();
+                };
+                window.closeDownloadSuccessModal = function() {
+                    document.getElementById('downloadSuccessModal').classList.add('hidden');
+                };
+
+                // Close modals on outside click
+                document.getElementById('payslipModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closePayslipModal();
+                });
+                document.getElementById('downloadSuccessModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeDownloadSuccessModal();
+                });
+            } else if (page === 'leave') {
+                // Leave page - File upload and form submission
+                let uploadedFiles = [];
+                const maxFileSize = 5 * 1024 * 1024; // 5MB
+                const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+
+                const dropZone = document.getElementById('dropZone');
+
+                if (dropZone) {
+                    dropZone.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        dropZone.classList.add('border-[#003D7A]', 'bg-blue-50');
+                    });
+
+                    dropZone.addEventListener('dragleave', function(e) {
+                        e.preventDefault();
+                        dropZone.classList.remove('border-[#003D7A]', 'bg-blue-50');
+                    });
+
+                    dropZone.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        dropZone.classList.remove('border-[#003D7A]', 'bg-blue-50');
+                        
+                        const files = e.dataTransfer.files;
+                        handleFiles(files);
+                    });
+                }
+
+                window.handleFileSelect = function(event) {
+                    const files = event.target.files;
+                    handleFiles(files);
+                };
+
+                function handleFiles(files) {
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        
+                        if (!allowedTypes.includes(file.type)) {
+                            alert(`Invalid file type: ${file.name}. Only PDF, JPG, and PNG are allowed.`);
+                            continue;
+                        }
+                        
+                        if (file.size > maxFileSize) {
+                            alert(`File too large: ${file.name}. Maximum size is 5MB.`);
+                            continue;
+                        }
+                        
+                        if (uploadedFiles.some(f => f.name === file.name)) {
+                            alert(`File already added: ${file.name}`);
+                            continue;
+                        }
+                        
+                        uploadedFiles.push(file);
+                    }
+                    
+                    updateFileList();
+                }
+
+                function updateFileList() {
+                    const fileList = document.getElementById('fileList');
+                    
+                    if (uploadedFiles.length === 0) {
+                        fileList.classList.add('hidden');
+                        return;
+                    }
+                    
+                    fileList.classList.remove('hidden');
+                    fileList.innerHTML = uploadedFiles.map((file, index) => `
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <i class="fas ${getFileIcon(file.type)} text-[#003D7A]"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">${file.name}</p>
+                                    <p class="text-xs text-gray-500">${formatFileSize(file.size)}</p>
+                                </div>
+                            </div>
+                            <button type="button" onclick="removeFile(${index})" class="text-red-500 hover:text-red-700 transition">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+
+                function getFileIcon(type) {
+                    if (type === 'application/pdf') return 'fa-file-pdf';
+                    if (type.startsWith('image/')) return 'fa-file-image';
+                    return 'fa-file';
+                }
+
+                function formatFileSize(bytes) {
+                    if (bytes < 1024) return bytes + ' B';
+                    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+                    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+                }
+
+                window.removeFile = function(index) {
+                    uploadedFiles.splice(index, 1);
+                    updateFileList();
+                };
+
+                window.submitLeaveRequest = function(event) {
+                    event.preventDefault();
+                    document.getElementById('leaveSuccessModal').classList.remove('hidden');
+                };
+
+                window.closeLeaveSuccessModal = function() {
+                    document.getElementById('leaveSuccessModal').classList.add('hidden');
+                    uploadedFiles = [];
+                    updateFileList();
+                    document.getElementById('leaveForm')?.reset();
+                };
+
+                // Close modal on outside click
+                document.getElementById('leaveSuccessModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeLeaveSuccessModal();
+                });
+            } else if (page === 'attendance') {
+                // Attendance page - Time Correction, Overtime, DTR Download
+
+                // Time Correction Modal
+                window.openTimeCorrectionModal = function() {
+                    document.getElementById('timeCorrectionModal').classList.remove('hidden');
+                };
+                window.closeTimeCorrectionModal = function() {
+                    document.getElementById('timeCorrectionModal').classList.add('hidden');
+                    document.getElementById('timeCorrectionForm')?.reset();
+                };
+                window.submitTimeCorrection = function() {
+                    const date = document.getElementById('correctionDate').value;
+                    const type = document.getElementById('correctionType').value;
+                    const reason = document.getElementById('correctionReason').value;
+
+                    if (!date || !type || !reason) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+
+                    closeTimeCorrectionModal();
+                    showAttendanceSuccess('Time Correction Submitted!', 'Your time correction request has been submitted and is awaiting supervisor approval.');
+                };
+
+                // Overtime Modal
+                window.openOvertimeModal = function() {
+                    document.getElementById('overtimeModal').classList.remove('hidden');
+                };
+                window.closeOvertimeModal = function() {
+                    document.getElementById('overtimeModal').classList.add('hidden');
+                    document.getElementById('overtimeForm')?.reset();
+                    document.getElementById('estimatedHours').textContent = '0 hours';
+                };
+                window.submitOvertime = function() {
+                    const type = document.getElementById('overtimeType').value;
+                    const date = document.getElementById('overtimeDate').value;
+                    const start = document.getElementById('overtimeStart').value;
+                    const end = document.getElementById('overtimeEnd').value;
+                    const reason = document.getElementById('overtimeReason').value;
+
+                    if (!type || !date || !start || !end || !reason) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+
+                    closeOvertimeModal();
+                    showAttendanceSuccess('Overtime Request Submitted!', 'Your overtime request has been submitted and is awaiting supervisor approval.');
+                };
+
+                // Calculate estimated hours
+                function calculateOvertimeHours() {
+                    const start = document.getElementById('overtimeStart').value;
+                    const end = document.getElementById('overtimeEnd').value;
+
+                    if (start && end) {
+                        const startTime = new Date(`2000-01-01T${start}`);
+                        const endTime = new Date(`2000-01-01T${end}`);
+                        let diff = (endTime - startTime) / (1000 * 60 * 60);
+                        
+                        if (diff < 0) diff += 24;
+                        
+                        document.getElementById('estimatedHours').textContent = diff.toFixed(1) + ' hours';
+                    }
+                }
+                document.getElementById('overtimeStart')?.addEventListener('change', calculateOvertimeHours);
+                document.getElementById('overtimeEnd')?.addEventListener('change', calculateOvertimeHours);
+
+                // DTR Download
+                window.downloadDTR = function() {
+                    document.getElementById('dtrModal').classList.remove('hidden');
+                };
+                window.closeDTRModal = function() {
+                    document.getElementById('dtrModal').classList.add('hidden');
+                };
+                window.confirmDownloadDTR = function() {
+                    const period = document.getElementById('dtrPeriod').value;
+                    const format = document.querySelector('input[name="dtrFormat"]:checked').value;
+
+                    closeDTRModal();
+                    showAttendanceSuccess('Download Started!', `Your DTR for ${period.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} is being downloaded as ${format.toUpperCase()}.`);
+                };
+
+                // Success Modal
+                window.showAttendanceSuccess = function(title, message) {
+                    document.getElementById('successTitle').textContent = title;
+                    document.getElementById('successMessage').textContent = message;
+                    document.getElementById('attendanceSuccessModal').classList.remove('hidden');
+                };
+                window.closeAttendanceSuccessModal = function() {
+                    document.getElementById('attendanceSuccessModal').classList.add('hidden');
+                };
+
+                // Close modals on outside click
+                document.getElementById('timeCorrectionModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeTimeCorrectionModal();
+                });
+                document.getElementById('overtimeModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeOvertimeModal();
+                });
+                document.getElementById('dtrModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeDTRModal();
+                });
+                document.getElementById('attendanceSuccessModal')?.addEventListener('click', function(e) {
+                    if (e.target === this) closeAttendanceSuccessModal();
+                });
+            }
         }
 
         function toggleClock() {

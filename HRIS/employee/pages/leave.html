@@ -7,7 +7,7 @@
             <div class="bg-white rounded-lg shadow p-6">
                 <h3 class="text-lg font-bold text-gray-900 mb-6">Submit Leave Request</h3>
                 
-                <form class="space-y-6">
+                <form id="leaveForm" onsubmit="submitLeaveRequest(event)" class="space-y-6">
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Leave Type</label>
@@ -49,11 +49,14 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Attach Documents (Optional)</label>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#003D7A] transition cursor-pointer">
+                        <div id="dropZone" onclick="document.getElementById('fileInput').click()" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#003D7A] transition cursor-pointer">
+                            <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="handleFileSelect(event)">
                             <i class="fas fa-cloud-upload-alt text-gray-400 text-3xl mb-2"></i>
                             <p class="text-gray-600 text-sm">Drag and drop files here or click to browse</p>
                             <p class="text-gray-400 text-xs mt-1">PDF, JPG, PNG up to 5MB</p>
                         </div>
+                        <!-- File List -->
+                        <div id="fileList" class="mt-3 space-y-2 hidden"></div>
                     </div>
 
                     <div class="flex justify-end gap-3">
@@ -267,3 +270,133 @@
         </div>
     </div>
 </div>
+
+<!-- Leave Request Success Modal -->
+<div id="leaveSuccessModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 text-center">
+        <div class="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+            <i class="fas fa-check text-green-600 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Request Submitted!</h3>
+        <p class="text-gray-600 mb-6">Your leave request has been submitted successfully and is awaiting approval from your supervisor.</p>
+        <button onclick="closeLeaveSuccessModal()" class="w-full px-6 py-3 bg-[#003D7A] text-white rounded-lg hover:bg-[#0052A3] transition font-medium">
+            OK
+        </button>
+    </div>
+</div>
+
+<script>
+    let uploadedFiles = [];
+    const maxFileSize = 5 * 1024 * 1024; // 5MB
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+
+    // Drag and drop functionality
+    const dropZone = document.getElementById('dropZone');
+
+    dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        dropZone.classList.add('border-[#003D7A]', 'bg-blue-50');
+    });
+
+    dropZone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('border-[#003D7A]', 'bg-blue-50');
+    });
+
+    dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('border-[#003D7A]', 'bg-blue-50');
+        
+        const files = e.dataTransfer.files;
+        handleFiles(files);
+    });
+
+    function handleFileSelect(event) {
+        const files = event.target.files;
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            
+            // Validate file type
+            if (!allowedTypes.includes(file.type)) {
+                alert(`Invalid file type: ${file.name}. Only PDF, JPG, and PNG are allowed.`);
+                continue;
+            }
+            
+            // Validate file size
+            if (file.size > maxFileSize) {
+                alert(`File too large: ${file.name}. Maximum size is 5MB.`);
+                continue;
+            }
+            
+            // Check for duplicates
+            if (uploadedFiles.some(f => f.name === file.name)) {
+                alert(`File already added: ${file.name}`);
+                continue;
+            }
+            
+            uploadedFiles.push(file);
+        }
+        
+        updateFileList();
+    }
+
+    function updateFileList() {
+        const fileList = document.getElementById('fileList');
+        
+        if (uploadedFiles.length === 0) {
+            fileList.classList.add('hidden');
+            return;
+        }
+        
+        fileList.classList.remove('hidden');
+        fileList.innerHTML = uploadedFiles.map((file, index) => `
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div class="flex items-center gap-3">
+                    <i class="fas ${getFileIcon(file.type)} text-[#003D7A]"></i>
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">${file.name}</p>
+                        <p class="text-xs text-gray-500">${formatFileSize(file.size)}</p>
+                    </div>
+                </div>
+                <button type="button" onclick="removeFile(${index})" class="text-red-500 hover:text-red-700 transition">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `).join('');
+    }
+
+    function getFileIcon(type) {
+        if (type === 'application/pdf') return 'fa-file-pdf';
+        if (type.startsWith('image/')) return 'fa-file-image';
+        return 'fa-file';
+    }
+
+    function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function removeFile(index) {
+        uploadedFiles.splice(index, 1);
+        updateFileList();
+    }
+
+    function submitLeaveRequest(event) {
+        event.preventDefault();
+        // Show success modal
+        document.getElementById('leaveSuccessModal').classList.remove('hidden');
+    }
+
+    function closeLeaveSuccessModal() {
+        document.getElementById('leaveSuccessModal').classList.add('hidden');
+        // Reset form
+        uploadedFiles = [];
+        updateFileList();
+        document.querySelector('form').reset();
+    }
+</script>

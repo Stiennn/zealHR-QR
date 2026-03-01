@@ -37,7 +37,7 @@
                                 <button onclick="viewPayslip('February 2026')" class="bg-[#003D7A] hover:bg-[#0052A3] text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                                     <i class="fas fa-eye mr-1"></i> View
                                 </button>
-                                <button class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
+                                <button onclick="downloadPayslip('February 2026')" class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
                                     <i class="fas fa-download"></i>
                                 </button>
                             </div>
@@ -64,7 +64,7 @@
                                 <button onclick="viewPayslip('January 2026')" class="bg-[#003D7A] hover:bg-[#0052A3] text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                                     <i class="fas fa-eye mr-1"></i> View
                                 </button>
-                                <button class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
+                                <button onclick="downloadPayslip('January 2026')" class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
                                     <i class="fas fa-download"></i>
                                 </button>
                             </div>
@@ -91,7 +91,7 @@
                                 <button onclick="viewPayslip('December 2025')" class="bg-[#003D7A] hover:bg-[#0052A3] text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                                     <i class="fas fa-eye mr-1"></i> View
                                 </button>
-                                <button class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
+                                <button onclick="downloadPayslip('December 2025')" class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
                                     <i class="fas fa-download"></i>
                                 </button>
                             </div>
@@ -118,7 +118,7 @@
                                 <button onclick="viewPayslip('November 2025')" class="bg-[#003D7A] hover:bg-[#0052A3] text-white px-4 py-2 rounded-lg text-sm font-medium transition">
                                     <i class="fas fa-eye mr-1"></i> View
                                 </button>
-                                <button class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
+                                <button onclick="downloadPayslip('November 2025')" class="border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition">
                                     <i class="fas fa-download"></i>
                                 </button>
                             </div>
@@ -235,15 +235,17 @@
 
 <!-- Payslip View Modal -->
 <div id="payslipModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div class="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
+        <!-- Fixed Header -->
+        <div class="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
             <h3 class="text-xl font-bold text-gray-900">Payslip - <span id="payslipMonth">February 2026</span></h3>
             <button onclick="closePayslipModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
                 <i class="fas fa-times"></i>
             </button>
         </div>
 
-        <div class="p-6">
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-6">
             <!-- Company Header -->
             <div class="flex items-center justify-between mb-6 pb-6 border-b">
                 <div class="flex items-center gap-3">
@@ -350,24 +352,74 @@
             </div>
         </div>
 
-        <div class="p-6 bg-gray-50 border-t flex justify-end gap-3">
+        <!-- Fixed Footer -->
+        <div class="flex-shrink-0 p-6 bg-gray-50 border-t flex justify-end gap-3 rounded-b-lg">
             <button onclick="closePayslipModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition">
                 Close
             </button>
-            <button class="px-6 py-2 bg-[#003D7A] text-white rounded-lg hover:bg-[#0052A3] transition">
+            <button onclick="printPayslip()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                <i class="fas fa-print mr-2"></i> Print
+            </button>
+            <button onclick="downloadCurrentPayslip()" class="px-6 py-2 bg-[#003D7A] text-white rounded-lg hover:bg-[#0052A3] transition">
                 <i class="fas fa-download mr-2"></i> Download PDF
             </button>
         </div>
     </div>
 </div>
 
+<!-- Download Success Modal -->
+<div id="downloadSuccessModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 text-center">
+        <div class="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+            <i class="fas fa-check text-green-600 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Download Started!</h3>
+        <p class="text-gray-600 mb-6">Your payslip for <span id="downloadMonth" class="font-semibold">February 2026</span> is being downloaded.</p>
+        <button onclick="closeDownloadSuccessModal()" class="w-full px-6 py-3 bg-[#003D7A] text-white rounded-lg hover:bg-[#0052A3] transition font-medium">
+            OK
+        </button>
+    </div>
+</div>
+
 <script>
+    let currentPayslipMonth = '';
+
     function viewPayslip(month) {
+        currentPayslipMonth = month;
         document.getElementById('payslipMonth').textContent = month;
         document.getElementById('payslipModal').classList.remove('hidden');
     }
 
     function closePayslipModal() {
         document.getElementById('payslipModal').classList.add('hidden');
+    }
+
+    function downloadPayslip(month) {
+        // Simulate PDF download
+        document.getElementById('downloadMonth').textContent = month;
+        document.getElementById('downloadSuccessModal').classList.remove('hidden');
+        
+        // In a real app, this would trigger actual file download
+        console.log('Downloading payslip for:', month);
+        
+        // Simulate download by creating a temporary link
+        const filename = 'Payslip_' + month.replace(' ', '_') + '.pdf';
+        console.log('File:', filename);
+    }
+
+    function downloadCurrentPayslip() {
+        if (currentPayslipMonth) {
+            closePayslipModal();
+            downloadPayslip(currentPayslipMonth);
+        }
+    }
+
+    function printPayslip() {
+        // Open print dialog
+        window.print();
+    }
+
+    function closeDownloadSuccessModal() {
+        document.getElementById('downloadSuccessModal').classList.add('hidden');
     }
 </script>

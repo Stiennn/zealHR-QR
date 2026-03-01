@@ -125,13 +125,13 @@
                                     </td>
                                     <td class="px-6 py-4 text-sm">
                                         <div class="flex gap-2">
-                                            <button onclick="openModal('editTemplateModal')" class="text-blue-600 hover:text-blue-700">
+                                            <button onclick="editTemplate('Weekday Morning – OPD', 'morning', '08:00', '14:00', 'OPD', '2 Physicians, 1 Nurse', 'active')" class="text-blue-600 hover:text-blue-700" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="text-gray-400 hover:text-gray-600">
+                                            <button onclick="duplicateTemplate('Weekday Morning – OPD')" class="text-gray-400 hover:text-gray-600" title="Duplicate">
                                                 <i class="fas fa-copy"></i>
                                             </button>
-                                            <button class="text-red-400 hover:text-red-600">
+                                            <button onclick="deleteTemplate('Weekday Morning – OPD')" class="text-red-400 hover:text-red-600" title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -158,13 +158,13 @@
                                     </td>
                                     <td class="px-6 py-4 text-sm">
                                         <div class="flex gap-2">
-                                            <button onclick="openModal('editTemplateModal')" class="text-blue-600 hover:text-blue-700">
+                                            <button onclick="editTemplate('Evening Shift – ICU', 'evening', '14:00', '22:00', 'ICU', '1 Physician, 3 Nurses', 'active')" class="text-blue-600 hover:text-blue-700" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="text-gray-400 hover:text-gray-600">
+                                            <button onclick="duplicateTemplate('Evening Shift – ICU')" class="text-gray-400 hover:text-gray-600" title="Duplicate">
                                                 <i class="fas fa-copy"></i>
                                             </button>
-                                            <button class="text-red-400 hover:text-red-600">
+                                            <button onclick="deleteTemplate('Evening Shift – ICU')" class="text-red-400 hover:text-red-600" title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -191,13 +191,13 @@
                                     </td>
                                     <td class="px-6 py-4 text-sm">
                                         <div class="flex gap-2">
-                                            <button onclick="openModal('editTemplateModal')" class="text-blue-600 hover:text-blue-700">
+                                            <button onclick="editTemplate('Night Shift – Emergency', 'night', '22:00', '06:00', 'Emergency', '2 Physicians, 2 Nurses', 'inactive')" class="text-blue-600 hover:text-blue-700" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="text-gray-400 hover:text-gray-600">
+                                            <button onclick="duplicateTemplate('Night Shift – Emergency')" class="text-gray-400 hover:text-gray-600" title="Duplicate">
                                                 <i class="fas fa-copy"></i>
                                             </button>
-                                            <button class="text-red-400 hover:text-red-600">
+                                            <button onclick="deleteTemplate('Night Shift – Emergency')" class="text-red-400 hover:text-red-600" title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -395,10 +395,10 @@
                                 </div>
 
                                 <div class="flex gap-2 pt-4 border-t border-gray-200">
-                                    <button onclick="openModal('editRotationModal')" class="flex-1 px-3 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-200 transition">
+                                    <button onclick="openEditRotationModal('ICU 3-Shift Rotation')" class="flex-1 px-3 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-200 transition">
                                         Edit
                                     </button>
-                                    <button class="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                                    <button onclick="openViewScheduleModal('ICU 3-Shift Rotation')" class="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
                                         View Schedule
                                     </button>
                                 </div>
@@ -441,10 +441,10 @@
                                 </div>
 
                                 <div class="flex gap-2 pt-4 border-t border-gray-200">
-                                    <button onclick="openModal('editRotationModal')" class="flex-1 px-3 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-200 transition">
+                                    <button onclick="openEditRotationModal('OPD Morning Rotation')" class="flex-1 px-3 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-200 transition">
                                         Edit
                                     </button>
-                                    <button class="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                                    <button onclick="openViewScheduleModal('OPD Morning Rotation')" class="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
                                         View Schedule
                                     </button>
                                 </div>
@@ -1019,7 +1019,1163 @@
         </div>
     </div>
 
+    <!-- Create Template Modal -->
+    <div id="createTemplateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-5 flex items-center justify-between rounded-t-xl">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-plus-circle text-white text-xl"></i>
+                    <h3 class="text-white font-bold text-lg">Create Shift Template</h3>
+                </div>
+                <button onclick="closeCreateTemplateModal()" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-5">
+                <!-- Template Name -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Template Name *</label>
+                    <input type="text" id="templateName" placeholder="e.g., Weekday Morning – OPD" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                </div>
+
+                <!-- Shift Type & Color -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Shift Type *</label>
+                        <select id="templateType" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                            <option value="">Select shift type</option>
+                            <option value="morning">Morning Shift</option>
+                            <option value="afternoon">Afternoon Shift</option>
+                            <option value="evening">Evening Shift</option>
+                            <option value="night">Night Shift</option>
+                            <option value="graveyard">Graveyard Shift</option>
+                            <option value="split">Split Shift</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Color Label</label>
+                        <div class="flex gap-2 mt-1">
+                            <button type="button" onclick="selectColor('blue')" class="color-btn w-8 h-8 bg-blue-500 rounded-full border-2 border-transparent hover:scale-110 transition" data-color="blue"></button>
+                            <button type="button" onclick="selectColor('green')" class="color-btn w-8 h-8 bg-green-500 rounded-full border-2 border-transparent hover:scale-110 transition" data-color="green"></button>
+                            <button type="button" onclick="selectColor('purple')" class="color-btn w-8 h-8 bg-purple-500 rounded-full border-2 border-transparent hover:scale-110 transition" data-color="purple"></button>
+                            <button type="button" onclick="selectColor('orange')" class="color-btn w-8 h-8 bg-orange-500 rounded-full border-2 border-transparent hover:scale-110 transition" data-color="orange"></button>
+                            <button type="button" onclick="selectColor('pink')" class="color-btn w-8 h-8 bg-pink-500 rounded-full border-2 border-transparent hover:scale-110 transition" data-color="pink"></button>
+                            <button type="button" onclick="selectColor('red')" class="color-btn w-8 h-8 bg-red-500 rounded-full border-2 border-transparent hover:scale-110 transition" data-color="red"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time Settings -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Start Time *</label>
+                        <input type="time" id="templateStartTime" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">End Time *</label>
+                        <input type="time" id="templateEndTime" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                    </div>
+                </div>
+
+                <!-- Department -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Department *</label>
+                    <select id="templateDepartment" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <option value="">Select department</option>
+                        <option value="opd">OPD (Outpatient Department)</option>
+                        <option value="icu">ICU (Intensive Care Unit)</option>
+                        <option value="emergency">Emergency</option>
+                        <option value="ward">Ward</option>
+                        <option value="surgery">Surgery</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="radiology">Radiology</option>
+                        <option value="laboratory">Laboratory</option>
+                        <option value="pharmacy">Pharmacy</option>
+                        <option value="all">All Departments</option>
+                    </select>
+                </div>
+
+                <!-- Required Staff -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Required Staff</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Physicians</label>
+                            <input type="number" id="reqPhysicians" min="0" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Nurses</label>
+                            <input type="number" id="reqNurses" min="0" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Technicians</label>
+                            <input type="number" id="reqTechnicians" min="0" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Support Staff</label>
+                            <input type="number" id="reqSupport" min="0" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Break Duration -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Break Duration (minutes)</label>
+                        <select id="breakDuration" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                            <option value="0">No Break</option>
+                            <option value="15">15 minutes</option>
+                            <option value="30" selected>30 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="60">60 minutes</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                        <select id="templateStatus" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Notes (Optional)</label>
+                    <textarea id="templateNotes" rows="3" placeholder="Add any additional notes about this template..." 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"></textarea>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3 rounded-b-xl">
+                <button onclick="closeCreateTemplateModal()" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                    Cancel
+                </button>
+                <button onclick="saveTemplate()" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                    <i class="fas fa-save"></i>
+                    Save Template
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Template Modal -->
+    <div id="editTemplateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col">
+            <!-- Modal Header -->
+            <div class="flex-shrink-0 bg-gradient-to-r from-blue-600 to-blue-700 p-5 flex items-center justify-between rounded-t-xl">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-edit text-white text-xl"></i>
+                    <h3 class="text-white font-bold text-lg">Edit Template</h3>
+                </div>
+                <button onclick="closeModal('editTemplateModal')" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Template Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="editTemplateName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Shift Type <span class="text-red-500">*</span></label>
+                        <select id="editTemplateType" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="morning">Morning</option>
+                            <option value="afternoon">Afternoon</option>
+                            <option value="evening">Evening</option>
+                            <option value="night">Night</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Department <span class="text-red-500">*</span></label>
+                        <select id="editTemplateDepartment" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="opd">OPD</option>
+                            <option value="icu">ICU</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="surgery">Surgery</option>
+                            <option value="lab">Laboratory</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Start Time <span class="text-red-500">*</span></label>
+                        <input type="time" id="editTemplateStartTime" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">End Time <span class="text-red-500">*</span></label>
+                        <input type="time" id="editTemplateEndTime" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                    <select id="editTemplateStatus" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex-shrink-0 bg-gray-50 px-6 py-4 flex justify-end gap-3 rounded-b-xl">
+                <button onclick="closeModal('editTemplateModal')" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                    Cancel
+                </button>
+                <button onclick="saveEditTemplate()" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                    <i class="fas fa-save"></i>
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Duplicate Template Modal -->
+    <div id="duplicateTemplateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-copy text-gray-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Duplicate Template</h3>
+                        <p class="text-sm text-gray-500">Create a copy of "<span id="duplicateTemplateName"></span>"</p>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">New Template Name</label>
+                    <input type="text" id="newTemplateName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal('duplicateTemplateModal')" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Cancel
+                    </button>
+                    <button onclick="confirmDuplicateTemplate()" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                        <i class="fas fa-copy"></i>
+                        Duplicate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Template Modal -->
+    <div id="deleteTemplateModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-trash text-red-600 text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Delete Template</h3>
+                        <p class="text-sm text-gray-500">Are you sure you want to delete this template?</p>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-red-700">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Template "<span id="deleteTemplateName" class="font-semibold"></span>" will be permanently removed. This action cannot be undone.
+                    </p>
+                </div>
+
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal('deleteTemplateModal')" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Cancel
+                    </button>
+                    <button onclick="confirmDeleteTemplate()" class="px-5 py-2.5 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition flex items-center gap-2">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Action Success Modal -->
+    <div id="templateActionSuccessModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 text-center">
+            <div class="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                <i class="fas fa-check text-green-600 text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2" id="templateActionTitle">Success!</h3>
+            <p class="text-gray-600 mb-6" id="templateActionMessage">Action completed successfully.</p>
+            <button onclick="closeTemplateActionSuccess()" class="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <!-- Create Rotation Modal -->
+    <div id="createRotationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-green-600 to-green-700 p-5 flex items-center justify-between rounded-t-xl">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-sync-alt text-white text-xl"></i>
+                    <h3 class="text-white font-bold text-lg">Create Rotation Schedule</h3>
+                </div>
+                <button onclick="closeCreateRotationModal()" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-5">
+                <!-- Rotation Name & Department -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Rotation Name *</label>
+                        <input type="text" id="rotationName" placeholder="e.g., ICU 3-Shift Rotation" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Department *</label>
+                        <select id="rotationDepartment" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                            <option value="">Select department</option>
+                            <option value="icu">ICU</option>
+                            <option value="opd">OPD</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="ward">Ward</option>
+                            <option value="surgery">Surgery</option>
+                            <option value="pediatrics">Pediatrics</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cycle Duration -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Cycle Duration *</label>
+                        <select id="cycleDuration" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                            <option value="1">1-week cycle</option>
+                            <option value="2" selected>2-week cycle</option>
+                            <option value="3">3-week cycle</option>
+                            <option value="4">4-week cycle</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Start Date *</label>
+                        <input type="date" id="rotationStartDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                    </div>
+                </div>
+
+                <!-- Shift Pattern -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Weekly Shift Pattern *</label>
+                    <p class="text-xs text-gray-500 mb-3">Define the 7-day pattern for this rotation</p>
+                    <div class="grid grid-cols-7 gap-2">
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Mon</p>
+                            <select id="patternMon" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Tue</p>
+                            <select id="patternTue" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Wed</p>
+                            <select id="patternWed" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Thu</p>
+                            <select id="patternThu" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Fri</p>
+                            <select id="patternFri" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Sat</p>
+                            <select id="patternSat" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off" selected>Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Sun</p>
+                            <select id="patternSun" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off" selected>Off</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Pattern Preview -->
+                    <div class="mt-3 p-3 bg-gray-50 rounded-lg">
+                        <p class="text-xs text-gray-500 mb-2">Pattern Preview:</p>
+                        <div id="patternPreview" class="flex gap-1">
+                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded">Off</span>
+                            <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded">Off</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assign Staff -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Assign Staff *</label>
+                    <div class="border border-gray-300 rounded-lg p-4 max-h-40 overflow-y-auto">
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" id="staff1" class="w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                                <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold">SJ</div>
+                                <span class="text-sm text-gray-700">Dr. Sarah Johnson</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" id="staff2" class="w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                                <div class="w-8 h-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs font-bold">RM</div>
+                                <span class="text-sm text-gray-700">Dr. Robert Martinez</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" id="staff3" class="w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                                <div class="w-8 h-8 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center text-xs font-bold">MG</div>
+                                <span class="text-sm text-gray-700">Dr. Maria Garcia</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" id="staff4" class="w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                                <div class="w-8 h-8 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center text-xs font-bold">AL</div>
+                                <span class="text-sm text-gray-700">Dr. Andrew Lee</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                                <input type="checkbox" id="staff5" class="w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                                <div class="w-8 h-8 bg-pink-100 text-pink-700 rounded-full flex items-center justify-center text-xs font-bold">KS</div>
+                                <span class="text-sm text-gray-700">Dr. Karen Smith</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="rotationStatus" value="active" checked class="w-4 h-4 text-green-600 focus:ring-green-500">
+                            <span class="text-sm text-gray-700">Active</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="rotationStatus" value="inactive" class="w-4 h-4 text-green-600 focus:ring-green-500">
+                            <span class="text-sm text-gray-700">Inactive</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Notes (Optional)</label>
+                    <textarea id="rotationNotes" rows="2" placeholder="Add any additional notes about this rotation..." 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition resize-none"></textarea>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3 rounded-b-xl">
+                <button onclick="closeCreateRotationModal()" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                    Cancel
+                </button>
+                <button onclick="saveRotation()" class="px-5 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition flex items-center gap-2">
+                    <i class="fas fa-save"></i>
+                    Save Rotation
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Assign Modal -->
+    <div id="quickAssignModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-5 flex items-center justify-between rounded-t-xl">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-user-plus text-white text-xl"></i>
+                    <h3 class="text-white font-bold text-lg">Quick Assign Shift</h3>
+                </div>
+                <button onclick="closeQuickAssignModal()" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-5">
+                <!-- Employee Selection -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Select Employee *</label>
+                    <select id="quickAssignEmployee" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <option value="">Choose an employee</option>
+                        <option value="sarah">Dr. Sarah Johnson - Senior Surgeon</option>
+                        <option value="robert">Dr. Robert Martinez - General Physician</option>
+                        <option value="maria">Dr. Maria Garcia - Pediatrician</option>
+                        <option value="andrew">Dr. Andrew Lee - Emergency Medicine</option>
+                        <option value="karen">Dr. Karen Smith - ICU Specialist</option>
+                        <option value="mark">Mark Wilson - Nurse Practitioner</option>
+                        <option value="emily">Emily Rodriguez - Registered Nurse</option>
+                    </select>
+                </div>
+
+                <!-- Shift Template -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Shift Template *</label>
+                    <select id="quickAssignShift" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <option value="">Select shift type</option>
+                        <option value="morning">Morning Shift (08:00 - 14:00)</option>
+                        <option value="afternoon">Afternoon Shift (14:00 - 20:00)</option>
+                        <option value="evening">Evening Shift (16:00 - 22:00)</option>
+                        <option value="night">Night Shift (22:00 - 06:00)</option>
+                        <option value="graveyard">Graveyard Shift (00:00 - 08:00)</option>
+                    </select>
+                </div>
+
+                <!-- Date Selection -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Date *</label>
+                    <input type="date" id="quickAssignDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                </div>
+
+                <!-- Department -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Department</label>
+                    <select id="quickAssignDept" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <option value="opd">OPD</option>
+                        <option value="icu">ICU</option>
+                        <option value="emergency">Emergency</option>
+                        <option value="ward">Ward</option>
+                        <option value="surgery">Surgery</option>
+                    </select>
+                </div>
+
+                <!-- Notes -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Notes (Optional)</label>
+                    <textarea id="quickAssignNotes" rows="2" placeholder="Add any special instructions..." 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"></textarea>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3 rounded-b-xl">
+                <button onclick="closeQuickAssignModal()" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                    Cancel
+                </button>
+                <button onclick="saveQuickAssign()" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                    <i class="fas fa-check"></i>
+                    Assign Shift
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Assign Modal -->
+    <div id="bulkAssignModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-green-600 to-green-700 p-5 flex items-center justify-between rounded-t-xl">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-users text-white text-xl"></i>
+                    <h3 class="text-white font-bold text-lg">Bulk Assign Shifts</h3>
+                </div>
+                <button onclick="closeBulkAssignModal()" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-5">
+                <!-- Step Indicator -->
+                <div class="flex items-center justify-center gap-4 mb-6">
+                    <div class="flex items-center gap-2">
+                        <div id="bulkStep1" class="w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-sm">1</div>
+                        <span class="text-sm font-medium text-gray-700">Select Staff</span>
+                    </div>
+                    <div class="w-12 h-0.5 bg-gray-300"></div>
+                    <div class="flex items-center gap-2">
+                        <div id="bulkStep2" class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+                        <span class="text-sm font-medium text-gray-500">Configure Shifts</span>
+                    </div>
+                    <div class="w-12 h-0.5 bg-gray-300"></div>
+                    <div class="flex items-center gap-2">
+                        <div id="bulkStep3" class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+                        <span class="text-sm font-medium text-gray-500">Preview & Confirm</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Select Staff -->
+                <div id="bulkStepContent1" class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-sm font-semibold text-gray-700">Select Employees</h4>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" id="selectAllStaff" onchange="toggleSelectAllStaff()" class="w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                            <span class="text-sm text-gray-600">Select All</span>
+                        </label>
+                    </div>
+                    <div class="border border-gray-300 rounded-lg p-4 max-h-60 overflow-y-auto grid grid-cols-2 gap-2">
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" class="bulk-staff-cb w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                            <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold">SJ</div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Dr. Sarah Johnson</p>
+                                <p class="text-xs text-gray-500">Senior Surgeon</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" class="bulk-staff-cb w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                            <div class="w-8 h-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs font-bold">RM</div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Dr. Robert Martinez</p>
+                                <p class="text-xs text-gray-500">General Physician</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" class="bulk-staff-cb w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                            <div class="w-8 h-8 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center text-xs font-bold">MG</div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Dr. Maria Garcia</p>
+                                <p class="text-xs text-gray-500">Pediatrician</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" class="bulk-staff-cb w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                            <div class="w-8 h-8 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center text-xs font-bold">AL</div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Dr. Andrew Lee</p>
+                                <p class="text-xs text-gray-500">Emergency Medicine</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" class="bulk-staff-cb w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                            <div class="w-8 h-8 bg-pink-100 text-pink-700 rounded-full flex items-center justify-center text-xs font-bold">KS</div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Dr. Karen Smith</p>
+                                <p class="text-xs text-gray-500">ICU Specialist</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" class="bulk-staff-cb w-4 h-4 text-green-600 rounded focus:ring-green-500">
+                            <div class="w-8 h-8 bg-teal-100 text-teal-700 rounded-full flex items-center justify-center text-xs font-bold">MW</div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Mark Wilson</p>
+                                <p class="text-xs text-gray-500">Nurse Practitioner</p>
+                            </div>
+                        </label>
+                    </div>
+                    <p id="selectedStaffCount" class="text-sm text-gray-500">0 employees selected</p>
+                </div>
+
+                <!-- Step 2: Configure Shifts (Hidden initially) -->
+                <div id="bulkStepContent2" class="hidden space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Start Date *</label>
+                            <input type="date" id="bulkStartDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">End Date *</label>
+                            <input type="date" id="bulkEndDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Shift Pattern *</label>
+                        <select id="bulkShiftPattern" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                            <option value="">Select pattern</option>
+                            <option value="same">Same shift for all days</option>
+                            <option value="rotate">Rotating shifts</option>
+                            <option value="weekday">Weekdays only</option>
+                            <option value="weekend">Weekends only</option>
+                        </select>
+                    </div>
+
+                    <div id="sameShiftSelect">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Shift Type *</label>
+                        <select id="bulkShiftType" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                            <option value="morning">Morning Shift (08:00 - 14:00)</option>
+                            <option value="afternoon">Afternoon Shift (14:00 - 20:00)</option>
+                            <option value="evening">Evening Shift (16:00 - 22:00)</option>
+                            <option value="night">Night Shift (22:00 - 06:00)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Department *</label>
+                        <select id="bulkDepartment" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition">
+                            <option value="opd">OPD</option>
+                            <option value="icu">ICU</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="ward">Ward</option>
+                            <option value="surgery">Surgery</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Step 3: Preview (Hidden initially) -->
+                <div id="bulkStepContent3" class="hidden space-y-4">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-800 mb-2"><i class="fas fa-check-circle mr-2"></i>Assignment Summary</h4>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-gray-600">Employees Selected:</p>
+                                <p class="font-medium text-gray-900" id="previewStaffCount">3 employees</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Date Range:</p>
+                                <p class="font-medium text-gray-900" id="previewDateRange">Mar 1 - Mar 7, 2026</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Shift Pattern:</p>
+                                <p class="font-medium text-gray-900" id="previewPattern">Morning Shift</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">Total Shifts:</p>
+                                <p class="font-medium text-gray-900" id="previewTotalShifts">21 shifts</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Employee</th>
+                                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Mon</th>
+                                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Tue</th>
+                                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Wed</th>
+                                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Thu</th>
+                                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Fri</th>
+                                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Sat</th>
+                                    <th class="px-4 py-2 text-left font-semibold text-gray-700">Sun</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-4 py-2 font-medium">Dr. Sarah J.</td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">Off</span></td>
+                                    <td class="px-4 py-2"><span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">Off</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-medium">Dr. Robert M.</td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">Off</span></td>
+                                    <td class="px-4 py-2"><span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">Off</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-medium">Dr. Maria G.</td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded">M</span></td>
+                                    <td class="px-4 py-2"><span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">Off</span></td>
+                                    <td class="px-4 py-2"><span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">Off</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-between rounded-b-xl">
+                <button id="bulkBackBtn" onclick="bulkAssignBack()" class="hidden px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <div class="flex gap-3 ml-auto">
+                    <button onclick="closeBulkAssignModal()" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Cancel
+                    </button>
+                    <button id="bulkNextBtn" onclick="bulkAssignNext()" class="px-5 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition flex items-center gap-2">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button id="bulkConfirmBtn" onclick="confirmBulkAssign()" class="hidden px-5 py-2.5 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition flex items-center gap-2">
+                        <i class="fas fa-check"></i> Confirm Assignment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Rotation Modal -->
+    <div id="editRotationModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-5 flex items-center justify-between rounded-t-xl">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-edit text-white text-xl"></i>
+                    <h3 class="text-white font-bold text-lg">Edit Rotation</h3>
+                </div>
+                <button onclick="closeEditRotationModal()" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-5">
+                <!-- Rotation Name -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Rotation Name *</label>
+                    <input type="text" id="editRotationName" value="ICU 3-Shift Rotation" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                </div>
+
+                <!-- Department & Cycle -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Department</label>
+                        <select id="editRotationDept" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                            <option value="icu" selected>ICU</option>
+                            <option value="opd">OPD</option>
+                            <option value="emergency">Emergency</option>
+                            <option value="ward">Ward</option>
+                            <option value="surgery">Surgery</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Cycle Duration</label>
+                        <select id="editCycleDuration" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                            <option value="1">1-week cycle</option>
+                            <option value="2" selected>2-week cycle</option>
+                            <option value="3">3-week cycle</option>
+                            <option value="4">4-week cycle</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Pattern -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Weekly Pattern</label>
+                    <div class="grid grid-cols-7 gap-2">
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Mon</p>
+                            <select id="editPatternMon" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="M" selected>M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Tue</p>
+                            <select id="editPatternTue" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="M" selected>M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Wed</p>
+                            <select id="editPatternWed" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="M">M</option>
+                                <option value="E" selected>E</option>
+                                <option value="N">N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Thu</p>
+                            <select id="editPatternThu" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="M">M</option>
+                                <option value="E" selected>E</option>
+                                <option value="N">N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Fri</p>
+                            <select id="editPatternFri" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N" selected>N</option>
+                                <option value="Off">Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Sat</p>
+                            <select id="editPatternSat" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off" selected>Off</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs font-semibold text-gray-500 mb-2">Sun</p>
+                            <select id="editPatternSun" class="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm">
+                                <option value="M">M</option>
+                                <option value="E">E</option>
+                                <option value="N">N</option>
+                                <option value="Off" selected>Off</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assigned Staff -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Assigned Staff</label>
+                    <div class="border border-gray-300 rounded-lg p-3 max-h-40 overflow-y-auto space-y-2">
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" checked class="edit-rotation-staff w-4 h-4 text-blue-600 rounded">
+                            <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold">SJ</div>
+                            <span class="text-sm text-gray-700">Dr. Sarah Johnson</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" checked class="edit-rotation-staff w-4 h-4 text-blue-600 rounded">
+                            <div class="w-8 h-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs font-bold">RM</div>
+                            <span class="text-sm text-gray-700">Dr. Robert Martinez</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" checked class="edit-rotation-staff w-4 h-4 text-blue-600 rounded">
+                            <div class="w-8 h-8 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center text-xs font-bold">MG</div>
+                            <span class="text-sm text-gray-700">Dr. Maria Garcia</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" class="edit-rotation-staff w-4 h-4 text-blue-600 rounded">
+                            <div class="w-8 h-8 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center text-xs font-bold">AL</div>
+                            <span class="text-sm text-gray-700">Dr. Andrew Lee</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <input type="checkbox" class="edit-rotation-staff w-4 h-4 text-blue-600 rounded">
+                            <div class="w-8 h-8 bg-pink-100 text-pink-700 rounded-full flex items-center justify-center text-xs font-bold">KS</div>
+                            <span class="text-sm text-gray-700">Dr. Karen Smith</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="editRotationStatus" value="active" checked class="w-4 h-4 text-blue-600">
+                            <span class="text-sm text-gray-700">Active</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="editRotationStatus" value="inactive" class="w-4 h-4 text-blue-600">
+                            <span class="text-sm text-gray-700">Inactive</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-between rounded-b-xl">
+                <button onclick="deleteRotation()" class="px-5 py-2.5 bg-red-100 text-red-600 rounded-lg font-medium hover:bg-red-200 transition flex items-center gap-2">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+                <div class="flex gap-3">
+                    <button onclick="closeEditRotationModal()" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Cancel
+                    </button>
+                    <button onclick="saveEditRotation()" class="px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Schedule Modal -->
+    <div id="viewScheduleModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-5xl mx-4 max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-[#003D7A] to-[#0052A3] p-5 flex items-center justify-between rounded-t-xl">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-calendar-alt text-white text-xl"></i>
+                    <div>
+                        <h3 class="text-white font-bold text-lg" id="viewScheduleTitle">ICU 3-Shift Rotation</h3>
+                        <p class="text-blue-200 text-sm">2-week cycle • March 2026</p>
+                    </div>
+                </div>
+                <button onclick="closeViewScheduleModal()" class="text-white/80 hover:text-white transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 space-y-6">
+                <!-- Week Navigation -->
+                <div class="flex items-center justify-between">
+                    <button onclick="prevWeek()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center gap-2">
+                        <i class="fas fa-chevron-left"></i> Previous Week
+                    </button>
+                    <h4 class="text-lg font-bold text-gray-900" id="currentWeekLabel">Week 1: March 1 - 7, 2026</h4>
+                    <button onclick="nextWeek()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center gap-2">
+                        Next Week <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Schedule Table -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 w-48">Staff Member</th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">Mon<br><span class="text-xs font-normal text-gray-500">Mar 1</span></th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">Tue<br><span class="text-xs font-normal text-gray-500">Mar 2</span></th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">Wed<br><span class="text-xs font-normal text-gray-500">Mar 3</span></th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">Thu<br><span class="text-xs font-normal text-gray-500">Mar 4</span></th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">Fri<br><span class="text-xs font-normal text-gray-500">Mar 5</span></th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700 bg-gray-100">Sat<br><span class="text-xs font-normal text-gray-500">Mar 6</span></th>
+                                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700 bg-gray-100">Sun<br><span class="text-xs font-normal text-gray-500">Mar 7</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold">SJ</div>
+                                        <div>
+                                            <p class="font-medium text-gray-900 text-sm">Dr. Sarah Johnson</p>
+                                            <p class="text-xs text-gray-500">Senior Surgeon</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-center"><span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg">M</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg">M</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-lg">E</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-lg">E</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg">N</span></td>
+                                <td class="px-4 py-3 text-center bg-gray-50"><span class="bg-gray-200 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-lg">Off</span></td>
+                                <td class="px-4 py-3 text-center bg-gray-50"><span class="bg-gray-200 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-lg">Off</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs font-bold">RM</div>
+                                        <div>
+                                            <p class="font-medium text-gray-900 text-sm">Dr. Robert Martinez</p>
+                                            <p class="text-xs text-gray-500">General Physician</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-center"><span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-lg">E</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-lg">E</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg">N</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-gray-200 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-lg">Off</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-gray-200 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-lg">Off</span></td>
+                                <td class="px-4 py-3 text-center bg-gray-50"><span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg">M</span></td>
+                                <td class="px-4 py-3 text-center bg-gray-50"><span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg">M</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center text-xs font-bold">MG</div>
+                                        <div>
+                                            <p class="font-medium text-gray-900 text-sm">Dr. Maria Garcia</p>
+                                            <p class="text-xs text-gray-500">Pediatrician</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-center"><span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-lg">N</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-gray-200 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-lg">Off</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-gray-200 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-lg">Off</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg">M</span></td>
+                                <td class="px-4 py-3 text-center"><span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-lg">M</span></td>
+                                <td class="px-4 py-3 text-center bg-gray-50"><span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-lg">E</span></td>
+                                <td class="px-4 py-3 text-center bg-gray-50"><span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-lg">E</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Legend -->
+                <div class="flex items-center justify-center gap-6">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded">M</span>
+                        <span class="text-sm text-gray-600">Morning (08:00-14:00)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded">E</span>
+                        <span class="text-sm text-gray-600">Evening (14:00-22:00)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-2 py-1 rounded">N</span>
+                        <span class="text-sm text-gray-600">Night (22:00-06:00)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-gray-200 text-gray-600 text-xs font-bold px-2 py-1 rounded">Off</span>
+                        <span class="text-sm text-gray-600">Day Off</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-between rounded-b-xl">
+                <button onclick="exportSchedule()" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition flex items-center gap-2">
+                    <i class="fas fa-download"></i> Export Schedule
+                </button>
+                <div class="flex gap-3">
+                    <button onclick="closeViewScheduleModal()" class="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Close
+                    </button>
+                    <button onclick="printSchedule()" class="px-5 py-2.5 bg-[#003D7A] text-white rounded-lg font-medium hover:bg-[#0052A3] transition flex items-center gap-2">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        let selectedColor = 'blue';
+        let bulkAssignStep = 1;
+        let currentWeek = 1;
+
         function switchTab(tabName, clickedBtn) {
             // Hide all tabs
             const tabs = document.querySelectorAll('.tab-content');
@@ -1046,9 +2202,524 @@
         }
 
         function openModal(modalId) {
-            console.log('Modal:', modalId);
-            // Add modal logic here
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('hidden');
+            }
         }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
+        // ====== TEMPLATE ACTION FUNCTIONS ======
+        let currentEditTemplate = null;
+
+        function editTemplate(name, type, startTime, endTime, department, staff, status) {
+            currentEditTemplate = { name, type, startTime, endTime, department, staff, status };
+            
+            // Populate the edit modal
+            document.getElementById('editTemplateName').value = name;
+            document.getElementById('editTemplateType').value = type;
+            document.getElementById('editTemplateStartTime').value = startTime;
+            document.getElementById('editTemplateEndTime').value = endTime;
+            document.getElementById('editTemplateDepartment').value = department.toLowerCase();
+            document.getElementById('editTemplateStatus').value = status;
+            
+            openModal('editTemplateModal');
+        }
+
+        function saveEditTemplate() {
+            const name = document.getElementById('editTemplateName').value;
+            const type = document.getElementById('editTemplateType').value;
+            const startTime = document.getElementById('editTemplateStartTime').value;
+            const endTime = document.getElementById('editTemplateEndTime').value;
+            const department = document.getElementById('editTemplateDepartment').value;
+            const status = document.getElementById('editTemplateStatus').value;
+
+            if (!name || !type || !startTime || !endTime || !department) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            closeModal('editTemplateModal');
+            showTemplateActionSuccess('Template Updated!', 'The template "' + name + '" has been updated successfully.');
+        }
+
+        function duplicateTemplate(name) {
+            document.getElementById('duplicateTemplateName').textContent = name;
+            document.getElementById('newTemplateName').value = name + ' (Copy)';
+            openModal('duplicateTemplateModal');
+        }
+
+        function confirmDuplicateTemplate() {
+            const newName = document.getElementById('newTemplateName').value;
+            if (!newName) {
+                alert('Please enter a name for the duplicated template');
+                return;
+            }
+            closeModal('duplicateTemplateModal');
+            showTemplateActionSuccess('Template Duplicated!', 'A copy of the template has been created as "' + newName + '".');
+        }
+
+        function deleteTemplate(name) {
+            document.getElementById('deleteTemplateName').textContent = name;
+            openModal('deleteTemplateModal');
+        }
+
+        function confirmDeleteTemplate() {
+            closeModal('deleteTemplateModal');
+            showTemplateActionSuccess('Template Deleted!', 'The template has been permanently removed.');
+        }
+
+        function showTemplateActionSuccess(title, message) {
+            document.getElementById('templateActionTitle').textContent = title;
+            document.getElementById('templateActionMessage').textContent = message;
+            openModal('templateActionSuccessModal');
+        }
+
+        function closeTemplateActionSuccess() {
+            closeModal('templateActionSuccessModal');
+        }
+
+        function closeCreateTemplateModal() {
+            document.getElementById('createTemplateModal').classList.add('hidden');
+            // Reset form
+            document.getElementById('templateName').value = '';
+            document.getElementById('templateType').value = '';
+            document.getElementById('templateStartTime').value = '';
+            document.getElementById('templateEndTime').value = '';
+            document.getElementById('templateDepartment').value = '';
+            document.getElementById('reqPhysicians').value = '0';
+            document.getElementById('reqNurses').value = '0';
+            document.getElementById('reqTechnicians').value = '0';
+            document.getElementById('reqSupport').value = '0';
+            document.getElementById('breakDuration').value = '30';
+            document.getElementById('templateStatus').value = 'active';
+            document.getElementById('templateNotes').value = '';
+            selectedColor = 'blue';
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-offset-2', 'ring-gray-400');
+            });
+        }
+
+        function selectColor(color) {
+            selectedColor = color;
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-offset-2', 'ring-gray-400');
+                if (btn.dataset.color === color) {
+                    btn.classList.add('ring-2', 'ring-offset-2', 'ring-gray-400');
+                }
+            });
+        }
+
+        function saveTemplate() {
+            const name = document.getElementById('templateName').value;
+            const type = document.getElementById('templateType').value;
+            const startTime = document.getElementById('templateStartTime').value;
+            const endTime = document.getElementById('templateEndTime').value;
+            const department = document.getElementById('templateDepartment').value;
+
+            if (!name || !type || !startTime || !endTime || !department) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const physicians = document.getElementById('reqPhysicians').value;
+            const nurses = document.getElementById('reqNurses').value;
+            const technicians = document.getElementById('reqTechnicians').value;
+            const support = document.getElementById('reqSupport').value;
+            const breakDur = document.getElementById('breakDuration').value;
+            const status = document.getElementById('templateStatus').value;
+            const notes = document.getElementById('templateNotes').value;
+
+            // Calculate duration
+            const start = new Date('2000-01-01 ' + startTime);
+            const end = new Date('2000-01-01 ' + endTime);
+            let duration = (end - start) / (1000 * 60 * 60);
+            if (duration < 0) duration += 24; // Handle overnight shifts
+
+            alert('Template "' + name + '" created successfully!\n\n' +
+                'Type: ' + type + '\n' +
+                'Time: ' + startTime + ' - ' + endTime + '\n' +
+                'Duration: ' + duration + ' hours\n' +
+                'Department: ' + department.toUpperCase() + '\n' +
+                'Break: ' + breakDur + ' minutes\n' +
+                'Status: ' + status);
+
+            closeCreateTemplateModal();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('createTemplateModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCreateTemplateModal();
+            }
+        });
+
+        // ====== ROTATION FUNCTIONS ======
+        function closeCreateRotationModal() {
+            document.getElementById('createRotationModal').classList.add('hidden');
+            // Reset form
+            document.getElementById('rotationName').value = '';
+            document.getElementById('rotationDepartment').value = '';
+            document.getElementById('cycleDuration').value = '2';
+            document.getElementById('rotationStartDate').value = '';
+            document.getElementById('patternMon').value = 'M';
+            document.getElementById('patternTue').value = 'M';
+            document.getElementById('patternWed').value = 'M';
+            document.getElementById('patternThu').value = 'M';
+            document.getElementById('patternFri').value = 'M';
+            document.getElementById('patternSat').value = 'Off';
+            document.getElementById('patternSun').value = 'Off';
+            document.getElementById('rotationNotes').value = '';
+            document.querySelectorAll('#createRotationModal input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.querySelector('input[name="rotationStatus"][value="active"]').checked = true;
+            updatePatternPreview();
+        }
+
+        function updatePatternPreview() {
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const preview = document.getElementById('patternPreview');
+            if (!preview) return;
+            
+            preview.innerHTML = '';
+            days.forEach(day => {
+                const select = document.getElementById('pattern' + day);
+                if (select) {
+                    const value = select.value;
+                    let bgClass, textClass;
+                    switch(value) {
+                        case 'M':
+                            bgClass = 'bg-blue-100';
+                            textClass = 'text-blue-700';
+                            break;
+                        case 'E':
+                            bgClass = 'bg-purple-100';
+                            textClass = 'text-purple-700';
+                            break;
+                        case 'N':
+                            bgClass = 'bg-indigo-100';
+                            textClass = 'text-indigo-700';
+                            break;
+                        default:
+                            bgClass = 'bg-gray-100';
+                            textClass = 'text-gray-700';
+                    }
+                    const span = document.createElement('span');
+                    span.className = `${bgClass} ${textClass} text-xs font-medium px-2 py-1 rounded`;
+                    span.textContent = value;
+                    preview.appendChild(span);
+                }
+            });
+        }
+
+        function saveRotation() {
+            const name = document.getElementById('rotationName').value;
+            const department = document.getElementById('rotationDepartment').value;
+            const cycle = document.getElementById('cycleDuration').value;
+            const startDate = document.getElementById('rotationStartDate').value;
+
+            if (!name || !department || !startDate) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Get selected staff
+            const selectedStaff = [];
+            document.querySelectorAll('#createRotationModal input[type="checkbox"]:checked').forEach(cb => {
+                const label = cb.closest('label').querySelector('span').textContent;
+                selectedStaff.push(label);
+            });
+
+            if (selectedStaff.length === 0) {
+                alert('Please assign at least one staff member');
+                return;
+            }
+
+            // Get pattern
+            const pattern = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => {
+                return document.getElementById('pattern' + day).value;
+            }).join('-');
+
+            const status = document.querySelector('input[name="rotationStatus"]:checked').value;
+
+            alert('Rotation "' + name + '" created successfully!\n\n' +
+                'Department: ' + department.toUpperCase() + '\n' +
+                'Cycle: ' + cycle + '-week cycle\n' +
+                'Start Date: ' + startDate + '\n' +
+                'Pattern: ' + pattern + '\n' +
+                'Assigned Staff: ' + selectedStaff.length + ' member(s)\n' +
+                'Status: ' + status);
+
+            closeCreateRotationModal();
+        }
+
+        // Add event listeners for pattern preview update
+        ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach(day => {
+            const select = document.getElementById('pattern' + day);
+            if (select) {
+                select.addEventListener('change', updatePatternPreview);
+            }
+        });
+
+        // Close rotation modal when clicking outside
+        document.getElementById('createRotationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCreateRotationModal();
+            }
+        });
+
+        // ====== QUICK ASSIGN FUNCTIONS ======
+        function closeQuickAssignModal() {
+            document.getElementById('quickAssignModal').classList.add('hidden');
+            // Reset form
+            document.getElementById('quickAssignEmployee').value = '';
+            document.getElementById('quickAssignShift').value = '';
+            document.getElementById('quickAssignDate').value = '';
+            document.getElementById('quickAssignDept').value = 'opd';
+            document.getElementById('quickAssignNotes').value = '';
+        }
+
+        function saveQuickAssign() {
+            const employee = document.getElementById('quickAssignEmployee').value;
+            const shift = document.getElementById('quickAssignShift').value;
+            const date = document.getElementById('quickAssignDate').value;
+            const dept = document.getElementById('quickAssignDept').value;
+
+            if (!employee || !shift || !date) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const employeeName = document.getElementById('quickAssignEmployee').options[document.getElementById('quickAssignEmployee').selectedIndex].text;
+            const shiftName = document.getElementById('quickAssignShift').options[document.getElementById('quickAssignShift').selectedIndex].text;
+
+            alert('Shift assigned successfully!\n\n' +
+                'Employee: ' + employeeName + '\n' +
+                'Shift: ' + shiftName + '\n' +
+                'Date: ' + date + '\n' +
+                'Department: ' + dept.toUpperCase());
+
+            closeQuickAssignModal();
+        }
+
+        // Close quick assign modal when clicking outside
+        document.getElementById('quickAssignModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQuickAssignModal();
+            }
+        });
+
+        // ====== BULK ASSIGN FUNCTIONS ======
+        function closeBulkAssignModal() {
+            document.getElementById('bulkAssignModal').classList.add('hidden');
+            resetBulkAssign();
+        }
+
+        function resetBulkAssign() {
+            bulkAssignStep = 1;
+            updateBulkAssignStep();
+            document.querySelectorAll('.bulk-staff-cb').forEach(cb => cb.checked = false);
+            document.getElementById('selectAllStaff').checked = false;
+            document.getElementById('bulkStartDate').value = '';
+            document.getElementById('bulkEndDate').value = '';
+            document.getElementById('bulkShiftPattern').value = '';
+            document.getElementById('bulkShiftType').value = 'morning';
+            document.getElementById('bulkDepartment').value = 'opd';
+            updateSelectedStaffCount();
+        }
+
+        function toggleSelectAllStaff() {
+            const selectAll = document.getElementById('selectAllStaff').checked;
+            document.querySelectorAll('.bulk-staff-cb').forEach(cb => cb.checked = selectAll);
+            updateSelectedStaffCount();
+        }
+
+        function updateSelectedStaffCount() {
+            const count = document.querySelectorAll('.bulk-staff-cb:checked').length;
+            document.getElementById('selectedStaffCount').textContent = count + ' employees selected';
+        }
+
+        // Add event listeners for staff checkboxes
+        document.querySelectorAll('.bulk-staff-cb').forEach(cb => {
+            cb.addEventListener('change', updateSelectedStaffCount);
+        });
+
+        function updateBulkAssignStep() {
+            // Update step indicators
+            for (let i = 1; i <= 3; i++) {
+                const stepEl = document.getElementById('bulkStep' + i);
+                const contentEl = document.getElementById('bulkStepContent' + i);
+                
+                if (i < bulkAssignStep) {
+                    stepEl.className = 'w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-sm';
+                } else if (i === bulkAssignStep) {
+                    stepEl.className = 'w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-sm';
+                    contentEl.classList.remove('hidden');
+                } else {
+                    stepEl.className = 'w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center font-bold text-sm';
+                }
+
+                if (i !== bulkAssignStep) {
+                    contentEl.classList.add('hidden');
+                }
+            }
+
+            // Update buttons
+            document.getElementById('bulkBackBtn').classList.toggle('hidden', bulkAssignStep === 1);
+            document.getElementById('bulkNextBtn').classList.toggle('hidden', bulkAssignStep === 3);
+            document.getElementById('bulkConfirmBtn').classList.toggle('hidden', bulkAssignStep !== 3);
+        }
+
+        function bulkAssignNext() {
+            if (bulkAssignStep === 1) {
+                const selectedCount = document.querySelectorAll('.bulk-staff-cb:checked').length;
+                if (selectedCount === 0) {
+                    alert('Please select at least one employee');
+                    return;
+                }
+            } else if (bulkAssignStep === 2) {
+                const startDate = document.getElementById('bulkStartDate').value;
+                const endDate = document.getElementById('bulkEndDate').value;
+                const pattern = document.getElementById('bulkShiftPattern').value;
+
+                if (!startDate || !endDate || !pattern) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                // Update preview
+                const selectedCount = document.querySelectorAll('.bulk-staff-cb:checked').length;
+                document.getElementById('previewStaffCount').textContent = selectedCount + ' employees';
+                document.getElementById('previewDateRange').textContent = formatDate(startDate) + ' - ' + formatDate(endDate);
+                const shiftType = document.getElementById('bulkShiftType').value;
+                document.getElementById('previewPattern').textContent = shiftType.charAt(0).toUpperCase() + shiftType.slice(1) + ' Shift';
+                
+                // Calculate total shifts (simplified)
+                const days = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
+                document.getElementById('previewTotalShifts').textContent = (days * selectedCount) + ' shifts';
+            }
+
+            bulkAssignStep++;
+            updateBulkAssignStep();
+        }
+
+        function bulkAssignBack() {
+            bulkAssignStep--;
+            updateBulkAssignStep();
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+        }
+
+        function confirmBulkAssign() {
+            const selectedCount = document.querySelectorAll('.bulk-staff-cb:checked').length;
+            alert('Successfully assigned shifts to ' + selectedCount + ' employees!\n\nThe schedule has been updated.');
+            closeBulkAssignModal();
+        }
+
+        // Close bulk assign modal when clicking outside
+        document.getElementById('bulkAssignModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeBulkAssignModal();
+            }
+        });
+
+        // ====== EDIT ROTATION FUNCTIONS ======
+        function openEditRotationModal(rotationName) {
+            // Pre-fill with rotation data (in production, fetch from database)
+            if (rotationName) {
+                document.getElementById('editRotationName').value = rotationName;
+            }
+            document.getElementById('editRotationModal').classList.remove('hidden');
+        }
+
+        function closeEditRotationModal() {
+            document.getElementById('editRotationModal').classList.add('hidden');
+        }
+
+        function saveEditRotation() {
+            const rotationName = document.getElementById('editRotationName').value;
+            if (!rotationName) {
+                alert('Please enter a rotation name');
+                return;
+            }
+            alert('Rotation "' + rotationName + '" has been updated successfully!');
+            closeEditRotationModal();
+        }
+
+        function deleteRotation() {
+            const rotationName = document.getElementById('editRotationName').value;
+            if (confirm('Are you sure you want to delete "' + rotationName + '"? This action cannot be undone.')) {
+                alert('Rotation has been deleted.');
+                closeEditRotationModal();
+            }
+        }
+
+        // Close edit rotation modal when clicking outside
+        document.getElementById('editRotationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditRotationModal();
+            }
+        });
+
+        // ====== VIEW SCHEDULE FUNCTIONS ======
+        function openViewScheduleModal(rotationName) {
+            if (rotationName) {
+                document.getElementById('viewScheduleTitle').textContent = rotationName;
+            }
+            currentWeek = 1;
+            updateWeekLabel();
+            document.getElementById('viewScheduleModal').classList.remove('hidden');
+        }
+
+        function closeViewScheduleModal() {
+            document.getElementById('viewScheduleModal').classList.add('hidden');
+        }
+
+        function prevWeek() {
+            if (currentWeek > 1) {
+                currentWeek--;
+                updateWeekLabel();
+            }
+        }
+
+        function nextWeek() {
+            currentWeek++;
+            updateWeekLabel();
+        }
+
+        function updateWeekLabel() {
+            const weekLabels = [
+                'Week 1: March 1 - 7, 2026',
+                'Week 2: March 8 - 14, 2026',
+                'Week 3: March 15 - 21, 2026',
+                'Week 4: March 22 - 28, 2026'
+            ];
+            document.getElementById('currentWeekLabel').textContent = weekLabels[currentWeek - 1] || 'Week ' + currentWeek;
+        }
+
+        function exportSchedule() {
+            alert('Schedule exported successfully!\n\nThe schedule has been saved as PDF.');
+        }
+
+        function printSchedule() {
+            window.print();
+        }
+
+        // Close view schedule modal when clicking outside
+        document.getElementById('viewScheduleModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeViewScheduleModal();
+            }
+        });
 
         // Initialize charts when document is ready
         document.addEventListener('DOMContentLoaded', function() {

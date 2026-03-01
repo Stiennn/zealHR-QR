@@ -205,15 +205,15 @@
                 <h3 class="font-bold text-gray-900 mb-4">Quick Actions</h3>
                 
                 <div class="space-y-3">
-                    <button class="w-full flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition text-left">
+                    <button onclick="openTimeCorrectionModal()" class="w-full flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition text-left">
                         <i class="fas fa-edit text-[#003D7A]"></i>
                         <span class="text-sm font-medium text-gray-900">Request Time Correction</span>
                     </button>
-                    <button class="w-full flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition text-left">
+                    <button onclick="openOvertimeModal()" class="w-full flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition text-left">
                         <i class="fas fa-clock text-[#003D7A]"></i>
                         <span class="text-sm font-medium text-gray-900">Request Overtime</span>
                     </button>
-                    <button class="w-full flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition text-left">
+                    <button onclick="downloadDTR()" class="w-full flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition text-left">
                         <i class="fas fa-download text-[#003D7A]"></i>
                         <span class="text-sm font-medium text-gray-900">Download DTR</span>
                     </button>
@@ -233,3 +233,314 @@
         </div>
     </div>
 </div>
+
+<!-- Time Correction Modal -->
+<div id="timeCorrectionModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] flex flex-col">
+        <!-- Fixed Header -->
+        <div class="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
+            <h3 class="text-xl font-bold text-gray-900">Request Time Correction</h3>
+            <button onclick="closeTimeCorrectionModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-6">
+            <form id="timeCorrectionForm" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Date to Correct <span class="text-red-500">*</span></label>
+                    <input type="date" id="correctionDate" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Correction Type <span class="text-red-500">*</span></label>
+                    <select id="correctionType" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                        <option value="">Select type</option>
+                        <option value="clock-in">Clock In Time</option>
+                        <option value="clock-out">Clock Out Time</option>
+                        <option value="both">Both Clock In & Out</option>
+                        <option value="missed">Missed Clock (Forgot to clock)</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Correct Clock In</label>
+                        <input type="time" id="correctClockIn" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Correct Clock Out</label>
+                        <input type="time" id="correctClockOut" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Reason <span class="text-red-500">*</span></label>
+                    <textarea id="correctionReason" rows="3" required placeholder="Please explain why this correction is needed..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]"></textarea>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-info-circle text-yellow-600 mt-0.5"></i>
+                        <p class="text-xs text-yellow-700">Time corrections require supervisor approval and may take 1-2 business days to process.</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Fixed Footer -->
+        <div class="flex-shrink-0 p-6 bg-gray-50 border-t flex justify-end gap-3 rounded-b-lg">
+            <button onclick="closeTimeCorrectionModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                Cancel
+            </button>
+            <button onclick="submitTimeCorrection()" class="px-6 py-2 bg-[#003D7A] text-white rounded-lg hover:bg-[#0052A3] transition">
+                <i class="fas fa-paper-plane mr-2"></i> Submit Request
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Overtime Request Modal -->
+<div id="overtimeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] flex flex-col">
+        <!-- Fixed Header -->
+        <div class="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
+            <h3 class="text-xl font-bold text-gray-900">Request Overtime</h3>
+            <button onclick="closeOvertimeModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-6">
+            <form id="overtimeForm" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Overtime Type <span class="text-red-500">*</span></label>
+                    <select id="overtimeType" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                        <option value="">Select type</option>
+                        <option value="pre-approved">Pre-Approved Overtime</option>
+                        <option value="rendered">Already Rendered</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Date <span class="text-red-500">*</span></label>
+                    <input type="date" id="overtimeDate" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Start Time <span class="text-red-500">*</span></label>
+                        <input type="time" id="overtimeStart" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">End Time <span class="text-red-500">*</span></label>
+                        <input type="time" id="overtimeEnd" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Estimated Hours</label>
+                    <div class="px-4 py-3 bg-gray-100 rounded-lg text-gray-900 font-semibold" id="estimatedHours">0 hours</div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Reason / Task Description <span class="text-red-500">*</span></label>
+                    <textarea id="overtimeReason" rows="3" required placeholder="Describe the work or tasks to be completed during overtime..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]"></textarea>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-info-circle text-blue-600 mt-0.5"></i>
+                        <p class="text-xs text-blue-700">Overtime must be approved by your supervisor before being rendered. Pre-approved overtime should be filed at least 1 day in advance.</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Fixed Footer -->
+        <div class="flex-shrink-0 p-6 bg-gray-50 border-t flex justify-end gap-3 rounded-b-lg">
+            <button onclick="closeOvertimeModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                Cancel
+            </button>
+            <button onclick="submitOvertime()" class="px-6 py-2 bg-[#003D7A] text-white rounded-lg hover:bg-[#0052A3] transition">
+                <i class="fas fa-paper-plane mr-2"></i> Submit Request
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- DTR Download Modal -->
+<div id="dtrModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+        <!-- Header -->
+        <div class="border-b border-gray-200 p-6 flex items-center justify-between">
+            <h3 class="text-xl font-bold text-gray-900">Download DTR</h3>
+            <button onclick="closeDTRModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="p-6 space-y-5">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Select Period</label>
+                <select id="dtrPeriod" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                    <option value="march-2026">March 2026</option>
+                    <option value="february-2026">February 2026</option>
+                    <option value="january-2026">January 2026</option>
+                    <option value="december-2025">December 2025</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Format</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#003D7A] has-[:checked]:bg-blue-50">
+                        <input type="radio" name="dtrFormat" value="pdf" checked class="text-[#003D7A]">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-file-pdf text-red-500"></i>
+                            <span class="text-sm font-medium">PDF</span>
+                        </div>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#003D7A] has-[:checked]:bg-blue-50">
+                        <input type="radio" name="dtrFormat" value="excel" class="text-[#003D7A]">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-file-excel text-green-500"></i>
+                            <span class="text-sm font-medium">Excel</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-4">
+                <p class="text-sm text-gray-600"><strong>Note:</strong> DTR includes daily clock in/out times, total hours, and attendance status for the selected period.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-6 bg-gray-50 border-t flex justify-end gap-3 rounded-b-lg">
+            <button onclick="closeDTRModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                Cancel
+            </button>
+            <button onclick="confirmDownloadDTR()" class="px-6 py-2 bg-[#003D7A] text-white rounded-lg hover:bg-[#0052A3] transition">
+                <i class="fas fa-download mr-2"></i> Download
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div id="attendanceSuccessModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 text-center">
+        <div class="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+            <i class="fas fa-check text-green-600 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2" id="successTitle">Request Submitted!</h3>
+        <p class="text-gray-600 mb-6" id="successMessage">Your request has been submitted and is awaiting approval.</p>
+        <button onclick="closeAttendanceSuccessModal()" class="w-full px-6 py-3 bg-[#003D7A] text-white rounded-lg hover:bg-[#0052A3] transition font-medium">
+            OK
+        </button>
+    </div>
+</div>
+
+<script>
+    // Time Correction Modal
+    function openTimeCorrectionModal() {
+        document.getElementById('timeCorrectionModal').classList.remove('hidden');
+    }
+
+    function closeTimeCorrectionModal() {
+        document.getElementById('timeCorrectionModal').classList.add('hidden');
+        document.getElementById('timeCorrectionForm').reset();
+    }
+
+    function submitTimeCorrection() {
+        const date = document.getElementById('correctionDate').value;
+        const type = document.getElementById('correctionType').value;
+        const reason = document.getElementById('correctionReason').value;
+
+        if (!date || !type || !reason) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        closeTimeCorrectionModal();
+        showAttendanceSuccess('Time Correction Submitted!', 'Your time correction request has been submitted and is awaiting supervisor approval.');
+    }
+
+    // Overtime Modal
+    function openOvertimeModal() {
+        document.getElementById('overtimeModal').classList.remove('hidden');
+    }
+
+    function closeOvertimeModal() {
+        document.getElementById('overtimeModal').classList.add('hidden');
+        document.getElementById('overtimeForm').reset();
+        document.getElementById('estimatedHours').textContent = '0 hours';
+    }
+
+    function submitOvertime() {
+        const type = document.getElementById('overtimeType').value;
+        const date = document.getElementById('overtimeDate').value;
+        const start = document.getElementById('overtimeStart').value;
+        const end = document.getElementById('overtimeEnd').value;
+        const reason = document.getElementById('overtimeReason').value;
+
+        if (!type || !date || !start || !end || !reason) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        closeOvertimeModal();
+        showAttendanceSuccess('Overtime Request Submitted!', 'Your overtime request has been submitted and is awaiting supervisor approval.');
+    }
+
+    // Calculate estimated hours
+    document.getElementById('overtimeStart')?.addEventListener('change', calculateOvertimeHours);
+    document.getElementById('overtimeEnd')?.addEventListener('change', calculateOvertimeHours);
+
+    function calculateOvertimeHours() {
+        const start = document.getElementById('overtimeStart').value;
+        const end = document.getElementById('overtimeEnd').value;
+
+        if (start && end) {
+            const startTime = new Date(`2000-01-01T${start}`);
+            const endTime = new Date(`2000-01-01T${end}`);
+            let diff = (endTime - startTime) / (1000 * 60 * 60);
+            
+            if (diff < 0) diff += 24; // Handle overnight shifts
+            
+            document.getElementById('estimatedHours').textContent = diff.toFixed(1) + ' hours';
+        }
+    }
+
+    // DTR Download
+    function downloadDTR() {
+        document.getElementById('dtrModal').classList.remove('hidden');
+    }
+
+    function closeDTRModal() {
+        document.getElementById('dtrModal').classList.add('hidden');
+    }
+
+    function confirmDownloadDTR() {
+        const period = document.getElementById('dtrPeriod').value;
+        const format = document.querySelector('input[name="dtrFormat"]:checked').value;
+
+        closeDTRModal();
+        showAttendanceSuccess('Download Started!', `Your DTR for ${period.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} is being downloaded as ${format.toUpperCase()}.`);
+    }
+
+    // Success Modal
+    function showAttendanceSuccess(title, message) {
+        document.getElementById('successTitle').textContent = title;
+        document.getElementById('successMessage').textContent = message;
+        document.getElementById('attendanceSuccessModal').classList.remove('hidden');
+    }
+
+    function closeAttendanceSuccessModal() {
+        document.getElementById('attendanceSuccessModal').classList.add('hidden');
+    }
+</script>
