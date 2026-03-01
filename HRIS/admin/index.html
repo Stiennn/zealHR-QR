@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeal Community</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar (Fixed) -->
+        <div class="w-64 bg-white shadow-lg flex flex-col fixed h-screen">
+            <!-- Logo Section -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center gap-2">
+                    <div>
+                        <img src="./images/logo.jpg" alt="Zeal Community Logo" class="h-14 w-16 object-contain">
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-gray-800 text-sm">Zeal Community</h1>
+                        <p class="text-xs text-gray-500">HR Management</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 px-4 py-6 space-y-2">
+                <!-- Dashboard -->
+                <a href="javascript:void(0)" onclick="loadContent('dashboard')" class="nav-link flex items-center gap-3 px-4 py-3 bg-blue-50 border-l-4 border-[#003D7A] text-[#003D7A] rounded-lg font-medium transition" data-page="dashboard">
+                    <i class="fas fa-chart-line text-lg"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <!-- Employees -->
+                <a href="javascript:void(0)" onclick="loadContent('employees')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="employees">
+                    <i class="fas fa-users text-lg text-gray-600"></i>
+                    <span>Employees</span>
+                </a>
+
+                <!-- Scheduling -->
+                <a href="javascript:void(0)" onclick="loadContent('scheduling')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="scheduling">
+                    <i class="fas fa-calendar-alt text-lg text-gray-600"></i>
+                    <span>Scheduling</span>
+                </a>
+
+                <!-- Attendance -->
+                <a href="javascript:void(0)" onclick="loadContent('attendance')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="attendance">
+                    <i class="fas fa-clock text-lg text-gray-600"></i>
+                    <span>Attendance</span>
+                </a>
+
+                <!-- Payroll -->
+                <a href="javascript:void(0)" onclick="loadContent('payroll')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="payroll">
+                    <i class="fas fa-money-bill-wave text-lg text-gray-600"></i>
+                    <span>Payroll</span>
+                </a>
+
+                <!-- Performance -->
+                <a href="javascript:void(0)" onclick="loadContent('performance')" class="nav-link flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition" data-page="performance">
+                    <i class="fas fa-chart-bar text-lg text-gray-600"></i>
+                    <span>Performance</span>
+                </a>
+            </nav>
+
+            <!-- User Profile Section -->
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex items-center gap-3 p-3 hover:bg-gray-100 rounded-lg cursor-pointer transition">
+                    <img src="https://via.placeholder.com/40" alt="User" class="w-10 h-10 rounded-full">
+                    <div class="flex-1">
+                        <p class="font-medium text-gray-800 text-sm">Dr. Sarah Miller</p>
+                        <p class="text-xs text-gray-500">HR Administrator</p>
+                    </div>
+                    <i class="fas fa-cog text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area (Right side with margin) -->
+        <div class="flex-1 flex flex-col ml-64">
+            <!-- Top Header (Fixed) -->
+            <div class="bg-white shadow-sm px-8 py-4 flex items-center justify-between sticky top-0 z-40">
+                <div class="flex items-center flex-1">
+                    <input type="text" placeholder="Search staff, shifts, or documents..." class="bg-gray-100 px-4 py-2 rounded-lg text-sm w-96 focus:outline-none">
+                </div>
+                <div class="flex items-center gap-4 relative">
+                    <!-- Notification Bell -->
+                    <button id="notificationBtn" class="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span id="notificationBadge" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+
+                    <!-- Notification Dropdown -->
+                    <div id="notificationDropdown" class="hidden absolute top-12 right-0 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                        <!-- Header -->
+                        <div class="bg-gradient-to-r from-[#003D7A] to-[#0052A3] text-white p-4 rounded-t-lg">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-bell text-lg"></i>
+                                    <h3 class="font-bold text-lg">Notifications</h3>
+                                </div>
+                                <span id="notificationCount" class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">3 new</span>
+                            </div>
+                        </div>
+
+                        <!-- Notifications List -->
+                        <div id="notificationsList" class="max-h-96 overflow-y-auto">
+                            <!-- Notification 1 -->
+                            <div class="notification-item border-b border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition" data-unread="true">
+                                <div class="flex gap-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-exchange-alt text-[#003D7A]"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="font-semibold text-gray-800 text-sm">Shift Swap Requested</p>
+                                        <p class="text-xs text-gray-600 mt-1">Nurse Elena requested to swap Night Shift on June 12 with Nurse Jackson.</p>
+                                        <div class="flex gap-2 mt-3">
+                                            <button class="review-btn bg-[#003D7A] text-white px-3 py-1 rounded text-xs font-medium hover:bg-[#0052A3] transition">Review</button>
+                                            <button class="dismiss-btn border border-gray-300 text-gray-700 px-3 py-1 rounded text-xs hover:bg-gray-100 transition">Dismiss</button>
+                                        </div>
+                                        <p class="text-xs text-gray-400 mt-2">2 minutes ago</p>
+                                    </div>
+                                    <div class="w-2 h-2 bg-red-500 rounded-full mt-1 flex-shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Notification 2 -->
+                            <div class="notification-item border-b border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition" data-unread="true">
+                                <div class="flex gap-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-file text-green-600"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="font-semibold text-gray-800 text-sm">New Document Uploaded</p>
+                                        <p class="text-xs text-gray-600 mt-1">Dr. Smith uploaded "Annual_Certification_2024.pdf"</p>
+                                        <div class="flex gap-2 mt-3">
+                                            <button class="view-btn border border-gray-300 text-gray-700 px-3 py-1 rounded text-xs hover:bg-gray-100 transition">View</button>
+                                            <button class="dismiss-btn border border-gray-300 text-gray-700 px-3 py-1 rounded text-xs hover:bg-gray-100 transition">Dismiss</button>
+                                        </div>
+                                        <p class="text-xs text-gray-400 mt-2">2 hours ago</p>
+                                    </div>
+                                    <div class="w-2 h-2 bg-red-500 rounded-full mt-1 flex-shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Notification 3 -->
+                            <div class="notification-item border-b border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition" data-unread="true">
+                                <div class="flex gap-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-exclamation-triangle text-orange-600"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="font-semibold text-gray-800 text-sm">Late Arrival Warning</p>
+                                        <p class="text-xs text-gray-600 mt-1">Staff member Ryan Freeman was late to his 6:00 AM shift.</p>
+                                        <div class="flex gap-2 mt-3">
+                                            <button class="view-btn border border-gray-300 text-gray-700 px-3 py-1 rounded text-xs hover:bg-gray-100 transition">View Details</button>
+                                            <button class="dismiss-btn border border-gray-300 text-gray-700 px-3 py-1 rounded text-xs hover:bg-gray-100 transition">Dismiss</button>
+                                        </div>
+                                        <p class="text-xs text-gray-400 mt-2">4 hours ago</p>
+                                    </div>
+                                    <div class="w-2 h-2 bg-red-500 rounded-full mt-1 flex-shrink-0"></div>
+                                </div>
+                            </div>
+
+                            <!-- Notification 4 (Read) -->
+                            <div class="notification-item border-b border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition bg-gray-50" data-unread="false">
+                                <div class="flex gap-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-tasks text-purple-600"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="font-semibold text-gray-800 text-sm">Monthly Payroll Processed</p>
+                                        <p class="text-xs text-gray-600 mt-1">February payroll has been processed and deposited to all employees.</p>
+                                        <p class="text-xs text-gray-400 mt-2">1 day ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="border-t border-gray-200 p-3 text-center">
+                            <button id="viewAllBtn" class="text-[#003D7A] hover:text-[#0052A3] text-sm font-medium">VIEW ALL HISTORY</button>
+                        </div>
+                    </div>
+
+                    <!-- Help Button -->
+                    <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                        <i class="fas fa-question-circle text-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Area (Scrollable) -->
+            <div class="flex-1 overflow-auto bg-gray-100">
+                <div id="contentArea" class="p-8">
+                    <!-- Content will load here dynamically -->
+                    <div class="text-center text-gray-400 mt-20">
+                        <p class="text-lg">Loading dashboard...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load external content files
+        function loadContent(page) {
+            const contentArea = document.getElementById('contentArea');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-blue-50', 'border-l-4', 'border-[#003D7A]', 'text-[#003D7A]');
+                link.classList.add('text-gray-700', 'hover:bg-gray-100');
+            });
+            
+            document.querySelector(`[data-page="${page}"]`).classList.add('bg-blue-50', 'border-l-4', 'border-[#003D7A]', 'text-[#003D7A]');
+            document.querySelector(`[data-page="${page}"]`).classList.remove('text-gray-700', 'hover:bg-gray-100');
+
+            // Load external page file
+            const pageFile = `./pages/${page}.html`;
+            
+            fetch(pageFile)
+                .then(response => {
+                    if (!response.ok) throw new Error('Page not found');
+                    return response.text();
+                })
+                .then(html => {
+                    contentArea.innerHTML = html;
+                    // Re-initialize scripts for loaded content
+                    initializePageScripts(page);
+                })
+                .catch(error => {
+                    contentArea.innerHTML = `<div class="text-center text-red-500 mt-20"><p>Error loading page: ${error.message}</p></div>`;
+                });
+        }
+
+        // Initialize scripts for each page
+        function initializePageScripts(page) {
+            if (page === 'dashboard') {
+                // Add dashboard-specific scripts if needed
+            } else if (page === 'employees') {
+                // Add employees-specific scripts if needed
+            }
+            // Add more pages as needed
+        }
+
+        // Notification functionality
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+
+        notificationBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                notificationDropdown.classList.add('hidden');
+            }
+        });
+
+        document.querySelectorAll('.dismiss-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const notificationItem = this.closest('.notification-item');
+                notificationItem.style.transition = 'opacity 0.3s';
+                notificationItem.style.opacity = '0.5';
+                setTimeout(() => {
+                    notificationItem.remove();
+                    updateNotificationCount();
+                }, 300);
+            });
+        });
+
+        document.querySelectorAll('.review-btn, .view-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const notificationItem = this.closest('.notification-item');
+                const title = notificationItem.querySelector('p.font-semibold').textContent;
+                alert('Action for: ' + title);
+            });
+        });
+
+        document.getElementById('viewAllBtn').addEventListener('click', function() {
+            alert('Viewing all notifications history...');
+        });
+
+        function updateNotificationCount() {
+            const unreadCount = document.querySelectorAll('.notification-item[data-unread="true"]').length;
+            const badge = document.getElementById('notificationBadge');
+            const countBadge = document.getElementById('notificationCount');
+            
+            if (unreadCount === 0) {
+                badge.classList.add('hidden');
+                countBadge.textContent = 'No new';
+            } else {
+                badge.classList.remove('hidden');
+                countBadge.textContent = unreadCount + ' new';
+            }
+        }
+
+        updateNotificationCount();
+
+        document.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (!e.target.closest('button')) {
+                    if (this.dataset.unread === 'true') {
+                        this.dataset.unread = 'false';
+                        this.classList.add('bg-gray-50');
+                        this.querySelector('.w-2').remove();
+                        updateNotificationCount();
+                    }
+                }
+            });
+        });
+
+        // Load dashboard on page load
+        window.addEventListener('load', function() {
+            loadContent('dashboard');
+        });
+    </script>
+
+    <!-- Modal Container -->
+    <div id="modalContainer"></div>
+
+    <!-- Load employees.js -->
+    <script src="./js/employees.js"></script>
+
+</body>
+</html>

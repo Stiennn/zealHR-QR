@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Scheduling System - Zeal Community HR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-gray-900">Scheduling</h2>
+                        <p class="text-xs text-gray-600">HR Management</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="p-4 space-y-2">
+                <button onclick="switchTab('templates')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition active-tab bg-blue-50 text-blue-600">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Shift Templates</span>
+                </button>
+
+                <button onclick="switchTab('assignments')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-users"></i>
+                    <span>Assign Shifts</span>
+                </button>
+
+                <button onclick="switchTab('rotations')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Rotational Schedules</span>
+                </button>
+
+                <button onclick="switchTab('availability')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Doctor Availability</span>
+                </button>
+
+                <button onclick="switchTab('overtime')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-clock"></i>
+                    <span>Overtime Tracking</span>
+                </button>
+
+                <button onclick="switchTab('swaps')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Shift Swaps</span>
+                    <span class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">4</span>
+                </button>
+
+                <button onclick="switchTab('conflicts')" class="tab-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Conflict Detection</span>
+                    <span class="ml-auto bg-yellow-500 text-white text-xs px-2 py-0.5 rounded-full">2</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <div class="p-8">
+                <!-- ============ TAB 1: SHIFT TEMPLATES ============ -->
+                <div id="templates-tab" class="tab-content space-y-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Shift Templates</h1>
+                            <p class="text-gray-600 mt-1">Manage and create standardized shift types</p>
+                        </div>
+                        <button onclick="openModal('createTemplateModal')" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                            <i class="fas fa-plus"></i>
+                            Create Template
+                        </button>
+                    </div>
+
+                    <!-- Template List -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Template Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Time</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Duration</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Department</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Required Staff</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <!-- Template 1 -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                                            <span class="font-medium text-gray-900">Weekday Morning – OPD</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Morning</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">08:00 - 14:00</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">6 hours</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">OPD</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">2 Physicians, 1 Nurse</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <div class="flex gap-2">
+                                            <button onclick="openModal('editTemplateModal')" class="text-blue-600 hover:text-blue-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                            <button class="text-red-400 hover:text-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Template 2 -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 bg-purple-500 rounded-full"></div>
+                                            <span class="font-medium text-gray-900">Evening Shift – ICU</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full font-medium">Evening</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">14:00 - 22:00</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">8 hours</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">ICU</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">1 Physician, 3 Nurses</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">Active</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <div class="flex gap-2">
+                                            <button onclick="openModal('editTemplateModal')" class="text-blue-600 hover:text-blue-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                            <button class="text-red-400 hover:text-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Template 3 -->
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 bg-indigo-500 rounded-full"></div>
+                                            <span class="font-medium text-gray-900">Night Shift – Emergency</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded-full font-medium">Night</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">22:00 - 06:00</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">8 hours</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">Emergency</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">2 Physicians, 2 Nurses</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">Inactive</span>
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <div class="flex gap-2">
+                                            <button onclick="openModal('editTemplateModal')" class="text-blue-600 hover:text-blue-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                            <button class="text-red-400 hover:text-red-600">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ============ TAB 2: ASSIGN SHIFTS ============ -->
+                <div id="assignments-tab" class="tab-content hidden space-y-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Assign Shifts</h1>
+                            <p class="text-gray-600 mt-1">Assign doctors to specific dates and shifts</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openModal('quickAssignModal')" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                                <i class="fas fa-plus"></i>
+                                Quick Assign
+                            </button>
+                            <button onclick="openModal('bulkAssignModal')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition flex items-center gap-2">
+                                <i class="fas fa-clone"></i>
+                                Bulk Assign
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filter Section -->
+                    <div class="bg-white rounded-lg shadow p-4 flex gap-4">
+                        <select class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            <option>All Departments</option>
+                            <option>OPD</option>
+                            <option>ICU</option>
+                            <option>Emergency</option>
+                        </select>
+                        <select class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            <option>All Shift Types</option>
+                            <option>Morning</option>
+                            <option>Evening</option>
+                            <option>Night</option>
+                        </select>
+                        <select class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                            <option>All Doctors</option>
+                            <option>Dr. Sarah Johnson</option>
+                            <option>Dr. James Smith</option>
+                            <option>Dr. Maria Garcia</option>
+                        </select>
+                    </div>
+
+                    <!-- Calendar View -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-gray-900">February 2026</h2>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Month</button>
+                                <button class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Week</button>
+                                <button class="px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Day</button>
+                            </div>
+                        </div>
+
+                        <!-- Month Grid -->
+                        <div class="grid grid-cols-7 gap-2">
+                            <!-- Days of week header -->
+                            <div class="text-center font-semibold text-gray-600 py-2">SUN</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">MON</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">TUE</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">WED</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">THU</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">FRI</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">SAT</div>
+
+                            <!-- Calendar cells -->
+                            <div class="p-2 bg-gray-50 rounded border border-gray-200 min-h-24">
+                                <div class="text-gray-400 text-sm font-medium">1</div>
+                            </div>
+                            <div class="p-2 bg-gray-50 rounded border border-gray-200 min-h-24">
+                                <div class="text-gray-400 text-sm font-medium">2</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium mb-1">3</div>
+                                <div class="bg-blue-100 text-blue-700 text-xs px-1 py-0.5 rounded mb-0.5">Dr. Sarah (M)</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium mb-1">4</div>
+                                <div class="bg-purple-100 text-purple-700 text-xs px-1 py-0.5 rounded">Dr. James (E)</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium">5</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium mb-1">6</div>
+                                <div class="bg-indigo-100 text-indigo-700 text-xs px-1 py-0.5 rounded">Dr. Maria (N)</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium">7</div>
+                            </div>
+
+                            <!-- More dates -->
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium">8</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium mb-1">9</div>
+                                <div class="bg-blue-100 text-blue-700 text-xs px-1 py-0.5 rounded">Dr. Kevin (M)</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium">10</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium mb-1">11</div>
+                                <div class="bg-purple-100 text-purple-700 text-xs px-1 py-0.5 rounded">Dr. Amy (E)</div>
+                            </div>
+                            <div class="p-2 bg-red-50 rounded border border-red-200 min-h-24">
+                                <div class="text-red-700 text-sm font-medium mb-1">12</div>
+                                <div class="bg-red-100 text-red-700 text-xs px-1 py-0.5 rounded">On Leave</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium">13</div>
+                            </div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24 cursor-pointer hover:bg-blue-50">
+                                <div class="text-gray-900 text-sm font-medium">14</div>
+                            </div>
+
+                            <!-- More rows -->
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                            <div class="p-2 bg-white rounded border border-gray-200 min-h-24"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ TAB 3: ROTATIONAL SCHEDULES ============ -->
+                <div id="rotations-tab" class="tab-content hidden space-y-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Rotational Schedules</h1>
+                            <p class="text-gray-600 mt-1">Automate and manage repeating shift patterns</p>
+                        </div>
+                        <button onclick="openModal('createRotationModal')" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                            <i class="fas fa-plus"></i>
+                            Create Rotation
+                        </button>
+                    </div>
+
+                    <!-- Active Rotations -->
+                    <div class="grid grid-cols-2 gap-6">
+                        <!-- Rotation 1 -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">ICU 3-Shift Rotation</h3>
+                                    <p class="text-sm text-gray-600 mt-1">2-week cycle</p>
+                                </div>
+                                <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">Active</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-600 uppercase mb-2">Pattern</p>
+                                    <div class="space-y-2">
+                                        <div class="flex gap-1">
+                                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-medium px-2 py-1 rounded">E</span>
+                                            <span class="bg-purple-100 text-purple-700 text-xs font-medium px-2 py-1 rounded">E</span>
+                                            <span class="bg-indigo-100 text-indigo-700 text-xs font-medium px-2 py-1 rounded">N</span>
+                                            <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded">Off</span>
+                                            <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded">Off</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600">Week 1: M-M-E-E-N-Off-Off</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-600 uppercase mb-2">Assigned Doctors</p>
+                                    <div class="flex -space-x-2">
+                                        <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">SJ</div>
+                                        <div class="w-8 h-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">RM</div>
+                                        <div class="w-8 h-8 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">MG</div>
+                                        <div class="w-8 h-8 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">+2</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-2 pt-4 border-t border-gray-200">
+                                    <button onclick="openModal('editRotationModal')" class="flex-1 px-3 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-200 transition">
+                                        Edit
+                                    </button>
+                                    <button class="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                                        View Schedule
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rotation 2 -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">OPD Morning Rotation</h3>
+                                    <p class="text-sm text-gray-600 mt-1">4-week cycle</p>
+                                </div>
+                                <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">Active</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-600 uppercase mb-2">Pattern</p>
+                                    <div class="space-y-2">
+                                        <div class="flex gap-1">
+                                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                                            <span class="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded">M</span>
+                                            <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded">Off</span>
+                                            <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded">Off</span>
+                                        </div>
+                                        <p class="text-xs text-gray-600">Week 1-4: M-M-M-M-M-Off-Off</p>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-600 uppercase mb-2">Assigned Doctors</p>
+                                    <div class="flex -space-x-2">
+                                        <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">AL</div>
+                                        <div class="w-8 h-8 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">KS</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-2 pt-4 border-t border-gray-200">
+                                    <button onclick="openModal('editRotationModal')" class="flex-1 px-3 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-200 transition">
+                                        Edit
+                                    </button>
+                                    <button class="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition">
+                                        View Schedule
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ TAB 4: DOCTOR AVAILABILITY ============ -->
+                <div id="availability-tab" class="tab-content hidden space-y-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Doctor Availability</h1>
+                            <p class="text-gray-600 mt-1">Track and manage doctor availability and leave</p>
+                        </div>
+                    </div>
+
+                    <!-- Doctor Selector -->
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select Doctor</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg text-sm">
+                            <option>-- Select a Doctor --</option>
+                            <option selected>Dr. Sarah Johnson</option>
+                            <option>Dr. James Smith</option>
+                            <option>Dr. Maria Garcia</option>
+                            <option>Dr. Kevin Davis</option>
+                        </select>
+                    </div>
+
+                    <!-- Availability Calendar -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">Availability Status - February 2026</h2>
+
+                        <div class="grid grid-cols-7 gap-2 mb-6">
+                            <!-- Days of week header -->
+                            <div class="text-center font-semibold text-gray-600 py-2">SUN</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">MON</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">TUE</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">WED</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">THU</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">FRI</div>
+                            <div class="text-center font-semibold text-gray-600 py-2">SAT</div>
+
+                            <!-- Calendar cells with color codes -->
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center">
+                                <div class="font-medium text-gray-900">1</div>
+                                <div class="text-xs text-green-600 font-semibold mt-1">✓</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center">
+                                <div class="font-medium text-gray-900">2</div>
+                                <div class="text-xs text-green-600 font-semibold mt-1">✓</div>
+                            </div>
+                            <div class="p-3 bg-yellow-50 rounded border-2 border-yellow-300 text-center">
+                                <div class="font-medium text-gray-900">3</div>
+                                <div class="text-xs text-yellow-600 font-semibold mt-1">◐</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center">
+                                <div class="font-medium text-gray-900">4</div>
+                                <div class="text-xs text-green-600 font-semibold mt-1">✓</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center">
+                                <div class="font-medium text-gray-900">5</div>
+                                <div class="text-xs text-green-600 font-semibold mt-1">✓</div>
+                            </div>
+                            <div class="p-3 bg-red-50 rounded border-2 border-red-300 text-center">
+                                <div class="font-medium text-gray-900">6</div>
+                                <div class="text-xs text-red-600 font-semibold mt-1">✗</div>
+                            </div>
+                            <div class="p-3 bg-gray-100 rounded border-2 border-gray-400 text-center">
+                                <div class="font-medium text-gray-600">7</div>
+                                <div class="text-xs text-gray-600 font-semibold mt-1">-</div>
+                            </div>
+
+                            <!-- More days -->
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">8</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-red-50 rounded border-2 border-red-300 text-center"><div class="font-medium">9</div><div class="text-xs text-red-600 font-semibold mt-1">✗</div></div>
+                            <div class="p-3 bg-red-50 rounded border-2 border-red-300 text-center"><div class="font-medium">10</div><div class="text-xs text-red-600 font-semibold mt-1">✗</div></div>
+                            <div class="p-3 bg-red-50 rounded border-2 border-red-300 text-center"><div class="font-medium">11</div><div class="text-xs text-red-600 font-semibold mt-1">✗</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">12</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">13</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-gray-100 rounded border-2 border-gray-400 text-center"><div class="font-medium text-gray-600">14</div><div class="text-xs text-gray-600 font-semibold mt-1">-</div></div>
+
+                            <!-- More rows -->
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">15</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">16</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">17</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-yellow-50 rounded border-2 border-yellow-300 text-center"><div class="font-medium">18</div><div class="text-xs text-yellow-600 font-semibold mt-1">◐</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">19</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">20</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-gray-100 rounded border-2 border-gray-400 text-center"><div class="font-medium text-gray-600">21</div><div class="text-xs text-gray-600 font-semibold mt-1">-</div></div>
+
+                            <!-- Last row -->
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">22</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">23</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">24</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">25</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">26</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-green-50 rounded border-2 border-green-300 text-center"><div class="font-medium">27</div><div class="text-xs text-green-600 font-semibold mt-1">✓</div></div>
+                            <div class="p-3 bg-gray-100 rounded border-2 border-gray-400 text-center"><div class="font-medium text-gray-600">28</div><div class="text-xs text-gray-600 font-semibold mt-1">-</div></div>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="flex gap-6 p-4 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 bg-green-300 rounded"></div>
+                                <span class="text-sm text-gray-700">Available</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 bg-yellow-300 rounded"></div>
+                                <span class="text-sm text-gray-700">Limited</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 bg-red-300 rounded"></div>
+                                <span class="text-sm text-gray-700">Unavailable</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-6 h-6 bg-gray-400 rounded"></div>
+                                <span class="text-sm text-gray-700">Leave</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Summary Panel -->
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <p class="text-sm text-gray-600 font-medium uppercase">Weekly Available Hours</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">40 hrs</p>
+                            <p class="text-xs text-gray-600 mt-1">Standard full-time</p>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <p class="text-sm text-gray-600 font-medium uppercase">Upcoming Leave</p>
+                            <p class="text-3xl font-bold text-gray-900 mt-2">6 days</p>
+                            <p class="text-xs text-gray-600 mt-1">March 9-14, 2026</p>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <p class="text-sm text-gray-600 font-medium uppercase">Overtime Risk</p>
+                            <p class="text-3xl font-bold text-orange-600 mt-2">68%</p>
+                            <p class="text-xs text-gray-600 mt-1">Budget usage this month</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============ TAB 5: OVERTIME TRACKING ============ -->
+                <div id="overtime-tab" class="tab-content hidden space-y-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Overtime Tracking</h1>
+                            <p class="text-gray-600 mt-1">Monitor extra hours and cost impact</p>
+                        </div>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2">
+                            <i class="fas fa-download"></i>
+                            Export Report
+                        </button>
+                    </div>
+
+                    <!-- Overtime Dashboard -->
+                    <div class="grid grid-cols-3 gap-6">
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 font-medium uppercase">Total Overtime (Feb)</p>
+                                    <p class="text-3xl font-bold text-gray-900 mt-2">156.5 hrs</p>
+                                </div>
+                                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-clock text-blue-600 text-2xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-3">↑ 12% from last month</p>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 font-medium uppercase">Overtime Cost</p>
+                                    <p class="text-3xl font-bold text-green-600 mt-2">$12,520</p>
+                                </div>
+                                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-dollar-sign text-green-600 text-2xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-3">Budget: $15,000</p>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-600 font-medium uppercase">Budget Usage</p>
+                                    <p class="text-3xl font-bold text-orange-600 mt-2">83.5%</p>
+                                </div>
+                                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-chart-pie text-orange-600 text-2xl"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-3">$2,480 remaining</p>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="grid grid-cols-2 gap-6">
+                        <!-- Overtime by Department -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4">Overtime by Department</h3>
+                            <canvas id="deptChart" height="300"></canvas>
+                        </div>
+
+                        <!-- Overtime by Doctor -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <h3 class="text-lg font-bold text-gray-900 mb-4">Top Overtime Doctors</h3>
+                            <canvas id="doctorChart" height="300"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Overtime Table -->
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="p-6 border-b border-gray-200">
+                            <h3 class="text-lg font-bold text-gray-900">Doctor Overtime Details</h3>
+                        </div>
+                        <table class="w-full">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Doctor Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Scheduled Hours</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Actual Hours</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Overtime Hours</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Cost Impact</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium text-gray-900">Dr. Sarah Johnson</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">160 hrs</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">178 hrs</td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-orange-600">+18 hrs</td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">$2,160</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-medium">Pending Approval</span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium text-gray-900">Dr. Kevin Davis</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">160 hrs</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">172.5 hrs</td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-orange-600">+12.5 hrs</td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">$1,500</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">Approved</span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium text-gray-900">Dr. Maria Garcia</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">160 hrs</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">168 hrs</td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-orange-600">+8 hrs</td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">$960</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">Approved</span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium text-gray-900">Dr. James Smith</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">160 hrs</td>
+                                    <td class="px-6 py-4 text-sm text-gray-700">165 hrs</td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-orange-600">+5 hrs</td>
+                                    <td class="px-6 py-4 text-sm font-semibold text-gray-900">$600</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Pending Review</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ============ TAB 6: SHIFT SWAPS ============ -->
+                <div id="swaps-tab" class="tab-content hidden space-y-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h1 class="text-3xl font-bold text-gray-900">Shift Swap Requests</h1>
+                            <p class="text-gray-600 mt-1">Manage and approve shift exchange requests</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">All Requests</button>
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Pending</button>
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">Approved</button>
+                        </div>
+                    </div>
+
+                    <!-- Pending Requests -->
+                    <div class="space-y-4">
+                        <!-- Request 1 -->
+                        <div class="bg-white rounded-lg shadow p-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-12 h-12 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-lg font-bold">SJ</div>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Dr. Sarah Johnson</p>
+                                        <p class="text-sm text-gray-600 mt-1">Wants to swap <strong>Feb 8 (Morning)</strong> with <strong>Feb 10 (Evening)</strong></p>
+                                        <p class="text-xs text-gray-500 mt-2">Requested Feb 25, 2026 at 10:30 AM</p>
+                                    </div>
+                                </div>
+                                <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">Pending</span>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                                <p class="text-xs font-semibold text-blue-600 uppercase mb-2">Conflict Check Result</p>
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-check-circle text-green-600"></i>
+                                    <p class="text-sm text-gray-700"><strong>No conflicts detected.</strong> Both shifts are available and doctor is qualified.</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 mb-4 text-sm">
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-600 uppercase mb-1">Shift to Give</p>
+                                    <div class="bg-gray-50 p-3 rounded">
+                                        <p class="font-medium text-gray-900">Morning Shift</p>
+                                        <p class="text-xs text-gray-600">Feb 8, 08:00 - 14:00</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-gray-600 uppercase mb-1">Shift to Receive</p>
+                                    <div class="bg-gray-50 p-3 rounded">
+                                        <p class="font-medium text-gray-900">Evening Shift</p>
+                                        <p class="text-xs text-gray-600">Feb 10, 14:00 - 22:00</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-3">
+                                <button class="flex-1 bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition">
+                                    <i class="fas fa-check mr-2"></i>Approve Swap
+                                </button>
+                                <button class="flex-1 border border-red-300 text-red-600 px-4 py-2 rounded-lg font-medium hover:bg-red-50 transition">
+                                    <i class="fas fa-times mr-2"></i>Reject Swap
+                                </button>
+                                <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition">
+                                    More Info
+                                </button>
+                            </div>
+                        </div>
+                <!-- ============ CONFLICT DETECTION ============ -->
+            <div id="conflicts-content" class="hidden">
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">Conflict Detection</h2>
+                            <p class="text-gray-600 text-sm mt-1">Prevent scheduling errors and double bookings</p>
+                        </div>
+                        <button class="bg-[#003D7A] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#0052A3] transition flex items-center gap-2">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </button>
+                    </div>
+
+                    <!-- Active Conflicts -->
+                    <div class="space-y-4">
+                        <!-- Conflict 1: Double Booking -->
+                        <div class="bg-white rounded-lg shadow border-l-4 border-red-500 p-6">
+                            <div class="flex items-start justify-between mb-4">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <i class="fas fa-exclamation-circle text-red-600 text-lg"></i>
+                                        <p class="font-bold text-gray-900">Double Booking Detected</p>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Severity: <span class="font-semibold text-red-600">CRITICAL</span></p>
+                                </div>
+                                <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-medium">Active</span>
+                            </div>
+
+                            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                                <p class="text-sm font-semibold text-gray-900 mb-2">Affected Shifts:</p>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-700"><strong>Dr. Sarah Johnson</strong></span>
+                                        <span class="text-gray-600">Feb 15, 08:00 - 14:00</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <span class="text-gray-700"><strong>Dr. Sarah Johnson</strong></span>
+                                        <span class="text-gray-600">Feb 15, 14:00 - 22:00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                                <p class="text-sm font-semibold text-gray-900 mb-2">Suggested Resolutions:</p>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center gap-2">
+                                        <i class="fas fa-arrow-right text-blue-600"></i>
+                                        Reassign one shift to another doctor
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fas fa-arrow-right text-blue-600"></i>
+                                        Convert to on-call duty
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <i class="fas fa-arrow-right text-blue-600"></i>
+                                        Remove duplicate shift entry
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <button class="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition">
+                                    Resolve Now
+                                </button>
+                                <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+
+           
+                    
+
+
+            

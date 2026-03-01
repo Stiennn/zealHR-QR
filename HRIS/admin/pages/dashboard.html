@@ -1,0 +1,176 @@
+<!-- Dashboard Content -->
+<div class="p-8">
+    <!-- Top Stats Row -->
+    <div class="grid grid-cols-4 gap-6 mb-8">
+        <!-- Total Employees -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-blue-100 p-3 rounded-lg">
+                    <i class="fas fa-users text-[#003D7A] text-xl"></i>
+                </div>
+                <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded font-medium">+4%</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-1">Total Employees</p>
+            <h2 class="text-3xl font-bold text-gray-900">124</h2>
+        </div>
+
+        <!-- Active Shifts -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-orange-100 p-3 rounded-lg">
+                    <i class="fas fa-calendar-check text-orange-600 text-xl"></i>
+                </div>
+                <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded font-medium">Stable</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-1">Active Shifts</p>
+            <h2 class="text-3xl font-bold text-gray-900">18</h2>
+        </div>
+
+        <!-- Pending Leaves -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-red-100 p-3 rounded-lg">
+                    <i class="fas fa-calendar-times text-red-600 text-xl"></i>
+                </div>
+                <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded font-medium">High Priority</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-1">Pending Leaves</p>
+            <h2 class="text-3xl font-bold text-gray-900">7</h2>
+        </div>
+
+        <!-- Monthly Payroll -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-green-100 p-3 rounded-lg">
+                    <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
+                </div>
+                <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded font-medium">+1.5%</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-1">Monthly Payroll</p>
+            <h2 class="text-3xl font-bold text-gray-900">₱84,200</h2>
+        </div>
+    </div>
+
+    <!-- KPI Performance Overview -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-lg font-bold text-gray-900">KPI Performance Overview</h3>
+                <p class="text-gray-600 text-sm">Workforce efficiency and patient satisfaction scores</p>
+            </div>
+            <select class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm focus:outline-none">
+                <option>Last 30 Days</option>
+                <option>Last 60 Days</option>
+                <option>Last 90 Days</option>
+            </select>
+        </div>
+
+        <div class="mb-8">
+            <div class="flex items-baseline gap-2 mb-4">
+                <h4 class="text-4xl font-bold text-blue-600">88%</h4>
+                <span class="text-green-600 text-sm font-medium">+4.2% from last month</span>
+            </div>
+            
+            <div class="flex items-end justify-between gap-3 h-32 mb-6">
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-blue-200 rounded-t" style="height: 40%;"></div>
+                    <p class="text-xs text-gray-600 mt-2">Week 1</p>
+                </div>
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-blue-300 rounded-t" style="height: 55%;"></div>
+                    <p class="text-xs text-gray-600 mt-2">Week 2</p>
+                </div>
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-blue-300 rounded-t" style="height: 45%;"></div>
+                    <p class="text-xs text-gray-600 mt-2">Week 3</p>
+                </div>
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-blue-600 rounded-t" style="height: 75%;"></div>
+                    <p class="text-xs text-gray-600 mt-2">Week 4</p>
+                </div>
+                <div class="flex flex-col items-center flex-1">
+                    <div class="w-full bg-blue-300 rounded-t" style="height: 60%;"></div>
+                    <p class="text-xs text-gray-600 mt-2">Week 5</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 border-t pt-6">
+            <div>
+                <p class="text-gray-600 text-xs uppercase font-medium mb-2">AVG RESPONSE TIME</p>
+                <p class="text-2xl font-bold text-gray-900">12.4m</p>
+            </div>
+            <div>
+                <p class="text-gray-600 text-xs uppercase font-medium mb-2">PATIENT SATISFACTION</p>
+                <p class="text-2xl font-bold text-gray-900">4.8/5.0</p>
+            </div>
+            <div>
+                <p class="text-gray-600 text-xs uppercase font-medium mb-2">STAFF TURNOVER</p>
+                <p class="text-2xl font-bold text-gray-900">1.2%</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Shift Changes -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-bold text-gray-900">Upcoming Shift Changes</h3>
+            <div class="flex items-center gap-4">
+                <span class="text-gray-600 text-sm">NEXT 48 HOURS</span>
+                <a href="javascript:void(0)" class="text-[#003D7A] hover:text-[#0052A3] font-medium text-sm">View All</a>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b border-gray-200">
+                        <th class="text-left px-4 py-3 text-xs font-medium text-gray-600 uppercase">STAFF MEMBER</th>
+                        <th class="text-left px-4 py-3 text-xs font-medium text-gray-600 uppercase">PREVIOUS SHIFT</th>
+                        <th class="text-left px-4 py-3 text-xs font-medium text-gray-600 uppercase">NEW SHIFT</th>
+                        <th class="text-left px-4 py-3 text-xs font-medium text-gray-600 uppercase">REASON</th>
+                        <th class="text-left px-4 py-3 text-xs font-medium text-gray-600 uppercase">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="px-4 py-4 flex items-center gap-3">
+                            <img src="https://via.placeholder.com/32" alt="Staff" class="w-8 h-8 rounded-full">
+                            <span class="font-medium text-gray-900">Dr. Eduard Giron</span>
+                        </td>
+                        <td class="px-4 py-4 text-sm text-gray-600">Today, 12:00</td>
+                        <td class="px-4 py-4 text-sm text-gray-600">Tomorrow, 08:00</td>
+                        <td class="px-4 py-4 text-sm text-gray-600">Shift Swap</td>
+                        <td class="px-4 py-4">
+                            <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium">CONFIRMED</span>
+                        </td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="px-4 py-4 flex items-center gap-3">
+                            <img src="https://via.placeholder.com/32" alt="Staff" class="w-8 h-8 rounded-full">
+                            <span class="font-medium text-gray-900">Stien Bagulin</span>
+                        </td>
+                        <td class="px-4 py-4 text-sm text-gray-600">Tomorrow, 08:00</td>
+                        <td class="px-4 py-4 text-sm text-gray-600">Tomorrow, 16:00</td>
+                        <td class="px-4 py-4 text-sm text-gray-600">Personal Leave</td>
+                        <td class="px-4 py-4">
+                            <span class="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full font-medium">PENDING</span>
+                        </td>
+                    </tr>
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-4 flex items-center gap-3">
+                            <img src="https://via.placeholder.com/32" alt="Staff" class="w-8 h-8 rounded-full">
+                            <span class="font-medium text-gray-900">Mark Ostos</span>
+                        </td>
+                        <td class="px-4 py-4 text-sm text-gray-600">Wed, 07:00</td>
+                        <td class="px-4 py-4 text-sm text-gray-600">Thu, 07:00</td>
+                        <td class="px-4 py-4 text-sm text-gray-600">Schedule Update</td>
+                        <td class="px-4 py-4">
+                            <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-medium">CONFIRMED</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

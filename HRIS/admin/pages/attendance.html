@@ -1,0 +1,507 @@
+<!-- Attendance Content -->
+<div class="p-8">
+    <div class="grid grid-cols-4 gap-6">
+        <!-- Left Section - Live Check-in Status -->
+        <div class="col-span-3 space-y-6">
+            <!-- Live Check-in Status Card -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-bold text-gray-900">Live Check-in Status</h3>
+                    <button class="text-[#003D7A] hover:text-[#0052A3] font-medium text-sm flex items-center gap-2">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+
+                <!-- Check-in Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">STAFF MEMBER</th>
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">CHECK-IN TIME</th>
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">CHECK-OUT TIME</th>
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">STATUS</th>
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">HOURS TODAY</th>
+                                <th class="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Staff Member 1 -->
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="px-4 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-green-500 text-white rounded-full flex items-center justify-center font-bold">
+                                            SC
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900">Dr. Sarah Chen</p>
+                                            <p class="text-xs text-gray-500">Senior Surgeon</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm font-semibold text-gray-900">07:54 AM</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-600">--:-- --</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">On Time</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-700">8.0h</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <button onclick="openEditModal('Dr. Sarah Chen', 'SC', '07:54 AM', '--:-- --')" class="text-[#003D7A] hover:text-[#0052A3] font-medium text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Staff Member 2 -->
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="px-4 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold">
+                                            MW
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900">Mark Wilson</p>
+                                            <p class="text-xs text-gray-500">Nurse Practitioner</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm font-semibold text-gray-900">08:12 AM</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm font-semibold text-gray-900">05:15 PM</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="bg-yellow-100 text-yellow-700 text-xs font-semibold px-3 py-1 rounded-full">Late (12m)</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-700">9.0h</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <button onclick="openEditModal('Mark Wilson', 'MW', '08:12 AM', '05:15 PM')" class="text-[#003D7A] hover:text-[#0052A3] font-medium text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Staff Member 3 -->
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="px-4 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold">
+                                            ER
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900">Emily Rodriguez</p>
+                                            <p class="text-xs text-gray-500">Lab Technician</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm font-semibold text-gray-900">07:45 AM</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm font-semibold text-gray-900">04:30 PM</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">On Time</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-700">8.75h</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <button onclick="openEditModal('Emily Rodriguez', 'ER', '07:45 AM', '04:30 PM')" class="text-[#003D7A] hover:text-[#0052A3] font-medium text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Staff Member 4 -->
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="px-4 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-red-500 text-white rounded-full flex items-center justify-center font-bold">
+                                            JD
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900">John Davis</p>
+                                            <p class="text-xs text-gray-500">Medical Assistant</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-red-600 font-semibold">--:-- --</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-600">--:-- --</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="bg-red-100 text-red-700 text-xs font-semibold px-3 py-1 rounded-full">Absent</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-700">0.0h</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <button onclick="openEditModal('John Davis', 'JD', '--:-- --', '--:-- --')" class="text-[#003D7A] hover:text-[#0052A3] font-medium text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Staff Member 5 -->
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="px-4 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-indigo-500 text-white rounded-full flex items-center justify-center font-bold">
+                                            AS
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900">Angela Smith</p>
+                                            <p class="text-xs text-gray-500">Nurse</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm font-semibold text-gray-900">08:00 AM</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm font-semibold text-gray-900">06:00 PM</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="bg-green-100 text-green-700 text-xs font-semibold px-3 py-1 rounded-full">On Time</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-700">10.0h</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <button onclick="openEditModal('Angela Smith', 'AS', '08:00 AM', '06:00 PM')" class="text-[#003D7A] hover:text-[#0052A3] font-medium text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Staff Member 6 -->
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-pink-500 text-white rounded-full flex items-center justify-center font-bold">
+                                            LS
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900">Linda Stewart</p>
+                                            <p class="text-xs text-gray-500">Administrator</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm font-semibold text-gray-900">09:00 AM</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-600">--:-- --</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 rounded-full">In Progress</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <span class="text-sm text-gray-700">5.5h</span>
+                                </td>
+                                <td class="px-4 py-4">
+                                    <button onclick="openEditModal('Linda Stewart', 'LS', '09:00 AM', '--:-- --')" class="text-[#003D7A] hover:text-[#0052A3] font-medium text-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- View Full Log Button -->
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <a href="javascript:void(0)" class="text-[#003D7A] hover:text-[#0052A3] font-medium text-sm">
+                        View Full Attendance Log
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section - Absence Tracking & Reports -->
+        <div class="col-span-1 space-y-6">
+            <!-- Absence Tracking -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-6">Absence Tracking</h3>
+
+                <div class="space-y-4">
+                    <!-- Absence 1 -->
+                    <div class="border-l-4 border-red-500 pl-4 py-2">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="font-semibold text-gray-900 text-sm">Dr. James White</p>
+                                <p class="text-xs text-gray-600 mt-1">Sick Leave (Unplanned)</p>
+                            </div>
+                            <span class="bg-red-100 text-red-700 text-xs font-semibold px-2 py-1 rounded">Today</span>
+                        </div>
+                    </div>
+
+                    <!-- Absence 2 -->
+                    <div class="border-l-4 border-blue-500 pl-4 py-2">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="font-semibold text-gray-900 text-sm">Nurse Linda</p>
+                                <p class="text-xs text-gray-600 mt-1">
+                                    <i class="fas fa-plane text-blue-500"></i>
+                                    Planned Vacation
+                                </p>
+                            </div>
+                            <span class="text-xs text-gray-600">Ends Oct 15</span>
+                        </div>
+                    </div>
+
+                    <!-- Absence 3 -->
+                    <div class="border-l-4 border-green-500 pl-4 py-2">
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="font-semibold text-gray-900 text-sm">Dr. Michael Brown</p>
+                                <p class="text-xs text-gray-600 mt-1">
+                                    <i class="fas fa-graduation-cap text-green-500"></i>
+                                    Training
+                                </p>
+                            </div>
+                            <span class="text-xs text-gray-600">Ends Oct 20</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Report -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Monthly Report</h3>
+                <p class="text-gray-600 text-sm mb-6">Generate the comprehensive attendance, OT, and late marking report for <span class="font-semibold">October 2023</span></p>
+                
+                <div class="space-y-3">
+                    <!-- Download PDF -->
+                    <button class="w-full bg-[#003D7A] hover:bg-[#0052A3] text-white px-4 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2">
+                        <i class="fas fa-download"></i>
+                        Download PDF
+                    </button>
+
+                    <!-- Email to Payroll -->
+                    <button class="w-full border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2">
+                        <i class="fas fa-envelope"></i>
+                        Email to Payroll
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Filter -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Quick Filters</h3>
+                
+                <div class="space-y-3">
+                    <!-- Department Filter -->
+                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                        <option>All Departments</option>
+                        <option>Medical</option>
+                        <option>Nursing</option>
+                        <option>Administration</option>
+                        <option>Lab</option>
+                    </select>
+
+                    <!-- Date Range -->
+                    <input type="date" class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+
+                    <!-- Apply Filter -->
+                    <button class="w-full bg-[#003D7A] hover:bg-[#0052A3] text-white px-4 py-2 rounded-lg font-medium transition">
+                        Apply Filter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Time Modal -->
+<div id="editTimeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-lg font-bold text-gray-900">Edit Attendance Time</h3>
+            <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600 text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="space-y-4">
+            <!-- Staff Member Info -->
+            <div>
+                <p class="text-xs text-gray-600 uppercase font-semibold mb-2">Staff Member</p>
+                <p class="text-gray-900 font-semibold text-lg" id="modalStaffName"></p>
+            </div>
+
+            <!-- Check-in Time -->
+            <div>
+                <label class="text-xs text-gray-600 uppercase font-semibold mb-2 block">Check-in Time</label>
+                <div class="flex gap-2">
+                    <input type="time" id="checkInTime" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                    <input type="date" id="checkInDate" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                </div>
+            </div>
+
+            <!-- Check-out Time -->
+            <div>
+                <label class="text-xs text-gray-600 uppercase font-semibold mb-2 block">Check-out Time</label>
+                <div class="flex gap-2">
+                    <input type="time" id="checkOutTime" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                    <input type="date" id="checkOutDate" class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                </div>
+            </div>
+
+            <!-- Reason for Change -->
+            <div>
+                <label class="text-xs text-gray-600 uppercase font-semibold mb-2 block">Reason for Change</label>
+                <select id="reasonSelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#003D7A]">
+                    <option>Select a reason</option>
+                    <option>Employee Request</option>
+                    <option>System Error</option>
+                    <option>Manual Correction</option>
+                    <option>Emergency Leave</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <!-- Notes -->
+            <div>
+                <label class="text-xs text-gray-600 uppercase font-semibold mb-2 block">Additional Notes</label>
+                <textarea id="notesTextarea" rows="3" placeholder="Add any notes about this change..." class="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#003D7A] resize-none"></textarea>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3 pt-4 border-t border-gray-200">
+                <button onclick="closeEditModal()" class="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition">
+                    Cancel
+                </button>
+                <button onclick="saveTimeChanges()" class="flex-1 bg-[#003D7A] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#0052A3] transition">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentStaffData = {};
+
+    function openEditModal(staffName, initials, checkInTime, checkOutTime) {
+        currentStaffData = {
+            name: staffName,
+            initials: initials,
+            originalCheckIn: checkInTime,
+            originalCheckOut: checkOutTime
+        };
+
+        document.getElementById('modalStaffName').textContent = staffName;
+        
+        // Parse and set times
+        const today = new Date().toISOString().split('T')[0];
+        
+        if (checkInTime !== '--:-- --') {
+            const [time, period] = checkInTime.split(' ');
+            const [hours, minutes] = time.split(':');
+            let h = parseInt(hours);
+            if (period === 'PM' && h !== 12) h += 12;
+            if (period === 'AM' && h === 12) h = 0;
+            document.getElementById('checkInTime').value = String(h).padStart(2, '0') + ':' + minutes;
+            document.getElementById('checkInDate').value = today;
+        }
+
+        if (checkOutTime !== '--:-- --') {
+            const [time, period] = checkOutTime.split(' ');
+            const [hours, minutes] = time.split(':');
+            let h = parseInt(hours);
+            if (period === 'PM' && h !== 12) h += 12;
+            if (period === 'AM' && h === 12) h = 0;
+            document.getElementById('checkOutTime').value = String(h).padStart(2, '0') + ':' + minutes;
+            document.getElementById('checkOutDate').value = today;
+        }
+
+        document.getElementById('reasonSelect').value = 'Select a reason';
+        document.getElementById('notesTextarea').value = '';
+        document.getElementById('editTimeModal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editTimeModal').classList.add('hidden');
+        currentStaffData = {};
+    }
+
+    function saveTimeChanges() {
+        const checkInTime = document.getElementById('checkInTime').value;
+        const checkOutTime = document.getElementById('checkOutTime').value;
+        const reason = document.getElementById('reasonSelect').value;
+        const notes = document.getElementById('notesTextarea').value;
+
+        if (!checkInTime || !checkOutTime) {
+            alert('Please fill in both check-in and check-out times');
+            return;
+        }
+
+        if (reason === 'Select a reason') {
+            alert('Please select a reason for the change');
+            return;
+        }
+
+        // Format times back to 12-hour format
+        const [h1, m1] = checkInTime.split(':');
+        const [h2, m2] = checkOutTime.split(':');
+        
+        let hour1 = parseInt(h1);
+        let period1 = hour1 >= 12 ? 'PM' : 'AM';
+        if (hour1 > 12) hour1 -= 12;
+        if (hour1 === 0) { hour1 = 12; period1 = 'AM'; }
+        
+        let hour2 = parseInt(h2);
+        let period2 = hour2 >= 12 ? 'PM' : 'AM';
+        if (hour2 > 12) hour2 -= 12;
+        if (hour2 === 0) { hour2 = 12; period2 = 'AM'; }
+        
+        const formattedCheckIn = String(hour1).padStart(2, '0') + ':' + m1 + ' ' + period1;
+        const formattedCheckOut = String(hour2).padStart(2, '0') + ':' + m2 + ' ' + period2;
+
+        // Show success message
+        alert(`✓ Attendance Updated Successfully!\n\nStaff: ${currentStaffData.name}\nCheck-in: ${formattedCheckIn}\nCheck-out: ${formattedCheckOut}\nReason: ${reason}\n${notes ? 'Notes: ' + notes : ''}`);
+
+        // Close modal
+        closeEditModal();
+    }
+
+    // Close modal on outside click
+    document.getElementById('editTimeModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeEditModal();
+        }
+    });
+
+    // Refresh button
+    document.querySelector('button:has(i.fa-sync-alt)')?.addEventListener('click', function() {
+        this.style.transform = 'rotate(360deg)';
+        this.style.transition = 'transform 0.5s ease';
+        setTimeout(() => {
+            this.style.transform = 'rotate(0deg)';
+        }, 500);
+    });
+
+    // Download PDF button
+    document.querySelector('button:has(i.fa-download)')?.addEventListener('click', function() {
+        alert('Generating and downloading October 2023 attendance report...');
+    });
+
+    // Email button
+    document.querySelector('button:has(i.fa-envelope)')?.addEventListener('click', function() {
+        alert('Sending attendance report to payroll department...');
+    });
+</script>
